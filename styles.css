@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+#output {
+  padding: 20px;
+  text-align: center;
+}
+
+body {
+  background-color: black;
+  color: white;
+  margin: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: Arial, sans-serif;
+}
+button {
+  text-decoration: none;
+  padding: 5px 10px;
+  background-color: #007BFF;
+  font-size: 16px;
+  color: white;
+  border-radius: 10px;
+  border-color: transparent;
+}
+button:hover {
+  background-color: #2185f0;
+}
+button:disabled {
+  background-color: #003976;
+}
+.gamemodeMenu {
+  margin-top: 15px
+}
+#scores {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: 10px 0;
+}
+#scores div {
+  font-size: 24px;
+}
+canvas {
+  background-color: black;
+  border: 2px solid white;
+}
