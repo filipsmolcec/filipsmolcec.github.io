@@ -5,16 +5,24 @@
     <link rel="stylesheet" type="text/css" href="styles.css">  
   </head>
   <body>
-    <div class="gamemodeMenu">
-      <button id="normalButton">Normal</button>
-      <button id="aiButton">AI</button>
+    <div>
+      <label for="playerOneSelect">Player 1:</label>
+      <select id="playerOneSelect">
+        <option value="player" selected>Player</option>
+        <option value="ai">AI</option>
+      </select>
+      <label for="playerTwoSelect">Player 2:</label>
+      <select id="playerTwoSelect">
+        <option value="player" selected>Player</option>
+        <option value="ai">AI</option>
+      </select>
+      <button id="startButton">Start</button>
     </div>
-    <label id="gamemodeLabel">Pick a gamemode to start</label>
     <div id="scores">
-      <div id="player1Score">Player 1: 0</div>
-      <div id="player2Score">Player 2: 0</div>
+      <div id="playerOneScore">Player 1: 0</div>
+      <div id="playerTwoScore">Player 2: 0</div>
     </div>
     <canvas id="gameCanvas"></canvas>
-    <script defer src="src/main.dart.js"></script>
+    <script defer src="build/main.dart.js"></script>
   </body>
 </html>

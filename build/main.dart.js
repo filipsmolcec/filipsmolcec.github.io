@@ -467,7 +467,7 @@
     },
     Primitives_lazyAsJsDate(receiver) {
       if (receiver.date === void 0)
-        receiver.date = new Date(receiver._core$_value);
+        receiver.date = new Date(receiver._value);
       return receiver.date;
     },
     Primitives_getYear(receiver) {
@@ -504,9 +504,6 @@
         return null;
       return A.getTraceFromException(jsError);
     },
-    iae(argument) {
-      throw A.wrapException(A.argumentErrorValue(argument));
-    },
     ioore(receiver, index) {
       if (receiver == null)
         J.get$length$asx(receiver);
@@ -520,9 +517,6 @@
       if (index < 0 || index >= $length)
         return new A.IndexError($length, true, index, _s5_, "Index out of range");
       return new A.RangeError(true, index, _s5_, "Value not in range");
-    },
-    argumentErrorValue(object) {
-      return new A.ArgumentError(true, object, null, null);
     },
     wrapException(ex) {
       return A.initializeExceptionWrapper(new Error(), ex);
@@ -1195,20 +1189,6 @@
     },
     initHooks_closure1: function initHooks_closure1(t0) {
       this.prototypeForTag = t0;
-    },
-    throwLateFieldNI(fieldName) {
-      A.throwExpressionWithWrapper(new A.LateError("Field '" + fieldName + "' has not been initialized."), new Error());
-    },
-    throwLateFieldADI(fieldName) {
-      A.throwExpressionWithWrapper(new A.LateError("Field '" + fieldName + "' has been assigned during initialization."), new Error());
-    },
-    _Cell$named(_name) {
-      var t1 = new A._Cell(_name);
-      return t1._value = t1;
-    },
-    _Cell: function _Cell(t0) {
-      this._name = t0;
-      this._value = null;
     },
     Rti__getQuestionFromStar(universe, rti) {
       var question = rti._precomputed1;
@@ -3157,6 +3137,9 @@
     StackTrace_current() {
       return A.getTraceFromException(new Error());
     },
+    DateTime$now() {
+      return new A.DateTime(Date.now(), 0, false);
+    },
     DateTime__fourDigits(n) {
       var absN = Math.abs(n),
         sign = n < 0 ? "-" : "";
@@ -3229,7 +3212,7 @@
       return t1.charCodeAt(0) == 0 ? t1 : t1;
     },
     DateTime: function DateTime(t0, t1, t2) {
-      this._core$_value = t0;
+      this._value = t0;
       this._microsecond = t1;
       this.isUtc = t2;
     },
@@ -3312,6 +3295,8 @@
     },
     CanvasRenderingContext2D: function CanvasRenderingContext2D() {
     },
+    Document: function Document() {
+    },
     DomException: function DomException() {
     },
     Element: function Element() {
@@ -3321,6 +3306,8 @@
     EventTarget: function EventTarget() {
     },
     FormElement: function FormElement() {
+    },
+    HtmlDocument: function HtmlDocument() {
     },
     KeyboardEvent: function KeyboardEvent() {
     },
@@ -3368,54 +3355,148 @@
     },
     _JSRandom: function _JSRandom() {
     },
-    HumanPlayer$(keyDownName, keyUpName, paddleHeight, paddleWidth) {
-      var t1 = new A.HumanPlayer(keyUpName, keyDownName, paddleWidth, paddleHeight);
-      t1.HumanPlayer$4$keyDownName$keyUpName$paddleHeight$paddleWidth(keyDownName, keyUpName, paddleHeight, paddleWidth);
-      return t1;
+    Ball: function Ball(t0, t1, t2) {
+      var _ = this;
+      _.speedX = t0;
+      _.speedY = t1;
+      _.radius = t2;
+      _.y = _.x = 0;
+    },
+    Game: function Game(t0, t1, t2, t3, t4, t5) {
+      var _ = this;
+      _.playerOne = t0;
+      _.playerTwo = t1;
+      _.ball = t2;
+      _.canvas = t3;
+      _.playerOneScoreElement = t4;
+      _.playerTwoScoreElement = t5;
+      _.__Game_canvasHeight_A = _.__Game_canvasWidth_A = $;
     },
     main() {
-      var t1 = document,
-        t2 = type$.ButtonElement,
-        normalButton = t2._as(t1.querySelector("#normalButton")),
-        aiButton = t2._as(t1.querySelector("#aiButton")),
-        ball = new A.Ball(2, 2, 10);
-      t1 = type$._ElementEventStreamImpl_MouseEvent;
-      t2 = t1._eval$1("~(1)?");
-      t1 = t1._precomputed1;
-      A._EventStreamSubscription$(normalButton, "click", t2._as(new A.main_closure(ball, normalButton, aiButton)), false, t1);
-      A._EventStreamSubscription$(aiButton, "click", t2._as(new A.main_closure0(ball, normalButton, aiButton)), false, t1);
+      var t1 = type$._ElementEventStreamImpl_MouseEvent;
+      A._EventStreamSubscription$(type$.ButtonElement._as(document.querySelector("#startButton")), "click", t1._eval$1("~(1)?")._as(new A.main_closure()), false, t1._precomputed1);
+      t1 = window;
+      t1.toString;
+      A._EventStreamSubscription$(t1, "resize", type$.nullable_void_Function_Event._as(new A.main_closure0()), false, type$.Event);
     },
-    game(player1, player2, ball) {
-      var t2, canvas, t3, t4, canvasWidth, canvasHeight, t5, t1 = {};
-      t1.previousTime = new A.DateTime(Date.now(), 0, false);
-      t2 = document;
-      canvas = type$.CanvasElement._as(t2.querySelector("#gameCanvas"));
-      t3 = canvas.getContext("2d");
-      t3.toString;
-      t4 = t2.querySelector("#player1Score");
-      t4.toString;
-      t2 = t2.querySelector("#player2Score");
-      t2.toString;
-      canvasWidth = A._Cell$named("canvasWidth");
-      canvasHeight = A._Cell$named("canvasHeight");
-      t2 = new A.game_updateScores(t4, player1, t2, player2);
-      t4 = new A.game_resizeGame(canvasWidth, 20, canvasHeight, canvas, player1, player2, ball);
-      t4.call$0();
-      t2.call$0();
-      t5 = window;
-      t5.toString;
-      A._EventStreamSubscription$(t5, "resize", type$.nullable_void_Function_Event._as(new A.game_closure(t4)), false, type$.Event);
-      new A.game_update(t1, player1, player2, t3, canvasWidth, canvasHeight, ball, t2, new A.game_resetGame(ball, canvasWidth, canvasHeight)).call$0();
+    updateGame() {
+      var t3, t4, t5, t6, t7, t8, t9, t10, t11, t12,
+        t1 = Date.now(),
+        t2 = $.$get$previousTime(),
+        deltaTime = B.JSInt_methods._tdivFast$1(0 - t2._microsecond + 1000 * (t1 - t2._value), 1000) / 1000;
+      $.previousTime = new A.DateTime(t1, 0, false);
+      t1 = window;
+      t1.toString;
+      B.Window_methods.get$animationFrame(t1).then$1$1(new A.updateGame_closure(), type$.Null);
+      t1 = $.runningGameInstance;
+      if (t1 != null) {
+        t2 = t1.playerOne;
+        t2.update$1(deltaTime);
+        t3 = t1.playerTwo;
+        t3.update$1(deltaTime);
+        t4 = t1.canvas;
+        t5 = t4.getContext("2d");
+        t5.toString;
+        t6 = t1.__Game_canvasWidth_A;
+        t6 === $ && A.throwLateFieldNI("canvasWidth");
+        t7 = t1.__Game_canvasHeight_A;
+        t7 === $ && A.throwLateFieldNI("canvasHeight");
+        t5.clearRect(0, 0, t6, t7);
+        t4.getContext("2d").beginPath();
+        t7 = t4.getContext("2d");
+        t6 = t1.ball;
+        t5 = t6.radius;
+        t7.arc(t6.x, t6.y, t5, 0, 6.28, false);
+        t7 = t4.getContext("2d");
+        t7.toString;
+        B.CanvasRenderingContext2D_methods.set$fillStyle(t7, "white");
+        t4.getContext("2d").fill();
+        t4.getContext("2d").closePath();
+        t7 = t4.getContext("2d");
+        t7.toString;
+        B.CanvasRenderingContext2D_methods.set$fillStyle(t7, "white");
+        t7 = t4.getContext("2d");
+        t7.toString;
+        t8 = t2.paddleX;
+        t9 = t2.__Player_paddleY_A;
+        t9 === $ && A.throwLateFieldNI("paddleY");
+        t10 = t2.paddleWidth;
+        t11 = t2.paddleHeight;
+        t7.fillRect(t8, t9, t10, t11);
+        t4 = t4.getContext("2d");
+        t4.toString;
+        t9 = t3.paddleX;
+        t8 = t3.__Player_paddleY_A;
+        t8 === $ && A.throwLateFieldNI("paddleY");
+        t7 = t3.paddleHeight;
+        t4.fillRect(t9, t8, t3.paddleWidth, t7);
+        t8 = t6.x;
+        t9 = t6.speedX;
+        t8 = t6.x = t8 + t9;
+        t4 = t6.y;
+        t12 = t6.speedY;
+        t4 = t6.y = t4 + t12;
+        if (t4 + t5 > t1.__Game_canvasHeight_A || t4 - t5 < 0)
+          t6.speedY = -t12;
+        t12 = t8 - t5;
+        if (t12 < t2.paddleX + t10) {
+          t10 = t2.__Player_paddleY_A;
+          t10 = t4 > t10 && t4 < t10 + t11;
+        } else
+          t10 = false;
+        if (t10)
+          t9 = t6.speedX = -t9;
+        if (t8 + t5 > t3.paddleX) {
+          t8 = t3.__Player_paddleY_A;
+          t4 = t4 > t8 && t4 < t8 + t7;
+        } else
+          t4 = false;
+        if (t4)
+          t6.speedX = -t9;
+        if (t12 < 0) {
+          ++t3.score;
+          t1.updateScores$0();
+          t1.resetBall$0();
+        }
+        if (t6.x + t5 > t1.__Game_canvasWidth_A) {
+          ++t2.score;
+          t1.updateScores$0();
+          t1.resetBall$0();
+        }
+        if (t2.goingUp && t2.__Player_paddleY_A > 0)
+          t2.__Player_paddleY_A = t2.__Player_paddleY_A - 5;
+        if (t2.goingDown && t2.__Player_paddleY_A + t11 < t1.__Game_canvasHeight_A)
+          t2.__Player_paddleY_A = t2.__Player_paddleY_A + 5;
+        if (t3.goingUp && t3.__Player_paddleY_A > 0)
+          t3.__Player_paddleY_A = t3.__Player_paddleY_A - 5;
+        if (t3.goingDown && t3.__Player_paddleY_A + t7 < t1.__Game_canvasHeight_A)
+          t3.__Player_paddleY_A = t3.__Player_paddleY_A + 5;
+      }
+    },
+    main_closure: function main_closure() {
+    },
+    main_closure0: function main_closure0() {
+    },
+    updateGame_closure: function updateGame_closure() {
+    },
+    HumanPlayer$($document, keyDownName, keyUpName, paddleHeight, paddleWidth) {
+      var t1 = new A.HumanPlayer(keyUpName, keyDownName, $document, paddleWidth, paddleHeight);
+      t1.HumanPlayer$5$document$keyDownName$keyUpName$paddleHeight$paddleWidth($document, keyDownName, keyUpName, paddleHeight, paddleWidth);
+      return t1;
+    },
+    AIPlayer$(ballRef, paddleHeight, paddleWidth) {
+      return new A.AIPlayer(ballRef, B.C__JSRandom, paddleWidth, paddleHeight);
     },
     Player: function Player() {
     },
-    HumanPlayer: function HumanPlayer(t0, t1, t2, t3) {
+    HumanPlayer: function HumanPlayer(t0, t1, t2, t3, t4) {
       var _ = this;
       _.keyUpName = t0;
       _.keyDownName = t1;
+      _.document = t2;
       _.score = 0;
-      _.paddleWidth = t2;
-      _.paddleHeight = t3;
+      _.paddleWidth = t3;
+      _.paddleHeight = t4;
       _.paddleX = 0;
       _.__Player_paddleY_A = $;
       _.goingDown = _.goingUp = false;
@@ -3437,62 +3518,11 @@
       _.__Player_paddleY_A = $;
       _.goingDown = _.goingUp = false;
     },
-    Ball: function Ball(t0, t1, t2) {
-      var _ = this;
-      _.speedX = t0;
-      _.speedY = t1;
-      _.radius = t2;
-      _.y = _.x = 0;
+    throwLateFieldNI(fieldName) {
+      A.throwExpressionWithWrapper(new A.LateError("Field '" + fieldName + "' has not been initialized."), new Error());
     },
-    main_closure: function main_closure(t0, t1, t2) {
-      this.ball = t0;
-      this.normalButton = t1;
-      this.aiButton = t2;
-    },
-    main_closure0: function main_closure0(t0, t1, t2) {
-      this.ball = t0;
-      this.normalButton = t1;
-      this.aiButton = t2;
-    },
-    game_resetGame: function game_resetGame(t0, t1, t2) {
-      this.ball = t0;
-      this.canvasWidth = t1;
-      this.canvasHeight = t2;
-    },
-    game_updateScores: function game_updateScores(t0, t1, t2, t3) {
-      var _ = this;
-      _.player1ScoreElement = t0;
-      _.player1 = t1;
-      _.player2ScoreElement = t2;
-      _.player2 = t3;
-    },
-    game_resizeGame: function game_resizeGame(t0, t1, t2, t3, t4, t5, t6) {
-      var _ = this;
-      _.canvasWidth = t0;
-      _.padding = t1;
-      _.canvasHeight = t2;
-      _.canvas = t3;
-      _.player1 = t4;
-      _.player2 = t5;
-      _.ball = t6;
-    },
-    game_update: function game_update(t0, t1, t2, t3, t4, t5, t6, t7, t8) {
-      var _ = this;
-      _._box_0 = t0;
-      _.player1 = t1;
-      _.player2 = t2;
-      _.ctx = t3;
-      _.canvasWidth = t4;
-      _.canvasHeight = t5;
-      _.ball = t6;
-      _.updateScores = t7;
-      _.resetGame = t8;
-    },
-    game_update_closure: function game_update_closure(t0) {
-      this.update = t0;
-    },
-    game_closure: function game_closure(t0) {
-      this.resizeGame = t0;
+    throwLateFieldADI(fieldName) {
+      A.throwExpressionWithWrapper(new A.LateError("Field '" + fieldName + "' has been assigned during initialization."), new Error());
     }
   },
   B = {};
@@ -3521,7 +3551,8 @@
     toString$0(receiver) {
       return "null";
     },
-    $isTrustedGetRuntimeType: 1
+    $isTrustedGetRuntimeType: 1,
+    $isNull: 1
   };
   J.JavaScriptObject.prototype = {};
   J.LegacyJavaScriptObject.prototype = {
@@ -3769,27 +3800,19 @@
     call$1(o) {
       return this.getTag(o);
     },
-    $signature: 7
+    $signature: 5
   };
   A.initHooks_closure0.prototype = {
     call$2(o, tag) {
       return this.getUnknownTag(o, tag);
     },
-    $signature: 8
+    $signature: 6
   };
   A.initHooks_closure1.prototype = {
     call$1(tag) {
       return this.prototypeForTag(A._asString(tag));
     },
-    $signature: 9
-  };
-  A._Cell.prototype = {
-    _readLocal$0() {
-      var t1 = this._value;
-      if (t1 === this)
-        throw A.wrapException(new A.LateError("Local '" + this._name + "' has not been initialized."));
-      return t1;
-    }
+    $signature: 7
   };
   A.Rti.prototype = {
     _eval$1(recipe) {
@@ -3818,7 +3841,7 @@
       t1.storedCallback = null;
       f.call$0();
     },
-    $signature: 10
+    $signature: 8
   };
   A._AsyncRun__initializeScheduleImmediate_closure.prototype = {
     call$1(callback) {
@@ -3828,7 +3851,7 @@
       t2 = this.span;
       t1.firstChild ? t1.removeChild(t2) : t1.appendChild(t2);
     },
-    $signature: 11
+    $signature: 9
   };
   A._AsyncRun__scheduleImmediateJsOverride_internalCallback.prototype = {
     call$0() {
@@ -4073,7 +4096,7 @@
     call$1(_) {
       return this.originalSource;
     },
-    $signature: 12
+    $signature: 10
   };
   A._Future__propagateToListeners_handleValueCallback.prototype = {
     call$0() {
@@ -4415,11 +4438,9 @@
   A.CanvasRenderingContext2D.prototype = {
     set$fillStyle(receiver, value) {
       receiver.fillStyle = value;
-    },
-    clearRect$4(receiver, x, y, width, height) {
-      return receiver.clearRect(x, y, width, height);
     }
   };
+  A.Document.prototype = {};
   A.DomException.prototype = {
     toString$0(receiver) {
       var t1 = String(receiver);
@@ -4447,6 +4468,7 @@
       return receiver.length;
     }
   };
+  A.HtmlDocument.prototype = {$isHtmlDocument: 1};
   A.KeyboardEvent.prototype = {$isKeyboardEvent: 1};
   A.MouseEvent.prototype = {$isMouseEvent: 1};
   A.Node.prototype = {
@@ -4461,7 +4483,8 @@
   A.SelectElement.prototype = {
     get$length(receiver) {
       return receiver.length;
-    }
+    },
+    $isSelectElement: 1
   };
   A.UIEvent.prototype = {};
   A.Window.prototype = {
@@ -4513,7 +4536,7 @@
         A.throwExpression(new A.StateError("Future already completed"));
       t1._complete$1(t2._eval$1("1/")._as(time));
     },
-    $signature: 3
+    $signature: 11
   };
   A.EventStreamProvider.prototype = {};
   A._EventStream.prototype = {};
@@ -4523,7 +4546,7 @@
     call$1(e) {
       return this.onData.call$1(type$.Event._as(e));
     },
-    $signature: 4
+    $signature: 3
   };
   A._JSRandom.prototype = {
     nextInt$1(max) {
@@ -4533,14 +4556,108 @@
     },
     $isRandom: 1
   };
+  A.Ball.prototype = {};
+  A.Game.prototype = {
+    resetBall$0() {
+      var t1 = this.ball,
+        t2 = this.__Game_canvasWidth_A;
+      t2 === $ && A.throwLateFieldNI("canvasWidth");
+      t1.x = t2 / 2;
+      t2 = this.__Game_canvasHeight_A;
+      t2 === $ && A.throwLateFieldNI("canvasHeight");
+      t1.y = t2 / 2;
+      t1.speedY = t1.speedX = 2;
+    },
+    updateScores$0() {
+      var _this = this;
+      J.set$text$x(_this.playerOneScoreElement, "Player 1: " + _this.playerOne.score);
+      J.set$text$x(_this.playerTwoScoreElement, "Player 2: " + _this.playerTwo.score);
+    },
+    resizeGame$2(width, height) {
+      var t2, t3, _this = this,
+        t1 = width - 40;
+      _this.__Game_canvasWidth_A = t1;
+      _this.__Game_canvasHeight_A = height - 100 - 40;
+      t2 = _this.canvas;
+      B.CanvasElement_methods.set$width(t2, t1);
+      B.CanvasElement_methods.set$height(t2, _this.__Game_canvasHeight_A);
+      t2 = _this.playerOne;
+      t2.paddleX = 20;
+      t1 = _this.__Game_canvasHeight_A;
+      t2.__Player_paddleY_A = (t1 - t2.paddleHeight) / 2;
+      t2 = _this.playerTwo;
+      t3 = _this.__Game_canvasWidth_A;
+      t2.paddleX = t3 - t2.paddleWidth - 20;
+      t2.__Player_paddleY_A = (t1 - t2.paddleHeight) / 2;
+      t2 = _this.ball;
+      t2.x = t3 / 2;
+      t2.y = t1 / 2;
+    }
+  };
+  A.main_closure.prototype = {
+    call$1($event) {
+      var ball, t2, playerOne, playerTwo, t3,
+        t1 = type$.MouseEvent._as($event).button;
+      t1.toString;
+      if (t1 === 0) {
+        $.runningGameInstance = null;
+        ball = new A.Ball(2, 2, 10);
+        t1 = document;
+        t2 = type$.SelectElement;
+        playerOne = t2._as(t1.querySelector("#playerOneSelect")).selectedIndex === 0 ? A.HumanPlayer$(t1, "s", "w", 100, 10) : A.AIPlayer$(ball, 100, 10);
+        playerTwo = t2._as(t1.querySelector("#playerTwoSelect")).selectedIndex === 0 ? A.HumanPlayer$(t1, "ArrowDown", "ArrowUp", 100, 10) : A.AIPlayer$(ball, 100, 10);
+        t2 = type$.CanvasElement._as(t1.querySelector("#gameCanvas"));
+        t3 = t1.querySelector("#playerOneScore");
+        t3.toString;
+        t1 = t1.querySelector("#playerTwoScore");
+        t1.toString;
+        t1 = new A.Game(playerOne, playerTwo, ball, t2, t3, t1);
+        t1.updateScores$0();
+        $.runningGameInstance = t1;
+        $.previousTime = new A.DateTime(Date.now(), 0, false);
+        t1 = $.runningGameInstance;
+        if (t1 != null) {
+          t2 = window.innerWidth;
+          t2.toString;
+          t3 = window.innerHeight;
+          t3.toString;
+          t1.resizeGame$2(t2, t3);
+        }
+        if (!$.isRunning) {
+          $.isRunning = true;
+          A.updateGame();
+        }
+      }
+    },
+    $signature: 12
+  };
+  A.main_closure0.prototype = {
+    call$1(_) {
+      var t2, t3,
+        t1 = $.runningGameInstance;
+      if (t1 != null) {
+        t2 = window.innerWidth;
+        t2.toString;
+        t3 = window.innerHeight;
+        t3.toString;
+        t1.resizeGame$2(t2, t3);
+      }
+    },
+    $signature: 3
+  };
+  A.updateGame_closure.prototype = {
+    call$1(_) {
+      A._asNum(_);
+      A.updateGame();
+    },
+    $signature: 13
+  };
   A.Player.prototype = {};
   A.HumanPlayer.prototype = {
-    HumanPlayer$4$keyDownName$keyUpName$paddleHeight$paddleWidth(keyDownName, keyUpName, paddleHeight, paddleWidth) {
-      var t2, t3,
-        t1 = document;
-      t1.toString;
-      t2 = type$.nullable_void_Function_KeyboardEvent;
-      t3 = type$.KeyboardEvent;
+    HumanPlayer$5$document$keyDownName$keyUpName$paddleHeight$paddleWidth($document, keyDownName, keyUpName, paddleHeight, paddleWidth) {
+      var t1 = this.document,
+        t2 = type$.nullable_void_Function_KeyboardEvent,
+        t3 = type$.KeyboardEvent;
       A._EventStreamSubscription$(t1, "keyup", t2._as(new A.HumanPlayer_closure(this)), false, t3);
       A._EventStreamSubscription$(t1, "keydown", t2._as(new A.HumanPlayer_closure0(this)), false, t3);
     },
@@ -4556,7 +4673,7 @@
       else if (t1 === t2.keyDownName)
         t2.goingDown = false;
     },
-    $signature: 5
+    $signature: 4
   };
   A.HumanPlayer_closure0.prototype = {
     call$1($event) {
@@ -4567,7 +4684,7 @@
       else if (t1 === t2.keyDownName)
         t2.goingDown = true;
     },
-    $signature: 5
+    $signature: 4
   };
   A.AIPlayer.prototype = {
     update$1(deltaTime) {
@@ -4583,214 +4700,6 @@
         _this.randInt = _this.random.nextInt$1(10);
       }
     }
-  };
-  A.Ball.prototype = {};
-  A.main_closure.prototype = {
-    call$1($event) {
-      type$.MouseEvent._as($event);
-      A.game(A.HumanPlayer$("s", "w", 100, 10), A.HumanPlayer$("ArrowDown", "ArrowUp", 100, 10), this.ball);
-      this.normalButton.disabled = true;
-      this.aiButton.disabled = false;
-    },
-    $signature: 6
-  };
-  A.main_closure0.prototype = {
-    call$1($event) {
-      var player1, t1;
-      type$.MouseEvent._as($event);
-      player1 = A.HumanPlayer$("s", "w", 100, 10);
-      t1 = this.ball;
-      A.game(player1, new A.AIPlayer(t1, B.C__JSRandom, 10, 100), t1);
-      this.normalButton.disabled = false;
-      this.aiButton.disabled = true;
-    },
-    $signature: 6
-  };
-  A.game_resetGame.prototype = {
-    call$0() {
-      var t1 = this.ball,
-        t2 = this.canvasWidth._readLocal$0();
-      if (typeof t2 !== "number")
-        return t2.$div();
-      t1.x = t2 / 2;
-      t2 = this.canvasHeight._readLocal$0();
-      if (typeof t2 !== "number")
-        return t2.$div();
-      t1.y = t2 / 2;
-      t1.speedX = 3;
-      t1.speedY = 2;
-    },
-    $signature: 0
-  };
-  A.game_updateScores.prototype = {
-    call$0() {
-      var _this = this;
-      J.set$text$x(_this.player1ScoreElement, "Player 1: " + _this.player1.score);
-      J.set$text$x(_this.player2ScoreElement, "Player 2: " + _this.player2.score);
-    },
-    $signature: 0
-  };
-  A.game_resizeGame.prototype = {
-    call$0() {
-      var t3, t4, t5, _this = this,
-        t1 = _this.canvasWidth,
-        t2 = window.innerWidth;
-      t2.toString;
-      t3 = _this.padding;
-      t4 = 2 * t3;
-      t1._value = t2 - t4;
-      t2 = _this.canvasHeight;
-      t5 = window.innerHeight;
-      t5.toString;
-      t2._value = t5 - 100 - t4;
-      t4 = _this.canvas;
-      B.CanvasElement_methods.set$width(t4, t1._readLocal$0());
-      B.CanvasElement_methods.set$height(t4, t2._readLocal$0());
-      t4 = _this.player1;
-      t4.paddleX = t3;
-      t5 = t2._readLocal$0();
-      if (typeof t5 !== "number")
-        return t5.$sub();
-      t4.__Player_paddleY_A = (t5 - t4.paddleHeight) / 2;
-      t4 = _this.player2;
-      t5 = t1._readLocal$0();
-      if (typeof t5 !== "number")
-        return t5.$sub();
-      t4.paddleX = t5 - t4.paddleWidth - t3;
-      t3 = t2._readLocal$0();
-      if (typeof t3 !== "number")
-        return t3.$sub();
-      t4.__Player_paddleY_A = (t3 - t4.paddleHeight) / 2;
-      t4 = _this.ball;
-      t1 = t1._readLocal$0();
-      if (typeof t1 !== "number")
-        return t1.$div();
-      t4.x = t1 / 2;
-      t2 = t2._readLocal$0();
-      if (typeof t2 !== "number")
-        return t2.$div();
-      t4.y = t2 / 2;
-    },
-    $signature: 0
-  };
-  A.game_update.prototype = {
-    call$0() {
-      var t4, t5, t6, t7, t8, t9, t10, t11, t12, _this = this,
-        t1 = Date.now(),
-        t2 = _this._box_0,
-        t3 = t2.previousTime;
-      t3 = B.JSInt_methods._tdivFast$1(0 - t3._microsecond + 1000 * (t1 - t3._core$_value), 1000);
-      t2.previousTime = new A.DateTime(t1, 0, false);
-      t1 = _this.player2;
-      t1.update$1(t3 / 1000);
-      t3 = _this.ctx;
-      t2 = _this.canvasWidth;
-      t4 = _this.canvasHeight;
-      B.CanvasRenderingContext2D_methods.clearRect$4(t3, 0, 0, t2._readLocal$0(), t4._readLocal$0());
-      t3.beginPath();
-      t5 = _this.ball;
-      t6 = t5.radius;
-      t3.arc(t5.x, t5.y, t6, 0, 6.28, false);
-      B.CanvasRenderingContext2D_methods.set$fillStyle(t3, "white");
-      t3.fill();
-      t3.closePath();
-      B.CanvasRenderingContext2D_methods.set$fillStyle(t3, "white");
-      t7 = _this.player1;
-      t8 = t7.paddleX;
-      t9 = t7.__Player_paddleY_A;
-      t9 === $ && A.throwLateFieldNI("paddleY");
-      t10 = t7.paddleWidth;
-      t11 = t7.paddleHeight;
-      t3.fillRect(t8, t9, t10, t11);
-      t9 = t1.paddleX;
-      t8 = t1.__Player_paddleY_A;
-      t8 === $ && A.throwLateFieldNI("paddleY");
-      t12 = t1.paddleHeight;
-      t3.fillRect(t9, t8, t1.paddleWidth, t12);
-      t5.x = t5.x + t5.speedX;
-      t8 = t5.y + t5.speedY;
-      t5.y = t8;
-      t3 = t4._readLocal$0();
-      if (typeof t3 !== "number")
-        return A.iae(t3);
-      if (t8 + t6 > t3 || t5.y - t6 < 0)
-        t5.speedY = -t5.speedY;
-      t3 = t5.x;
-      t8 = t3 - t6;
-      if (t8 < t7.paddleX + t10) {
-        t9 = t5.y;
-        t10 = t7.__Player_paddleY_A;
-        t9 = t9 > t10 && t9 < t10 + t11;
-      } else
-        t9 = false;
-      if (t9)
-        t5.speedX = -t5.speedX;
-      if (t3 + t6 > t1.paddleX) {
-        t3 = t5.y;
-        t9 = t1.__Player_paddleY_A;
-        t3 = t3 > t9 && t3 < t9 + t12;
-      } else
-        t3 = false;
-      if (t3)
-        t5.speedX = -t5.speedX;
-      if (t8 < 0) {
-        ++t1.score;
-        _this.updateScores.call$0();
-        _this.resetGame.call$0();
-      }
-      t3 = t5.x;
-      t2 = t2._readLocal$0();
-      if (typeof t2 !== "number")
-        return A.iae(t2);
-      if (t3 + t6 > t2) {
-        ++t7.score;
-        _this.updateScores.call$0();
-        _this.resetGame.call$0();
-      }
-      if (t7.goingUp && t7.__Player_paddleY_A > 0)
-        t7.__Player_paddleY_A = t7.__Player_paddleY_A - 5;
-      if (t7.goingDown) {
-        t2 = t7.__Player_paddleY_A;
-        t3 = t4._readLocal$0();
-        if (typeof t3 !== "number")
-          return A.iae(t3);
-        t3 = t2 + t11 < t3;
-        t2 = t3;
-      } else
-        t2 = false;
-      if (t2)
-        t7.__Player_paddleY_A = t7.__Player_paddleY_A + 5;
-      if (t1.goingUp && t1.__Player_paddleY_A > 0)
-        t1.__Player_paddleY_A = t1.__Player_paddleY_A - 5;
-      if (t1.goingDown) {
-        t2 = t1.__Player_paddleY_A;
-        t4 = t4._readLocal$0();
-        if (typeof t4 !== "number")
-          return A.iae(t4);
-        t4 = t2 + t12 < t4;
-        t2 = t4;
-      } else
-        t2 = false;
-      if (t2)
-        t1.__Player_paddleY_A = t1.__Player_paddleY_A + 5;
-      t1 = window;
-      t1.toString;
-      B.Window_methods.get$animationFrame(t1).then$1$1(new A.game_update_closure(_this), type$.void);
-    },
-    $signature: 0
-  };
-  A.game_update_closure.prototype = {
-    call$1(_) {
-      A._asNum(_);
-      return this.update.call$0();
-    },
-    $signature: 3
-  };
-  A.game_closure.prototype = {
-    call$1(_) {
-      return this.resizeGame.call$0();
-    },
-    $signature: 4
   };
   (function aliases() {
     var _ = J.Interceptor.prototype;
@@ -4810,7 +4719,7 @@
     var _inherit = hunkHelpers.inherit,
       _inheritMany = hunkHelpers.inheritMany;
     _inherit(A.Object, null);
-    _inheritMany(A.Object, [A.JS_CONST, J.Interceptor, J.ArrayIterator, A.Error, A.TypeErrorDecoder, A.NullThrownFromJavaScriptException, A._StackTrace, A.Closure, A._Cell, A.Rti, A._FunctionParameters, A._Type, A._TimerImpl, A.AsyncError, A._Completer, A._FutureListener, A._Future, A._AsyncCallbackEntry, A.Stream, A._Zone, A.DateTime, A.StackOverflowError, A._Exception, A.Null, A._StringStackTrace, A.StringBuffer, A.EventStreamProvider, A._EventStreamSubscription, A._JSRandom, A.Player, A.Ball]);
+    _inheritMany(A.Object, [A.JS_CONST, J.Interceptor, J.ArrayIterator, A.Error, A.TypeErrorDecoder, A.NullThrownFromJavaScriptException, A._StackTrace, A.Closure, A.Rti, A._FunctionParameters, A._Type, A._TimerImpl, A.AsyncError, A._Completer, A._FutureListener, A._Future, A._AsyncCallbackEntry, A.Stream, A._Zone, A.DateTime, A.StackOverflowError, A._Exception, A.Null, A._StringStackTrace, A.StringBuffer, A.EventStreamProvider, A._EventStreamSubscription, A._JSRandom, A.Ball, A.Game, A.Player]);
     _inheritMany(J.Interceptor, [J.JSBool, J.JSNull, J.JavaScriptObject, J.JavaScriptBigInt, J.JavaScriptSymbol, J.JSNumber, J.JSString]);
     _inheritMany(J.JavaScriptObject, [J.LegacyJavaScriptObject, J.JSArray, A.EventTarget, A.CanvasRenderingContext2D, A.DomException, A.Event]);
     _inheritMany(J.LegacyJavaScriptObject, [J.PlainJavaScriptObject, J.UnknownJavaScriptObject, J.JavaScriptFunction]);
@@ -4818,18 +4727,19 @@
     _inheritMany(J.JSNumber, [J.JSInt, J.JSNumNotInt]);
     _inheritMany(A.Error, [A.LateError, A.TypeError, A.JsNoSuchMethodError, A.UnknownJsTypeError, A._CyclicInitializationError, A.RuntimeError, A._Error, A.AssertionError, A.ArgumentError, A.UnsupportedError, A.UnimplementedError, A.StateError, A.ConcurrentModificationError]);
     _inherit(A.NullError, A.TypeError);
-    _inheritMany(A.Closure, [A.Closure0Args, A.Closure2Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A._AsyncRun__initializeScheduleImmediate_internalCallback, A._AsyncRun__initializeScheduleImmediate_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure, A.Stream_length_closure, A._RootZone_bindUnaryCallbackGuarded_closure, A.Window_animationFrame_closure, A._EventStreamSubscription_closure, A.HumanPlayer_closure, A.HumanPlayer_closure0, A.main_closure, A.main_closure0, A.game_update_closure, A.game_closure]);
+    _inheritMany(A.Closure, [A.Closure0Args, A.Closure2Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A._AsyncRun__initializeScheduleImmediate_internalCallback, A._AsyncRun__initializeScheduleImmediate_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure, A.Stream_length_closure, A._RootZone_bindUnaryCallbackGuarded_closure, A.Window_animationFrame_closure, A._EventStreamSubscription_closure, A.main_closure, A.main_closure0, A.updateGame_closure, A.HumanPlayer_closure, A.HumanPlayer_closure0]);
     _inheritMany(A.TearOffClosure, [A.StaticClosure, A.BoundClosure]);
     _inherit(A.initHooks_closure0, A.Closure2Args);
     _inherit(A._TypeError, A._Error);
-    _inheritMany(A.Closure0Args, [A._AsyncRun__scheduleImmediateJsOverride_internalCallback, A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback, A._TimerImpl_internalCallback, A._Future__addListener_closure, A._Future__prependListeners_closure, A._Future__asyncCompleteError_closure, A._Future__propagateToListeners_handleWhenCompleteCallback, A._Future__propagateToListeners_handleValueCallback, A._Future__propagateToListeners_handleError, A.Stream_length_closure0, A._rootHandleError_closure, A._RootZone_bindCallbackGuarded_closure, A.game_resetGame, A.game_updateScores, A.game_resizeGame, A.game_update]);
+    _inheritMany(A.Closure0Args, [A._AsyncRun__scheduleImmediateJsOverride_internalCallback, A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback, A._TimerImpl_internalCallback, A._Future__addListener_closure, A._Future__prependListeners_closure, A._Future__asyncCompleteError_closure, A._Future__propagateToListeners_handleWhenCompleteCallback, A._Future__propagateToListeners_handleValueCallback, A._Future__propagateToListeners_handleError, A.Stream_length_closure0, A._rootHandleError_closure, A._RootZone_bindCallbackGuarded_closure]);
     _inherit(A._SyncCompleter, A._Completer);
     _inherit(A._RootZone, A._Zone);
     _inheritMany(A.ArgumentError, [A.RangeError, A.IndexError]);
     _inheritMany(A.EventTarget, [A.Node, A.Window]);
-    _inherit(A.Element, A.Node);
+    _inheritMany(A.Node, [A.Element, A.Document]);
     _inherit(A.HtmlElement, A.Element);
     _inheritMany(A.HtmlElement, [A.AnchorElement, A.AreaElement, A.ButtonElement, A.CanvasElement, A.FormElement, A.SelectElement]);
+    _inherit(A.HtmlDocument, A.Document);
     _inherit(A.UIEvent, A.Event);
     _inheritMany(A.UIEvent, [A.KeyboardEvent, A.MouseEvent]);
     _inherit(A._EventStream, A.Stream);
@@ -4840,12 +4750,12 @@
     typeUniverse: {eC: new Map(), tR: {}, eT: {}, tPV: {}, sEA: []},
     mangledGlobalNames: {int: "int", double: "double", num: "num", String: "String", bool: "bool", Null: "Null", List: "List", Object: "Object", Map: "Map"},
     mangledNames: {},
-    types: ["~()", "~(~())", "Null()", "~(num)", "~(Event)", "~(KeyboardEvent)", "~(MouseEvent)", "@(@)", "@(@,String)", "@(String)", "Null(@)", "Null(~())", "_Future<@>(@)"],
+    types: ["~()", "~(~())", "Null()", "~(Event)", "~(KeyboardEvent)", "@(@)", "@(@,String)", "@(String)", "Null(@)", "Null(~())", "_Future<@>(@)", "~(num)", "~(MouseEvent)", "Null(num)"],
     interceptorsByTag: null,
     leafTags: null,
     arrayRti: Symbol("$ti")
   };
-  A._Universe_addRules(init.typeUniverse, JSON.parse('{"PlainJavaScriptObject":"LegacyJavaScriptObject","UnknownJavaScriptObject":"LegacyJavaScriptObject","JavaScriptFunction":"LegacyJavaScriptObject","AbortPaymentEvent":"Event","ExtendableEvent":"Event","MathMLElement":"Element","AudioElement":"HtmlElement","MediaElement":"HtmlElement","PointerEvent":"MouseEvent","CompositionEvent":"UIEvent","HtmlDocument":"Node","Document":"Node","JSBool":{"bool":[],"TrustedGetRuntimeType":[]},"JSNull":{"TrustedGetRuntimeType":[]},"JSArray":{"List":["1"],"Iterable":["1"]},"JSUnmodifiableArray":{"JSArray":["1"],"List":["1"],"Iterable":["1"]},"JSNumber":{"double":[],"num":[]},"JSInt":{"double":[],"int":[],"num":[],"TrustedGetRuntimeType":[]},"JSNumNotInt":{"double":[],"num":[],"TrustedGetRuntimeType":[]},"JSString":{"String":[],"TrustedGetRuntimeType":[]},"LateError":{"Error":[]},"NullError":{"TypeError":[],"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"_StackTrace":{"StackTrace":[]},"Closure":{"Function":[]},"Closure0Args":{"Function":[]},"Closure2Args":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"_CyclicInitializationError":{"Error":[]},"RuntimeError":{"Error":[]},"_Error":{"Error":[]},"_TypeError":{"TypeError":[],"Error":[]},"_Future":{"Future":["1"]},"AsyncError":{"Error":[]},"_SyncCompleter":{"_Completer":["1"]},"_Zone":{"Zone":[]},"_RootZone":{"_Zone":[],"Zone":[]},"int":{"num":[]},"AssertionError":{"Error":[]},"TypeError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"StateError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"StackOverflowError":{"Error":[]},"_StringStackTrace":{"StackTrace":[]},"KeyboardEvent":{"Event":[]},"MouseEvent":{"Event":[]},"HtmlElement":{"Element":[],"EventTarget":[]},"AnchorElement":{"Element":[],"EventTarget":[]},"AreaElement":{"Element":[],"EventTarget":[]},"ButtonElement":{"Element":[],"EventTarget":[]},"CanvasElement":{"Element":[],"EventTarget":[]},"Element":{"EventTarget":[]},"FormElement":{"Element":[],"EventTarget":[]},"Node":{"EventTarget":[]},"SelectElement":{"Element":[],"EventTarget":[]},"UIEvent":{"Event":[]},"Window":{"EventTarget":[]},"_EventStream":{"Stream":["1"]},"_ElementEventStreamImpl":{"_EventStream":["1"],"Stream":["1"]},"_JSRandom":{"Random":[]}}'));
+  A._Universe_addRules(init.typeUniverse, JSON.parse('{"PlainJavaScriptObject":"LegacyJavaScriptObject","UnknownJavaScriptObject":"LegacyJavaScriptObject","JavaScriptFunction":"LegacyJavaScriptObject","AbortPaymentEvent":"Event","ExtendableEvent":"Event","MathMLElement":"Element","AudioElement":"HtmlElement","MediaElement":"HtmlElement","PointerEvent":"MouseEvent","CompositionEvent":"UIEvent","JSBool":{"bool":[],"TrustedGetRuntimeType":[]},"JSNull":{"Null":[],"TrustedGetRuntimeType":[]},"JSArray":{"List":["1"],"Iterable":["1"]},"JSUnmodifiableArray":{"JSArray":["1"],"List":["1"],"Iterable":["1"]},"JSNumber":{"double":[],"num":[]},"JSInt":{"double":[],"int":[],"num":[],"TrustedGetRuntimeType":[]},"JSNumNotInt":{"double":[],"num":[],"TrustedGetRuntimeType":[]},"JSString":{"String":[],"TrustedGetRuntimeType":[]},"LateError":{"Error":[]},"NullError":{"TypeError":[],"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"_StackTrace":{"StackTrace":[]},"Closure":{"Function":[]},"Closure0Args":{"Function":[]},"Closure2Args":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"_CyclicInitializationError":{"Error":[]},"RuntimeError":{"Error":[]},"_Error":{"Error":[]},"_TypeError":{"TypeError":[],"Error":[]},"_Future":{"Future":["1"]},"AsyncError":{"Error":[]},"_SyncCompleter":{"_Completer":["1"]},"_Zone":{"Zone":[]},"_RootZone":{"_Zone":[],"Zone":[]},"int":{"num":[]},"AssertionError":{"Error":[]},"TypeError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"StateError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"StackOverflowError":{"Error":[]},"_StringStackTrace":{"StackTrace":[]},"KeyboardEvent":{"Event":[]},"MouseEvent":{"Event":[]},"HtmlElement":{"Element":[],"EventTarget":[]},"AnchorElement":{"Element":[],"EventTarget":[]},"AreaElement":{"Element":[],"EventTarget":[]},"ButtonElement":{"Element":[],"EventTarget":[]},"CanvasElement":{"Element":[],"EventTarget":[]},"Document":{"EventTarget":[]},"Element":{"EventTarget":[]},"FormElement":{"Element":[],"EventTarget":[]},"HtmlDocument":{"EventTarget":[]},"Node":{"EventTarget":[]},"SelectElement":{"Element":[],"EventTarget":[]},"UIEvent":{"Event":[]},"Window":{"EventTarget":[]},"_EventStream":{"Stream":["1"]},"_ElementEventStreamImpl":{"_EventStream":["1"],"Stream":["1"]},"_JSRandom":{"Random":[]},"HumanPlayer":{"Player":[]},"AIPlayer":{"Player":[]}}'));
   var string$ = {
     Error_: "Error handler must accept one Object or one Object and a StackTrace as arguments, and return a value of the returned future's type"
   };
@@ -4869,6 +4779,7 @@
       Null: findType("Null"),
       Object: findType("Object"),
       Record: findType("Record"),
+      SelectElement: findType("SelectElement"),
       StackTrace: findType("StackTrace"),
       String: findType("String"),
       TrustedGetRuntimeType: findType("TrustedGetRuntimeType"),
@@ -5058,9 +4969,12 @@
     $._lastPriorityCallback = null;
     $._isInCallbackLoop = false;
     $.Zone__current = B.C__RootZone;
+    $.runningGameInstance = null;
+    $.isRunning = false;
   })();
   (function lazyInitializers() {
-    var _lazyFinal = hunkHelpers.lazyFinal;
+    var _lazyFinal = hunkHelpers.lazyFinal,
+      _lazy = hunkHelpers.lazy;
     _lazyFinal($, "DART_CLOSURE_PROPERTY_NAME", "$get$DART_CLOSURE_PROPERTY_NAME", () => A.getIsolateAffinityTag("_$dart_dartClosure"));
     _lazyFinal($, "TypeErrorDecoder_noSuchMethodPattern", "$get$TypeErrorDecoder_noSuchMethodPattern", () => A.TypeErrorDecoder_extractPattern(A.TypeErrorDecoder_provokeCallErrorOn({
       toString: function() {
@@ -5107,6 +5021,7 @@
       }
     }()));
     _lazyFinal($, "_AsyncRun__scheduleImmediateClosure", "$get$_AsyncRun__scheduleImmediateClosure", () => A._AsyncRun__initializeScheduleImmediate());
+    _lazy($, "previousTime", "$get$previousTime", () => A.DateTime$now());
   })();
   (function nativeSupport() {
     !function() {
@@ -5131,8 +5046,8 @@
       }
       init.dispatchPropertyName = init.getIsolateTag("dispatch_record");
     }();
-    hunkHelpers.setOrUpdateInterceptorsByTag({DOMError: J.JavaScriptObject, MediaError: J.JavaScriptObject, NavigatorUserMediaError: J.JavaScriptObject, OverconstrainedError: J.JavaScriptObject, PositionError: J.JavaScriptObject, GeolocationPositionError: J.JavaScriptObject, HTMLAudioElement: A.HtmlElement, HTMLBRElement: A.HtmlElement, HTMLBaseElement: A.HtmlElement, HTMLBodyElement: A.HtmlElement, HTMLContentElement: A.HtmlElement, HTMLDListElement: A.HtmlElement, HTMLDataElement: A.HtmlElement, HTMLDataListElement: A.HtmlElement, HTMLDetailsElement: A.HtmlElement, HTMLDialogElement: A.HtmlElement, HTMLDivElement: A.HtmlElement, HTMLEmbedElement: A.HtmlElement, HTMLFieldSetElement: A.HtmlElement, HTMLHRElement: A.HtmlElement, HTMLHeadElement: A.HtmlElement, HTMLHeadingElement: A.HtmlElement, HTMLHtmlElement: A.HtmlElement, HTMLIFrameElement: A.HtmlElement, HTMLImageElement: A.HtmlElement, HTMLInputElement: A.HtmlElement, HTMLLIElement: A.HtmlElement, HTMLLabelElement: A.HtmlElement, HTMLLegendElement: A.HtmlElement, HTMLLinkElement: A.HtmlElement, HTMLMapElement: A.HtmlElement, HTMLMediaElement: A.HtmlElement, HTMLMenuElement: A.HtmlElement, HTMLMetaElement: A.HtmlElement, HTMLMeterElement: A.HtmlElement, HTMLModElement: A.HtmlElement, HTMLOListElement: A.HtmlElement, HTMLObjectElement: A.HtmlElement, HTMLOptGroupElement: A.HtmlElement, HTMLOptionElement: A.HtmlElement, HTMLOutputElement: A.HtmlElement, HTMLParagraphElement: A.HtmlElement, HTMLParamElement: A.HtmlElement, HTMLPictureElement: A.HtmlElement, HTMLPreElement: A.HtmlElement, HTMLProgressElement: A.HtmlElement, HTMLQuoteElement: A.HtmlElement, HTMLScriptElement: A.HtmlElement, HTMLShadowElement: A.HtmlElement, HTMLSlotElement: A.HtmlElement, HTMLSourceElement: A.HtmlElement, HTMLSpanElement: A.HtmlElement, HTMLStyleElement: A.HtmlElement, HTMLTableCaptionElement: A.HtmlElement, HTMLTableCellElement: A.HtmlElement, HTMLTableDataCellElement: A.HtmlElement, HTMLTableHeaderCellElement: A.HtmlElement, HTMLTableColElement: A.HtmlElement, HTMLTableElement: A.HtmlElement, HTMLTableRowElement: A.HtmlElement, HTMLTableSectionElement: A.HtmlElement, HTMLTemplateElement: A.HtmlElement, HTMLTextAreaElement: A.HtmlElement, HTMLTimeElement: A.HtmlElement, HTMLTitleElement: A.HtmlElement, HTMLTrackElement: A.HtmlElement, HTMLUListElement: A.HtmlElement, HTMLUnknownElement: A.HtmlElement, HTMLVideoElement: A.HtmlElement, HTMLDirectoryElement: A.HtmlElement, HTMLFontElement: A.HtmlElement, HTMLFrameElement: A.HtmlElement, HTMLFrameSetElement: A.HtmlElement, HTMLMarqueeElement: A.HtmlElement, HTMLElement: A.HtmlElement, HTMLAnchorElement: A.AnchorElement, HTMLAreaElement: A.AreaElement, HTMLButtonElement: A.ButtonElement, HTMLCanvasElement: A.CanvasElement, CanvasRenderingContext2D: A.CanvasRenderingContext2D, DOMException: A.DomException, MathMLElement: A.Element, SVGAElement: A.Element, SVGAnimateElement: A.Element, SVGAnimateMotionElement: A.Element, SVGAnimateTransformElement: A.Element, SVGAnimationElement: A.Element, SVGCircleElement: A.Element, SVGClipPathElement: A.Element, SVGDefsElement: A.Element, SVGDescElement: A.Element, SVGDiscardElement: A.Element, SVGEllipseElement: A.Element, SVGFEBlendElement: A.Element, SVGFEColorMatrixElement: A.Element, SVGFEComponentTransferElement: A.Element, SVGFECompositeElement: A.Element, SVGFEConvolveMatrixElement: A.Element, SVGFEDiffuseLightingElement: A.Element, SVGFEDisplacementMapElement: A.Element, SVGFEDistantLightElement: A.Element, SVGFEFloodElement: A.Element, SVGFEFuncAElement: A.Element, SVGFEFuncBElement: A.Element, SVGFEFuncGElement: A.Element, SVGFEFuncRElement: A.Element, SVGFEGaussianBlurElement: A.Element, SVGFEImageElement: A.Element, SVGFEMergeElement: A.Element, SVGFEMergeNodeElement: A.Element, SVGFEMorphologyElement: A.Element, SVGFEOffsetElement: A.Element, SVGFEPointLightElement: A.Element, SVGFESpecularLightingElement: A.Element, SVGFESpotLightElement: A.Element, SVGFETileElement: A.Element, SVGFETurbulenceElement: A.Element, SVGFilterElement: A.Element, SVGForeignObjectElement: A.Element, SVGGElement: A.Element, SVGGeometryElement: A.Element, SVGGraphicsElement: A.Element, SVGImageElement: A.Element, SVGLineElement: A.Element, SVGLinearGradientElement: A.Element, SVGMarkerElement: A.Element, SVGMaskElement: A.Element, SVGMetadataElement: A.Element, SVGPathElement: A.Element, SVGPatternElement: A.Element, SVGPolygonElement: A.Element, SVGPolylineElement: A.Element, SVGRadialGradientElement: A.Element, SVGRectElement: A.Element, SVGScriptElement: A.Element, SVGSetElement: A.Element, SVGStopElement: A.Element, SVGStyleElement: A.Element, SVGElement: A.Element, SVGSVGElement: A.Element, SVGSwitchElement: A.Element, SVGSymbolElement: A.Element, SVGTSpanElement: A.Element, SVGTextContentElement: A.Element, SVGTextElement: A.Element, SVGTextPathElement: A.Element, SVGTextPositioningElement: A.Element, SVGTitleElement: A.Element, SVGUseElement: A.Element, SVGViewElement: A.Element, SVGGradientElement: A.Element, SVGComponentTransferFunctionElement: A.Element, SVGFEDropShadowElement: A.Element, SVGMPathElement: A.Element, Element: A.Element, AbortPaymentEvent: A.Event, AnimationEvent: A.Event, AnimationPlaybackEvent: A.Event, ApplicationCacheErrorEvent: A.Event, BackgroundFetchClickEvent: A.Event, BackgroundFetchEvent: A.Event, BackgroundFetchFailEvent: A.Event, BackgroundFetchedEvent: A.Event, BeforeInstallPromptEvent: A.Event, BeforeUnloadEvent: A.Event, BlobEvent: A.Event, CanMakePaymentEvent: A.Event, ClipboardEvent: A.Event, CloseEvent: A.Event, CustomEvent: A.Event, DeviceMotionEvent: A.Event, DeviceOrientationEvent: A.Event, ErrorEvent: A.Event, ExtendableEvent: A.Event, ExtendableMessageEvent: A.Event, FetchEvent: A.Event, FontFaceSetLoadEvent: A.Event, ForeignFetchEvent: A.Event, GamepadEvent: A.Event, HashChangeEvent: A.Event, InstallEvent: A.Event, MediaEncryptedEvent: A.Event, MediaKeyMessageEvent: A.Event, MediaQueryListEvent: A.Event, MediaStreamEvent: A.Event, MediaStreamTrackEvent: A.Event, MessageEvent: A.Event, MIDIConnectionEvent: A.Event, MIDIMessageEvent: A.Event, MutationEvent: A.Event, NotificationEvent: A.Event, PageTransitionEvent: A.Event, PaymentRequestEvent: A.Event, PaymentRequestUpdateEvent: A.Event, PopStateEvent: A.Event, PresentationConnectionAvailableEvent: A.Event, PresentationConnectionCloseEvent: A.Event, ProgressEvent: A.Event, PromiseRejectionEvent: A.Event, PushEvent: A.Event, RTCDataChannelEvent: A.Event, RTCDTMFToneChangeEvent: A.Event, RTCPeerConnectionIceEvent: A.Event, RTCTrackEvent: A.Event, SecurityPolicyViolationEvent: A.Event, SensorErrorEvent: A.Event, SpeechRecognitionError: A.Event, SpeechRecognitionEvent: A.Event, SpeechSynthesisEvent: A.Event, StorageEvent: A.Event, SyncEvent: A.Event, TrackEvent: A.Event, TransitionEvent: A.Event, WebKitTransitionEvent: A.Event, VRDeviceEvent: A.Event, VRDisplayEvent: A.Event, VRSessionEvent: A.Event, MojoInterfaceRequestEvent: A.Event, ResourceProgressEvent: A.Event, USBConnectionEvent: A.Event, IDBVersionChangeEvent: A.Event, AudioProcessingEvent: A.Event, OfflineAudioCompletionEvent: A.Event, WebGLContextEvent: A.Event, Event: A.Event, InputEvent: A.Event, SubmitEvent: A.Event, EventTarget: A.EventTarget, HTMLFormElement: A.FormElement, KeyboardEvent: A.KeyboardEvent, MouseEvent: A.MouseEvent, DragEvent: A.MouseEvent, PointerEvent: A.MouseEvent, WheelEvent: A.MouseEvent, Document: A.Node, HTMLDocument: A.Node, Node: A.Node, HTMLSelectElement: A.SelectElement, CompositionEvent: A.UIEvent, FocusEvent: A.UIEvent, TextEvent: A.UIEvent, TouchEvent: A.UIEvent, UIEvent: A.UIEvent, Window: A.Window, DOMWindow: A.Window});
-    hunkHelpers.setOrUpdateLeafTags({DOMError: true, MediaError: true, NavigatorUserMediaError: true, OverconstrainedError: true, PositionError: true, GeolocationPositionError: true, HTMLAudioElement: true, HTMLBRElement: true, HTMLBaseElement: true, HTMLBodyElement: true, HTMLContentElement: true, HTMLDListElement: true, HTMLDataElement: true, HTMLDataListElement: true, HTMLDetailsElement: true, HTMLDialogElement: true, HTMLDivElement: true, HTMLEmbedElement: true, HTMLFieldSetElement: true, HTMLHRElement: true, HTMLHeadElement: true, HTMLHeadingElement: true, HTMLHtmlElement: true, HTMLIFrameElement: true, HTMLImageElement: true, HTMLInputElement: true, HTMLLIElement: true, HTMLLabelElement: true, HTMLLegendElement: true, HTMLLinkElement: true, HTMLMapElement: true, HTMLMediaElement: true, HTMLMenuElement: true, HTMLMetaElement: true, HTMLMeterElement: true, HTMLModElement: true, HTMLOListElement: true, HTMLObjectElement: true, HTMLOptGroupElement: true, HTMLOptionElement: true, HTMLOutputElement: true, HTMLParagraphElement: true, HTMLParamElement: true, HTMLPictureElement: true, HTMLPreElement: true, HTMLProgressElement: true, HTMLQuoteElement: true, HTMLScriptElement: true, HTMLShadowElement: true, HTMLSlotElement: true, HTMLSourceElement: true, HTMLSpanElement: true, HTMLStyleElement: true, HTMLTableCaptionElement: true, HTMLTableCellElement: true, HTMLTableDataCellElement: true, HTMLTableHeaderCellElement: true, HTMLTableColElement: true, HTMLTableElement: true, HTMLTableRowElement: true, HTMLTableSectionElement: true, HTMLTemplateElement: true, HTMLTextAreaElement: true, HTMLTimeElement: true, HTMLTitleElement: true, HTMLTrackElement: true, HTMLUListElement: true, HTMLUnknownElement: true, HTMLVideoElement: true, HTMLDirectoryElement: true, HTMLFontElement: true, HTMLFrameElement: true, HTMLFrameSetElement: true, HTMLMarqueeElement: true, HTMLElement: false, HTMLAnchorElement: true, HTMLAreaElement: true, HTMLButtonElement: true, HTMLCanvasElement: true, CanvasRenderingContext2D: true, DOMException: true, MathMLElement: true, SVGAElement: true, SVGAnimateElement: true, SVGAnimateMotionElement: true, SVGAnimateTransformElement: true, SVGAnimationElement: true, SVGCircleElement: true, SVGClipPathElement: true, SVGDefsElement: true, SVGDescElement: true, SVGDiscardElement: true, SVGEllipseElement: true, SVGFEBlendElement: true, SVGFEColorMatrixElement: true, SVGFEComponentTransferElement: true, SVGFECompositeElement: true, SVGFEConvolveMatrixElement: true, SVGFEDiffuseLightingElement: true, SVGFEDisplacementMapElement: true, SVGFEDistantLightElement: true, SVGFEFloodElement: true, SVGFEFuncAElement: true, SVGFEFuncBElement: true, SVGFEFuncGElement: true, SVGFEFuncRElement: true, SVGFEGaussianBlurElement: true, SVGFEImageElement: true, SVGFEMergeElement: true, SVGFEMergeNodeElement: true, SVGFEMorphologyElement: true, SVGFEOffsetElement: true, SVGFEPointLightElement: true, SVGFESpecularLightingElement: true, SVGFESpotLightElement: true, SVGFETileElement: true, SVGFETurbulenceElement: true, SVGFilterElement: true, SVGForeignObjectElement: true, SVGGElement: true, SVGGeometryElement: true, SVGGraphicsElement: true, SVGImageElement: true, SVGLineElement: true, SVGLinearGradientElement: true, SVGMarkerElement: true, SVGMaskElement: true, SVGMetadataElement: true, SVGPathElement: true, SVGPatternElement: true, SVGPolygonElement: true, SVGPolylineElement: true, SVGRadialGradientElement: true, SVGRectElement: true, SVGScriptElement: true, SVGSetElement: true, SVGStopElement: true, SVGStyleElement: true, SVGElement: true, SVGSVGElement: true, SVGSwitchElement: true, SVGSymbolElement: true, SVGTSpanElement: true, SVGTextContentElement: true, SVGTextElement: true, SVGTextPathElement: true, SVGTextPositioningElement: true, SVGTitleElement: true, SVGUseElement: true, SVGViewElement: true, SVGGradientElement: true, SVGComponentTransferFunctionElement: true, SVGFEDropShadowElement: true, SVGMPathElement: true, Element: false, AbortPaymentEvent: true, AnimationEvent: true, AnimationPlaybackEvent: true, ApplicationCacheErrorEvent: true, BackgroundFetchClickEvent: true, BackgroundFetchEvent: true, BackgroundFetchFailEvent: true, BackgroundFetchedEvent: true, BeforeInstallPromptEvent: true, BeforeUnloadEvent: true, BlobEvent: true, CanMakePaymentEvent: true, ClipboardEvent: true, CloseEvent: true, CustomEvent: true, DeviceMotionEvent: true, DeviceOrientationEvent: true, ErrorEvent: true, ExtendableEvent: true, ExtendableMessageEvent: true, FetchEvent: true, FontFaceSetLoadEvent: true, ForeignFetchEvent: true, GamepadEvent: true, HashChangeEvent: true, InstallEvent: true, MediaEncryptedEvent: true, MediaKeyMessageEvent: true, MediaQueryListEvent: true, MediaStreamEvent: true, MediaStreamTrackEvent: true, MessageEvent: true, MIDIConnectionEvent: true, MIDIMessageEvent: true, MutationEvent: true, NotificationEvent: true, PageTransitionEvent: true, PaymentRequestEvent: true, PaymentRequestUpdateEvent: true, PopStateEvent: true, PresentationConnectionAvailableEvent: true, PresentationConnectionCloseEvent: true, ProgressEvent: true, PromiseRejectionEvent: true, PushEvent: true, RTCDataChannelEvent: true, RTCDTMFToneChangeEvent: true, RTCPeerConnectionIceEvent: true, RTCTrackEvent: true, SecurityPolicyViolationEvent: true, SensorErrorEvent: true, SpeechRecognitionError: true, SpeechRecognitionEvent: true, SpeechSynthesisEvent: true, StorageEvent: true, SyncEvent: true, TrackEvent: true, TransitionEvent: true, WebKitTransitionEvent: true, VRDeviceEvent: true, VRDisplayEvent: true, VRSessionEvent: true, MojoInterfaceRequestEvent: true, ResourceProgressEvent: true, USBConnectionEvent: true, IDBVersionChangeEvent: true, AudioProcessingEvent: true, OfflineAudioCompletionEvent: true, WebGLContextEvent: true, Event: false, InputEvent: false, SubmitEvent: false, EventTarget: false, HTMLFormElement: true, KeyboardEvent: true, MouseEvent: true, DragEvent: true, PointerEvent: true, WheelEvent: true, Document: true, HTMLDocument: true, Node: false, HTMLSelectElement: true, CompositionEvent: true, FocusEvent: true, TextEvent: true, TouchEvent: true, UIEvent: false, Window: true, DOMWindow: true});
+    hunkHelpers.setOrUpdateInterceptorsByTag({DOMError: J.JavaScriptObject, MediaError: J.JavaScriptObject, NavigatorUserMediaError: J.JavaScriptObject, OverconstrainedError: J.JavaScriptObject, PositionError: J.JavaScriptObject, GeolocationPositionError: J.JavaScriptObject, HTMLAudioElement: A.HtmlElement, HTMLBRElement: A.HtmlElement, HTMLBaseElement: A.HtmlElement, HTMLBodyElement: A.HtmlElement, HTMLContentElement: A.HtmlElement, HTMLDListElement: A.HtmlElement, HTMLDataElement: A.HtmlElement, HTMLDataListElement: A.HtmlElement, HTMLDetailsElement: A.HtmlElement, HTMLDialogElement: A.HtmlElement, HTMLDivElement: A.HtmlElement, HTMLEmbedElement: A.HtmlElement, HTMLFieldSetElement: A.HtmlElement, HTMLHRElement: A.HtmlElement, HTMLHeadElement: A.HtmlElement, HTMLHeadingElement: A.HtmlElement, HTMLHtmlElement: A.HtmlElement, HTMLIFrameElement: A.HtmlElement, HTMLImageElement: A.HtmlElement, HTMLInputElement: A.HtmlElement, HTMLLIElement: A.HtmlElement, HTMLLabelElement: A.HtmlElement, HTMLLegendElement: A.HtmlElement, HTMLLinkElement: A.HtmlElement, HTMLMapElement: A.HtmlElement, HTMLMediaElement: A.HtmlElement, HTMLMenuElement: A.HtmlElement, HTMLMetaElement: A.HtmlElement, HTMLMeterElement: A.HtmlElement, HTMLModElement: A.HtmlElement, HTMLOListElement: A.HtmlElement, HTMLObjectElement: A.HtmlElement, HTMLOptGroupElement: A.HtmlElement, HTMLOptionElement: A.HtmlElement, HTMLOutputElement: A.HtmlElement, HTMLParagraphElement: A.HtmlElement, HTMLParamElement: A.HtmlElement, HTMLPictureElement: A.HtmlElement, HTMLPreElement: A.HtmlElement, HTMLProgressElement: A.HtmlElement, HTMLQuoteElement: A.HtmlElement, HTMLScriptElement: A.HtmlElement, HTMLShadowElement: A.HtmlElement, HTMLSlotElement: A.HtmlElement, HTMLSourceElement: A.HtmlElement, HTMLSpanElement: A.HtmlElement, HTMLStyleElement: A.HtmlElement, HTMLTableCaptionElement: A.HtmlElement, HTMLTableCellElement: A.HtmlElement, HTMLTableDataCellElement: A.HtmlElement, HTMLTableHeaderCellElement: A.HtmlElement, HTMLTableColElement: A.HtmlElement, HTMLTableElement: A.HtmlElement, HTMLTableRowElement: A.HtmlElement, HTMLTableSectionElement: A.HtmlElement, HTMLTemplateElement: A.HtmlElement, HTMLTextAreaElement: A.HtmlElement, HTMLTimeElement: A.HtmlElement, HTMLTitleElement: A.HtmlElement, HTMLTrackElement: A.HtmlElement, HTMLUListElement: A.HtmlElement, HTMLUnknownElement: A.HtmlElement, HTMLVideoElement: A.HtmlElement, HTMLDirectoryElement: A.HtmlElement, HTMLFontElement: A.HtmlElement, HTMLFrameElement: A.HtmlElement, HTMLFrameSetElement: A.HtmlElement, HTMLMarqueeElement: A.HtmlElement, HTMLElement: A.HtmlElement, HTMLAnchorElement: A.AnchorElement, HTMLAreaElement: A.AreaElement, HTMLButtonElement: A.ButtonElement, HTMLCanvasElement: A.CanvasElement, CanvasRenderingContext2D: A.CanvasRenderingContext2D, Document: A.Document, DOMException: A.DomException, MathMLElement: A.Element, SVGAElement: A.Element, SVGAnimateElement: A.Element, SVGAnimateMotionElement: A.Element, SVGAnimateTransformElement: A.Element, SVGAnimationElement: A.Element, SVGCircleElement: A.Element, SVGClipPathElement: A.Element, SVGDefsElement: A.Element, SVGDescElement: A.Element, SVGDiscardElement: A.Element, SVGEllipseElement: A.Element, SVGFEBlendElement: A.Element, SVGFEColorMatrixElement: A.Element, SVGFEComponentTransferElement: A.Element, SVGFECompositeElement: A.Element, SVGFEConvolveMatrixElement: A.Element, SVGFEDiffuseLightingElement: A.Element, SVGFEDisplacementMapElement: A.Element, SVGFEDistantLightElement: A.Element, SVGFEFloodElement: A.Element, SVGFEFuncAElement: A.Element, SVGFEFuncBElement: A.Element, SVGFEFuncGElement: A.Element, SVGFEFuncRElement: A.Element, SVGFEGaussianBlurElement: A.Element, SVGFEImageElement: A.Element, SVGFEMergeElement: A.Element, SVGFEMergeNodeElement: A.Element, SVGFEMorphologyElement: A.Element, SVGFEOffsetElement: A.Element, SVGFEPointLightElement: A.Element, SVGFESpecularLightingElement: A.Element, SVGFESpotLightElement: A.Element, SVGFETileElement: A.Element, SVGFETurbulenceElement: A.Element, SVGFilterElement: A.Element, SVGForeignObjectElement: A.Element, SVGGElement: A.Element, SVGGeometryElement: A.Element, SVGGraphicsElement: A.Element, SVGImageElement: A.Element, SVGLineElement: A.Element, SVGLinearGradientElement: A.Element, SVGMarkerElement: A.Element, SVGMaskElement: A.Element, SVGMetadataElement: A.Element, SVGPathElement: A.Element, SVGPatternElement: A.Element, SVGPolygonElement: A.Element, SVGPolylineElement: A.Element, SVGRadialGradientElement: A.Element, SVGRectElement: A.Element, SVGScriptElement: A.Element, SVGSetElement: A.Element, SVGStopElement: A.Element, SVGStyleElement: A.Element, SVGElement: A.Element, SVGSVGElement: A.Element, SVGSwitchElement: A.Element, SVGSymbolElement: A.Element, SVGTSpanElement: A.Element, SVGTextContentElement: A.Element, SVGTextElement: A.Element, SVGTextPathElement: A.Element, SVGTextPositioningElement: A.Element, SVGTitleElement: A.Element, SVGUseElement: A.Element, SVGViewElement: A.Element, SVGGradientElement: A.Element, SVGComponentTransferFunctionElement: A.Element, SVGFEDropShadowElement: A.Element, SVGMPathElement: A.Element, Element: A.Element, AbortPaymentEvent: A.Event, AnimationEvent: A.Event, AnimationPlaybackEvent: A.Event, ApplicationCacheErrorEvent: A.Event, BackgroundFetchClickEvent: A.Event, BackgroundFetchEvent: A.Event, BackgroundFetchFailEvent: A.Event, BackgroundFetchedEvent: A.Event, BeforeInstallPromptEvent: A.Event, BeforeUnloadEvent: A.Event, BlobEvent: A.Event, CanMakePaymentEvent: A.Event, ClipboardEvent: A.Event, CloseEvent: A.Event, CustomEvent: A.Event, DeviceMotionEvent: A.Event, DeviceOrientationEvent: A.Event, ErrorEvent: A.Event, ExtendableEvent: A.Event, ExtendableMessageEvent: A.Event, FetchEvent: A.Event, FontFaceSetLoadEvent: A.Event, ForeignFetchEvent: A.Event, GamepadEvent: A.Event, HashChangeEvent: A.Event, InstallEvent: A.Event, MediaEncryptedEvent: A.Event, MediaKeyMessageEvent: A.Event, MediaQueryListEvent: A.Event, MediaStreamEvent: A.Event, MediaStreamTrackEvent: A.Event, MessageEvent: A.Event, MIDIConnectionEvent: A.Event, MIDIMessageEvent: A.Event, MutationEvent: A.Event, NotificationEvent: A.Event, PageTransitionEvent: A.Event, PaymentRequestEvent: A.Event, PaymentRequestUpdateEvent: A.Event, PopStateEvent: A.Event, PresentationConnectionAvailableEvent: A.Event, PresentationConnectionCloseEvent: A.Event, ProgressEvent: A.Event, PromiseRejectionEvent: A.Event, PushEvent: A.Event, RTCDataChannelEvent: A.Event, RTCDTMFToneChangeEvent: A.Event, RTCPeerConnectionIceEvent: A.Event, RTCTrackEvent: A.Event, SecurityPolicyViolationEvent: A.Event, SensorErrorEvent: A.Event, SpeechRecognitionError: A.Event, SpeechRecognitionEvent: A.Event, SpeechSynthesisEvent: A.Event, StorageEvent: A.Event, SyncEvent: A.Event, TrackEvent: A.Event, TransitionEvent: A.Event, WebKitTransitionEvent: A.Event, VRDeviceEvent: A.Event, VRDisplayEvent: A.Event, VRSessionEvent: A.Event, MojoInterfaceRequestEvent: A.Event, ResourceProgressEvent: A.Event, USBConnectionEvent: A.Event, IDBVersionChangeEvent: A.Event, AudioProcessingEvent: A.Event, OfflineAudioCompletionEvent: A.Event, WebGLContextEvent: A.Event, Event: A.Event, InputEvent: A.Event, SubmitEvent: A.Event, EventTarget: A.EventTarget, HTMLFormElement: A.FormElement, HTMLDocument: A.HtmlDocument, KeyboardEvent: A.KeyboardEvent, MouseEvent: A.MouseEvent, DragEvent: A.MouseEvent, PointerEvent: A.MouseEvent, WheelEvent: A.MouseEvent, Node: A.Node, HTMLSelectElement: A.SelectElement, CompositionEvent: A.UIEvent, FocusEvent: A.UIEvent, TextEvent: A.UIEvent, TouchEvent: A.UIEvent, UIEvent: A.UIEvent, Window: A.Window, DOMWindow: A.Window});
+    hunkHelpers.setOrUpdateLeafTags({DOMError: true, MediaError: true, NavigatorUserMediaError: true, OverconstrainedError: true, PositionError: true, GeolocationPositionError: true, HTMLAudioElement: true, HTMLBRElement: true, HTMLBaseElement: true, HTMLBodyElement: true, HTMLContentElement: true, HTMLDListElement: true, HTMLDataElement: true, HTMLDataListElement: true, HTMLDetailsElement: true, HTMLDialogElement: true, HTMLDivElement: true, HTMLEmbedElement: true, HTMLFieldSetElement: true, HTMLHRElement: true, HTMLHeadElement: true, HTMLHeadingElement: true, HTMLHtmlElement: true, HTMLIFrameElement: true, HTMLImageElement: true, HTMLInputElement: true, HTMLLIElement: true, HTMLLabelElement: true, HTMLLegendElement: true, HTMLLinkElement: true, HTMLMapElement: true, HTMLMediaElement: true, HTMLMenuElement: true, HTMLMetaElement: true, HTMLMeterElement: true, HTMLModElement: true, HTMLOListElement: true, HTMLObjectElement: true, HTMLOptGroupElement: true, HTMLOptionElement: true, HTMLOutputElement: true, HTMLParagraphElement: true, HTMLParamElement: true, HTMLPictureElement: true, HTMLPreElement: true, HTMLProgressElement: true, HTMLQuoteElement: true, HTMLScriptElement: true, HTMLShadowElement: true, HTMLSlotElement: true, HTMLSourceElement: true, HTMLSpanElement: true, HTMLStyleElement: true, HTMLTableCaptionElement: true, HTMLTableCellElement: true, HTMLTableDataCellElement: true, HTMLTableHeaderCellElement: true, HTMLTableColElement: true, HTMLTableElement: true, HTMLTableRowElement: true, HTMLTableSectionElement: true, HTMLTemplateElement: true, HTMLTextAreaElement: true, HTMLTimeElement: true, HTMLTitleElement: true, HTMLTrackElement: true, HTMLUListElement: true, HTMLUnknownElement: true, HTMLVideoElement: true, HTMLDirectoryElement: true, HTMLFontElement: true, HTMLFrameElement: true, HTMLFrameSetElement: true, HTMLMarqueeElement: true, HTMLElement: false, HTMLAnchorElement: true, HTMLAreaElement: true, HTMLButtonElement: true, HTMLCanvasElement: true, CanvasRenderingContext2D: true, Document: false, DOMException: true, MathMLElement: true, SVGAElement: true, SVGAnimateElement: true, SVGAnimateMotionElement: true, SVGAnimateTransformElement: true, SVGAnimationElement: true, SVGCircleElement: true, SVGClipPathElement: true, SVGDefsElement: true, SVGDescElement: true, SVGDiscardElement: true, SVGEllipseElement: true, SVGFEBlendElement: true, SVGFEColorMatrixElement: true, SVGFEComponentTransferElement: true, SVGFECompositeElement: true, SVGFEConvolveMatrixElement: true, SVGFEDiffuseLightingElement: true, SVGFEDisplacementMapElement: true, SVGFEDistantLightElement: true, SVGFEFloodElement: true, SVGFEFuncAElement: true, SVGFEFuncBElement: true, SVGFEFuncGElement: true, SVGFEFuncRElement: true, SVGFEGaussianBlurElement: true, SVGFEImageElement: true, SVGFEMergeElement: true, SVGFEMergeNodeElement: true, SVGFEMorphologyElement: true, SVGFEOffsetElement: true, SVGFEPointLightElement: true, SVGFESpecularLightingElement: true, SVGFESpotLightElement: true, SVGFETileElement: true, SVGFETurbulenceElement: true, SVGFilterElement: true, SVGForeignObjectElement: true, SVGGElement: true, SVGGeometryElement: true, SVGGraphicsElement: true, SVGImageElement: true, SVGLineElement: true, SVGLinearGradientElement: true, SVGMarkerElement: true, SVGMaskElement: true, SVGMetadataElement: true, SVGPathElement: true, SVGPatternElement: true, SVGPolygonElement: true, SVGPolylineElement: true, SVGRadialGradientElement: true, SVGRectElement: true, SVGScriptElement: true, SVGSetElement: true, SVGStopElement: true, SVGStyleElement: true, SVGElement: true, SVGSVGElement: true, SVGSwitchElement: true, SVGSymbolElement: true, SVGTSpanElement: true, SVGTextContentElement: true, SVGTextElement: true, SVGTextPathElement: true, SVGTextPositioningElement: true, SVGTitleElement: true, SVGUseElement: true, SVGViewElement: true, SVGGradientElement: true, SVGComponentTransferFunctionElement: true, SVGFEDropShadowElement: true, SVGMPathElement: true, Element: false, AbortPaymentEvent: true, AnimationEvent: true, AnimationPlaybackEvent: true, ApplicationCacheErrorEvent: true, BackgroundFetchClickEvent: true, BackgroundFetchEvent: true, BackgroundFetchFailEvent: true, BackgroundFetchedEvent: true, BeforeInstallPromptEvent: true, BeforeUnloadEvent: true, BlobEvent: true, CanMakePaymentEvent: true, ClipboardEvent: true, CloseEvent: true, CustomEvent: true, DeviceMotionEvent: true, DeviceOrientationEvent: true, ErrorEvent: true, ExtendableEvent: true, ExtendableMessageEvent: true, FetchEvent: true, FontFaceSetLoadEvent: true, ForeignFetchEvent: true, GamepadEvent: true, HashChangeEvent: true, InstallEvent: true, MediaEncryptedEvent: true, MediaKeyMessageEvent: true, MediaQueryListEvent: true, MediaStreamEvent: true, MediaStreamTrackEvent: true, MessageEvent: true, MIDIConnectionEvent: true, MIDIMessageEvent: true, MutationEvent: true, NotificationEvent: true, PageTransitionEvent: true, PaymentRequestEvent: true, PaymentRequestUpdateEvent: true, PopStateEvent: true, PresentationConnectionAvailableEvent: true, PresentationConnectionCloseEvent: true, ProgressEvent: true, PromiseRejectionEvent: true, PushEvent: true, RTCDataChannelEvent: true, RTCDTMFToneChangeEvent: true, RTCPeerConnectionIceEvent: true, RTCTrackEvent: true, SecurityPolicyViolationEvent: true, SensorErrorEvent: true, SpeechRecognitionError: true, SpeechRecognitionEvent: true, SpeechSynthesisEvent: true, StorageEvent: true, SyncEvent: true, TrackEvent: true, TransitionEvent: true, WebKitTransitionEvent: true, VRDeviceEvent: true, VRDisplayEvent: true, VRSessionEvent: true, MojoInterfaceRequestEvent: true, ResourceProgressEvent: true, USBConnectionEvent: true, IDBVersionChangeEvent: true, AudioProcessingEvent: true, OfflineAudioCompletionEvent: true, WebGLContextEvent: true, Event: false, InputEvent: false, SubmitEvent: false, EventTarget: false, HTMLFormElement: true, HTMLDocument: true, KeyboardEvent: true, MouseEvent: true, DragEvent: true, PointerEvent: true, WheelEvent: true, Node: false, HTMLSelectElement: true, CompositionEvent: true, FocusEvent: true, TextEvent: true, TouchEvent: true, UIEvent: false, Window: true, DOMWindow: true});
   })();
   Function.prototype.call$0 = function() {
     return this();
