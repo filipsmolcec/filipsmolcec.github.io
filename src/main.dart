@@ -1,11 +1,6 @@
 import 'dart:html';
 import 'dart:math';
 
-enum Gamemode {
-  normal,
-  ai,
-}
-
 abstract class Player {
   Player({required this.paddleWidth, required this.paddleHeight});
 
@@ -91,20 +86,39 @@ class Ball {
 void main() {
   var normalButton = querySelector("#normalButton") as ButtonElement;
   var aiButton = querySelector("#aiButton") as ButtonElement;
+  Ball ball = Ball(speedX: 2, speedY: 2, radius: 10);
   normalButton.onClick.listen((MouseEvent event) {
-    game(Gamemode.normal);
+    HumanPlayer player1 = HumanPlayer(
+      keyUpName: 'w', 
+      keyDownName: 's',
+      paddleWidth: 10,
+      paddleHeight: 100
+    );
+    HumanPlayer player2 = HumanPlayer(
+      keyUpName: 'ArrowUp',
+      keyDownName: 'ArrowDown', 
+      paddleWidth: 10, 
+      paddleHeight: 100
+    );
+    game(player1, player2, ball);
     normalButton.disabled = true;
     aiButton.disabled = false;
   });
   aiButton.onClick.listen((MouseEvent event) {
-    game(Gamemode.ai);
+    HumanPlayer player1 = HumanPlayer(
+      keyUpName: 'w', 
+      keyDownName: 's',
+      paddleWidth: 10,
+      paddleHeight: 100
+    );
+    AIPlayer player2 = AIPlayer(ballRef: ball, paddleWidth: 10, paddleHeight: 100);
+    game(player1, player2, ball);
     normalButton.disabled = false;
     aiButton.disabled = true;
   });
 }
 
-void game(Gamemode gamemode) {
-  (querySelector("#gamemodeLabel") as LabelElement).innerHtml = "Gamemode: ${gamemode.name.toUpperCase()}";
+void game(Player player1, Player player2, Ball ball) {
   DateTime previousTime = DateTime.now();
 
   final CanvasElement canvas = querySelector('#gameCanvas') as CanvasElement;
@@ -117,12 +131,6 @@ void game(Gamemode gamemode) {
 
   late int canvasWidth;
   late int canvasHeight;
-
-  Ball ball = Ball(speedX: 3, speedY: 2, radius: 10);
-  Player player1 = HumanPlayer(paddleWidth: 20, paddleHeight: 100, keyUpName: "w", keyDownName: "s");
-  Player player2 = gamemode == Gamemode.normal
-                  ? HumanPlayer(paddleWidth: 20, paddleHeight: 100, keyUpName: "ArrowUp", keyDownName: "ArrowDown")
-                  : AIPlayer(paddleWidth: 20, paddleHeight: 100, ballRef: ball);
   
   void resetGame() {
     ball.x = canvasWidth / 2;
