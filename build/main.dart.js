@@ -343,11 +343,17 @@
     set$text$x(receiver, value) {
       return J.getInterceptor$x(receiver).set$text(receiver, value);
     },
+    set$type$x(receiver, value) {
+      return J.getInterceptor$x(receiver).set$type(receiver, value);
+    },
     get$length$asx(receiver) {
       return J.getInterceptor$asx(receiver).get$length(receiver);
     },
     get$runtimeType$(receiver) {
       return J.getInterceptor$(receiver).get$runtimeType(receiver);
+    },
+    get$target$x(receiver) {
+      return J.getInterceptor$x(receiver).get$target(receiver);
     },
     _addEventListener$3$x(receiver, a0, a1, a2) {
       return J.getInterceptor$x(receiver)._addEventListener$3(receiver, a0, a1, a2);
@@ -435,6 +441,20 @@
       result = J.toString$0$(value);
       return result;
     },
+    Primitives_parseInt(source, radix) {
+      var decimalMatch,
+        match = /^\s*[+-]?((0x[a-f0-9]+)|(\d+)|([a-z0-9]+))\s*$/i.exec(source);
+      if (match == null)
+        return null;
+      if (3 >= match.length)
+        return A.ioore(match, 3);
+      decimalMatch = match[3];
+      if (decimalMatch != null)
+        return parseInt(source, 10);
+      if (match[2] != null)
+        return parseInt(source, 16);
+      return null;
+    },
     Primitives_objectTypeName(object) {
       return A.Primitives__objectTypeNameNewRti(object);
     },
@@ -516,7 +536,7 @@
       $length = A._asInt(J.get$length$asx(indexable));
       if (index < 0 || index >= $length)
         return new A.IndexError($length, true, index, _s5_, "Index out of range");
-      return new A.RangeError(true, index, _s5_, "Value not in range");
+      return new A.RangeError(null, null, true, index, _s5_, "Value not in range");
     },
     wrapException(ex) {
       return A.initializeExceptionWrapper(new Error(), ex);
@@ -3104,6 +3124,12 @@
       this.f = t1;
       this.T = t2;
     },
+    int_parse(source) {
+      var value = A.Primitives_parseInt(source, null);
+      if (value != null)
+        return value;
+      throw A.wrapException(new A.FormatException(source));
+    },
     Error__throw(error, stackTrace) {
       error = A.wrapException(error);
       if (error == null)
@@ -3185,7 +3211,8 @@
       return new A.ArgumentError(true, value, $name, message);
     },
     RangeError$(message) {
-      return new A.RangeError(false, null, null, message);
+      var _null = null;
+      return new A.RangeError(_null, _null, false, _null, _null, message);
     },
     UnsupportedError$(message) {
       return new A.UnsupportedError(message);
@@ -3230,12 +3257,14 @@
       _.name = t2;
       _.message = t3;
     },
-    RangeError: function RangeError(t0, t1, t2, t3) {
+    RangeError: function RangeError(t0, t1, t2, t3, t4, t5) {
       var _ = this;
-      _._hasValue = t0;
-      _.invalidValue = t1;
-      _.name = t2;
-      _.message = t3;
+      _.start = t0;
+      _.end = t1;
+      _._hasValue = t2;
+      _.invalidValue = t3;
+      _.name = t4;
+      _.message = t5;
     },
     IndexError: function IndexError(t0, t1, t2, t3, t4) {
       var _ = this;
@@ -3262,6 +3291,9 @@
     _Exception: function _Exception(t0) {
       this.message = t0;
     },
+    FormatException: function FormatException(t0) {
+      this.message = t0;
+    },
     Null: function Null() {
     },
     Object: function Object() {
@@ -3271,11 +3303,45 @@
     StringBuffer: function StringBuffer(t0) {
       this._contents = t0;
     },
+    InputElement_InputElement() {
+      var exception, type = null,
+        t1 = document.createElement("input"),
+        e = type$.InputElement._as(t1);
+      if (type != null)
+        try {
+          J.set$type$x(e, type);
+        } catch (exception) {
+        }
+      return e;
+    },
+    OptionElement_OptionElement$_(data, value, defaultSelected, selected) {
+      var t1 = new Option(data, value, defaultSelected, false);
+      t1.toString;
+      return t1;
+    },
     _EventStreamSubscription$(_target, _eventType, onData, _useCapture, $T) {
       var t1 = A._wrapZone(new A._EventStreamSubscription_closure(onData), type$.Event);
       if (t1 != null)
         J._addEventListener$3$x(_target, _eventType, type$.nullable_dynamic_Function_Event._as(t1), false);
       return new A._EventStreamSubscription(_target, _eventType, t1, false, $T._eval$1("_EventStreamSubscription<0>"));
+    },
+    _convertNativeToDart_EventTarget(e) {
+      var $window,
+        t1 = "postMessage" in e;
+      t1.toString;
+      if (t1) {
+        $window = A._DOMWindowCrossFrame__createSafe(e);
+        return $window;
+      } else
+        return type$.nullable_EventTarget._as(e);
+    },
+    _DOMWindowCrossFrame__createSafe(w) {
+      var t1 = window;
+      t1.toString;
+      if (w === t1)
+        return type$.WindowBase._as(w);
+      else
+        return new A._DOMWindowCrossFrame();
     },
     _wrapZone(callback, $T) {
       var t1 = $.Zone__current;
@@ -3298,6 +3364,12 @@
     },
     CanvasRenderingContext2D: function CanvasRenderingContext2D() {
     },
+    CharacterData: function CharacterData() {
+    },
+    CssStyleDeclaration: function CssStyleDeclaration() {
+    },
+    CssStyleDeclarationBase: function CssStyleDeclarationBase() {
+    },
     Document: function Document() {
     },
     DomException: function DomException() {
@@ -3309,6 +3381,8 @@
     EventTarget: function EventTarget() {
     },
     FormElement: function FormElement() {
+    },
+    HeadingElement: function HeadingElement() {
     },
     HtmlDocument: function HtmlDocument() {
     },
@@ -3358,6 +3432,12 @@
     _EventStreamSubscription_closure: function _EventStreamSubscription_closure(t0) {
       this.onData = t0;
     },
+    _DOMWindowCrossFrame: function _DOMWindowCrossFrame() {
+    },
+    _CssStyleDeclaration_JavaScriptObject_CssStyleDeclarationBase: function _CssStyleDeclaration_JavaScriptObject_CssStyleDeclarationBase() {
+    },
+    VersionChangeEvent: function VersionChangeEvent() {
+    },
     _JSRandom: function _JSRandom() {
     },
     Ball: function Ball(t0, t1, t2) {
@@ -3378,11 +3458,16 @@
       _.__Game_canvasHeight_A = _.__Game_canvasWidth_A = $;
     },
     main() {
-      var t1 = type$._ElementEventStreamImpl_MouseEvent;
-      A._EventStreamSubscription$(type$.ButtonElement._as(document.querySelector("#startButton")), "click", t1._eval$1("~(1)?")._as(new A.main_closure()), false, t1._precomputed1);
-      t1 = window;
-      t1.toString;
-      A._EventStreamSubscription$(t1, "resize", type$.nullable_void_Function_Event._as(new A.main_closure0()), false, type$.Event);
+      var _s13_ = "#playerConfig",
+        t1 = document,
+        t2 = type$._ElementEventStreamImpl_MouseEvent;
+      A._EventStreamSubscription$(type$.ButtonElement._as(t1.querySelector("#startButton")), "click", t2._eval$1("~(1)?")._as(new A.main_closure()), false, t2._precomputed1);
+      t2 = window;
+      t2.toString;
+      A._EventStreamSubscription$(t2, "resize", type$.nullable_void_Function_Event._as(new A.main_closure0()), false, type$.Event);
+      t2 = type$.HtmlElement;
+      $.playerOneConfig = A.PlayerConfig$("s", "w", "Player One", t2._as(t1.querySelector(_s13_)));
+      $.playerTwoConfig = A.PlayerConfig$("ArrowDown", "ArrowUp", "Player Two", t2._as(t1.querySelector(_s13_)));
     },
     updateGame() {
       var t3, t4, t5, t6, t7, t8, t9, t10, t11, t12,
@@ -3489,9 +3574,6 @@
       t1.HumanPlayer$5$document$keyDownName$keyUpName$paddleHeight$paddleWidth($document, keyDownName, keyUpName, paddleHeight, paddleWidth);
       return t1;
     },
-    AIPlayer$(ballRef, paddleHeight, paddleWidth) {
-      return new A.AIPlayer(ballRef, B.C__JSRandom, paddleWidth, paddleHeight);
-    },
     Player: function Player() {
     },
     HumanPlayer: function HumanPlayer(t0, t1, t2, t3, t4) {
@@ -3522,6 +3604,45 @@
       _.paddleX = 0;
       _.__Player_paddleY_A = $;
       _.goingDown = _.goingUp = false;
+    },
+    PlayerConfig$(humanMoveDown, humanMoveUp, $name, parentElement) {
+      var t1 = new A.PlayerConfig($name, parentElement, humanMoveUp, humanMoveDown);
+      t1.PlayerConfig$4$humanMoveDown$humanMoveUp$name$parentElement(humanMoveDown, humanMoveUp, $name, parentElement);
+      return t1;
+    },
+    PlayerConfig: function PlayerConfig(t0, t1, t2, t3) {
+      var _ = this;
+      _.name = t0;
+      _.parentElement = t1;
+      _.humanMoveUp = t2;
+      _.humanMoveDown = t3;
+      _.playerType = 0;
+      _.paddleHeight = 100;
+      _.paddleWidth = 10;
+    },
+    PlayerConfig_closure: function PlayerConfig_closure(t0) {
+      this.$this = t0;
+    },
+    PlayerConfig_closure0: function PlayerConfig_closure0(t0) {
+      this.$this = t0;
+    },
+    PlayerConfig_closure1: function PlayerConfig_closure1(t0) {
+      this.$this = t0;
+    },
+    printString(string) {
+      if (typeof dartPrint == "function") {
+        dartPrint(string);
+        return;
+      }
+      if (typeof console == "object" && typeof console.log != "undefined") {
+        console.log(string);
+        return;
+      }
+      if (typeof print == "function") {
+        print(string);
+        return;
+      }
+      throw "Unable to print message: " + String(string);
     },
     throwLateFieldNI(fieldName) {
       A.throwExpressionWithWrapper(new A.LateError("Field '" + fieldName + "' has not been initialized."), new Error());
@@ -3872,13 +3993,13 @@
     call$0() {
       this.callback.call$0();
     },
-    $signature: 2
+    $signature: 3
   };
   A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback.prototype = {
     call$0() {
       this.callback.call$0();
     },
-    $signature: 2
+    $signature: 3
   };
   A._TimerImpl.prototype = {
     _TimerImpl$2(milliseconds, callback) {
@@ -4338,7 +4459,18 @@
       return "RangeError";
     },
     get$_errorExplanation() {
-      return "";
+      var explanation,
+        start = this.start,
+        end = this.end;
+      if (start == null)
+        explanation = end != null ? ": Not less than or equal to " + A.S(end) : "";
+      else if (end == null)
+        explanation = ": Not greater than or equal to " + A.S(start);
+      else if (end > start)
+        explanation = ": Not in inclusive range " + A.S(start) + ".." + A.S(end);
+      else
+        explanation = end < start ? ": Valid value range is empty" : ": Only valid value is " + A.S(start);
+      return explanation;
     }
   };
   A.IndexError.prototype = {
@@ -4394,6 +4526,13 @@
       return "Exception: " + this.message;
     }
   };
+  A.FormatException.prototype = {
+    toString$0(_) {
+      var message = this.message,
+        report = "" !== message ? "FormatException: " + message : "FormatException";
+      return report;
+    }
+  };
   A.Null.prototype = {
     toString$0(_) {
       return "null";
@@ -4425,7 +4564,7 @@
       return t1.charCodeAt(0) == 0 ? t1 : t1;
     }
   };
-  A.HtmlElement.prototype = {};
+  A.HtmlElement.prototype = {$isHtmlElement: 1};
   A.AnchorElement.prototype = {
     toString$0(receiver) {
       var t1 = String(receiver);
@@ -4455,6 +4594,19 @@
       receiver.fillStyle = value;
     }
   };
+  A.CharacterData.prototype = {
+    get$length(receiver) {
+      return receiver.length;
+    }
+  };
+  A.CssStyleDeclaration.prototype = {
+    get$length(receiver) {
+      var t1 = receiver.length;
+      t1.toString;
+      return t1;
+    }
+  };
+  A.CssStyleDeclarationBase.prototype = {};
   A.Document.prototype = {};
   A.DomException.prototype = {
     toString$0(receiver) {
@@ -4471,7 +4623,12 @@
     },
     $isElement: 1
   };
-  A.Event.prototype = {$isEvent: 1};
+  A.Event.prototype = {
+    get$target(receiver) {
+      return A._convertNativeToDart_EventTarget(receiver.target);
+    },
+    $isEvent: 1
+  };
   A.EventTarget.prototype = {
     _addEventListener$3(receiver, type, listener, options) {
       return receiver.addEventListener(type, A.convertDartClosureToJS(type$.nullable_dynamic_Function_Event._as(listener), 1), false);
@@ -4483,8 +4640,23 @@
       return receiver.length;
     }
   };
+  A.HeadingElement.prototype = {};
   A.HtmlDocument.prototype = {$isHtmlDocument: 1};
-  A.InputElement.prototype = {$isInputElement: 1};
+  A.InputElement.prototype = {
+    set$max(receiver, value) {
+      receiver.max = value;
+    },
+    set$min(receiver, value) {
+      receiver.min = value;
+    },
+    set$type(receiver, value) {
+      receiver.type = value;
+    },
+    set$value(receiver, value) {
+      receiver.value = value;
+    },
+    $isInputElement: 1
+  };
   A.KeyboardEvent.prototype = {$isKeyboardEvent: 1};
   A.MouseEvent.prototype = {$isMouseEvent: 1};
   A.Node.prototype = {
@@ -4499,6 +4671,9 @@
   A.SelectElement.prototype = {
     get$length(receiver) {
       return receiver.length;
+    },
+    set$selectedIndex(receiver, value) {
+      receiver.selectedIndex = value;
     },
     $isSelectElement: 1
   };
@@ -4540,7 +4715,8 @@
           clearTimeout(id);
         };
       })(receiver);
-    }
+    },
+    $isWindowBase: 1
   };
   A.Window_animationFrame_closure.prototype = {
     call$1(time) {
@@ -4562,7 +4738,16 @@
     call$1(e) {
       return this.onData.call$1(type$.Event._as(e));
     },
-    $signature: 3
+    $signature: 1
+  };
+  A._DOMWindowCrossFrame.prototype = {$isEventTarget: 1, $isWindowBase: 1};
+  A._CssStyleDeclaration_JavaScriptObject_CssStyleDeclarationBase.prototype = {};
+  A.VersionChangeEvent.prototype = {
+    get$target(receiver) {
+      var t1 = receiver.target;
+      t1.toString;
+      return t1;
+    }
   };
   A._JSRandom.prototype = {
     nextInt$1(max) {
@@ -4612,33 +4797,20 @@
   };
   A.main_closure.prototype = {
     call$1($event) {
-      var t2, t3, ballSpeed, playerOneHeight, playerOneWidth, playerTwoHeight, playerTwoWidth, ball, playerOne, playerTwo,
+      var t2, ballSpeed, ball, playerOne, playerTwo, t3,
         t1 = type$.MouseEvent._as($event).button;
       t1.toString;
       if (t1 === 0) {
         $.runningGameInstance = null;
         t1 = document;
-        t2 = type$.InputElement;
-        t3 = t2._as(t1.querySelector("#ballSpeed")).valueAsNumber;
-        t3.toString;
-        ballSpeed = B.JSNumber_methods.toInt$0(t3);
-        t3 = t2._as(t1.querySelector("#playerOnePaddleHeight")).valueAsNumber;
-        t3.toString;
-        playerOneHeight = B.JSNumber_methods.toInt$0(t3);
-        t3 = t2._as(t1.querySelector("#playerOnePaddleWidth")).valueAsNumber;
-        t3.toString;
-        playerOneWidth = B.JSNumber_methods.toInt$0(t3);
-        t3 = t2._as(t1.querySelector("#playerTwoPaddleHeight")).valueAsNumber;
-        t3.toString;
-        playerTwoHeight = B.JSNumber_methods.toInt$0(t3);
-        t2 = t2._as(t1.querySelector("#playerTwoPaddleWidth")).valueAsNumber;
+        t2 = type$.InputElement._as(t1.querySelector("#ballSpeed")).valueAsNumber;
         t2.toString;
-        playerTwoWidth = B.JSNumber_methods.toInt$0(t2);
+        ballSpeed = B.JSNumber_methods.toInt$0(t2);
         ball = new A.Ball(10, ballSpeed, ballSpeed);
         ball.speedY = ball.speedX = ballSpeed;
-        t2 = type$.SelectElement;
-        playerOne = t2._as(t1.querySelector("#playerOneSelect")).selectedIndex === 0 ? A.HumanPlayer$(t1, "s", "w", playerOneHeight, playerOneWidth) : A.AIPlayer$(ball, playerOneHeight, playerOneWidth);
-        playerTwo = t2._as(t1.querySelector("#playerTwoSelect")).selectedIndex === 0 ? A.HumanPlayer$(t1, "ArrowDown", "ArrowUp", playerTwoHeight, playerTwoWidth) : A.AIPlayer$(ball, playerTwoHeight, playerTwoWidth);
+        A.printString("" + $.playerOneConfig.playerType);
+        playerOne = $.playerOneConfig.getPlayer$1(ball);
+        playerTwo = $.playerTwoConfig.getPlayer$1(ball);
         t2 = $.$get$canvas();
         t3 = t1.querySelector("#playerOneScore");
         t3.toString;
@@ -4676,7 +4848,7 @@
         t1.resizeGame$2(t2, t3);
       }
     },
-    $signature: 3
+    $signature: 1
   };
   A.updateGame_closure.prototype = {
     call$1(_) {
@@ -4734,6 +4906,113 @@
       }
     }
   };
+  A.PlayerConfig.prototype = {
+    PlayerConfig$4$humanMoveDown$humanMoveUp$name$parentElement(humanMoveDown, humanMoveUp, $name, parentElement) {
+      var t2, t3, t4, t5, _this = this, _s4_ = "mb-2",
+        _s12_ = "form-control",
+        _s6_ = "change",
+        t1 = document,
+        $parent = t1.createElement("div");
+      $parent.className = _s4_;
+      t2 = t1.createElement("h3");
+      t2.toString;
+      B.HeadingElement_methods.set$text(t2, _this.name);
+      t3 = t2.style;
+      t3.color = "white";
+      $parent.appendChild(t2).toString;
+      t2 = t1.createElement("div");
+      t2.className = _s4_;
+      t3 = t1.createElement("select");
+      t3.className = "form-select";
+      B.SelectElement_methods.set$selectedIndex(t3, _this.playerType);
+      t3.appendChild(A.OptionElement_OptionElement$_("Human", "human", null, false)).toString;
+      t3.appendChild(A.OptionElement_OptionElement$_("AI", "ai", null, false)).toString;
+      t4 = type$._ElementEventStreamImpl_Event;
+      t5 = t4._eval$1("~(1)?");
+      t4 = t4._precomputed1;
+      A._EventStreamSubscription$(t3, _s6_, t5._as(new A.PlayerConfig_closure(_this)), false, t4);
+      t2.appendChild(t3).toString;
+      $parent.appendChild(t2).toString;
+      t2 = t1.createElement("div");
+      t2.className = _s4_;
+      t2.appendChild(_this.createLabelForm$1("Paddle Height: ")).toString;
+      t3 = A.InputElement_InputElement();
+      t3.className = _s12_;
+      B.InputElement_methods.set$type(t3, "number");
+      B.InputElement_methods.set$value(t3, B.JSInt_methods.toString$0(_this.paddleHeight));
+      B.InputElement_methods.set$min(t3, "1");
+      B.InputElement_methods.set$max(t3, "600");
+      A._EventStreamSubscription$(t3, _s6_, t5._as(new A.PlayerConfig_closure0(_this)), false, t4);
+      t2.appendChild(t3).toString;
+      $parent.appendChild(t2).toString;
+      t2 = t1.createElement("div");
+      t2.className = _s4_;
+      t2.appendChild(_this.createLabelForm$1("Paddle Width: ")).toString;
+      t3 = A.InputElement_InputElement();
+      t3.className = _s12_;
+      B.InputElement_methods.set$type(t3, "number");
+      B.InputElement_methods.set$value(t3, B.JSInt_methods.toString$0(_this.paddleWidth));
+      B.InputElement_methods.set$min(t3, "1");
+      B.InputElement_methods.set$max(t3, "200");
+      A._EventStreamSubscription$(t3, _s6_, t5._as(new A.PlayerConfig_closure1(_this)), false, t4);
+      t2.appendChild(t3).toString;
+      $parent.appendChild(t2).toString;
+      t2 = _this.parentElement;
+      t2.appendChild($parent).toString;
+      t1 = t1.createElement("hr");
+      t3 = t1.style;
+      t3.color = "white";
+      t2.appendChild(t1).toString;
+    },
+    createLabelForm$1(text) {
+      var t1 = document,
+        t2 = t1.createElement("label");
+      t2.toString;
+      t1 = t1.createTextNode(text);
+      t1.toString;
+      t2.appendChild(t1).toString;
+      t1 = t2.style;
+      t1.color = "white";
+      t2.className = "form-label";
+      return t2;
+    },
+    getPlayer$1(ball) {
+      var _this = this,
+        t1 = _this.playerType,
+        t2 = _this.paddleWidth,
+        t3 = _this.paddleHeight;
+      if (t1 === 0) {
+        t1 = document;
+        t1.toString;
+        return A.HumanPlayer$(t1, _this.humanMoveDown, _this.humanMoveUp, t3, t2);
+      } else
+        return new A.AIPlayer(ball, B.C__JSRandom, t2, t3);
+    }
+  };
+  A.PlayerConfig_closure.prototype = {
+    call$1($event) {
+      var t1 = type$.SelectElement._as(J.get$target$x($event)).selectedIndex;
+      t1.toString;
+      this.$this.playerType = t1;
+    },
+    $signature: 1
+  };
+  A.PlayerConfig_closure0.prototype = {
+    call$1($event) {
+      var t1 = type$.InputElement._as(J.get$target$x($event)).value;
+      t1.toString;
+      this.$this.paddleHeight = A.int_parse(t1);
+    },
+    $signature: 1
+  };
+  A.PlayerConfig_closure1.prototype = {
+    call$1($event) {
+      var t1 = type$.InputElement._as(J.get$target$x($event)).value;
+      t1.toString;
+      this.$this.paddleWidth = A.int_parse(t1);
+    },
+    $signature: 1
+  };
   (function aliases() {
     var _ = J.Interceptor.prototype;
     _.super$Interceptor$toString = _.toString$0;
@@ -4743,24 +5022,25 @@
   (function installTearOffs() {
     var _static_1 = hunkHelpers._static_1,
       _static_0 = hunkHelpers._static_0;
-    _static_1(A, "async__AsyncRun__scheduleImmediateJsOverride$closure", "_AsyncRun__scheduleImmediateJsOverride", 1);
-    _static_1(A, "async__AsyncRun__scheduleImmediateWithSetImmediate$closure", "_AsyncRun__scheduleImmediateWithSetImmediate", 1);
-    _static_1(A, "async__AsyncRun__scheduleImmediateWithTimer$closure", "_AsyncRun__scheduleImmediateWithTimer", 1);
+    _static_1(A, "async__AsyncRun__scheduleImmediateJsOverride$closure", "_AsyncRun__scheduleImmediateJsOverride", 2);
+    _static_1(A, "async__AsyncRun__scheduleImmediateWithSetImmediate$closure", "_AsyncRun__scheduleImmediateWithSetImmediate", 2);
+    _static_1(A, "async__AsyncRun__scheduleImmediateWithTimer$closure", "_AsyncRun__scheduleImmediateWithTimer", 2);
     _static_0(A, "async___startMicrotaskLoop$closure", "_startMicrotaskLoop", 0);
   })();
   (function inheritance() {
-    var _inherit = hunkHelpers.inherit,
+    var _mixin = hunkHelpers.mixin,
+      _inherit = hunkHelpers.inherit,
       _inheritMany = hunkHelpers.inheritMany;
     _inherit(A.Object, null);
-    _inheritMany(A.Object, [A.JS_CONST, J.Interceptor, J.ArrayIterator, A.Error, A.TypeErrorDecoder, A.NullThrownFromJavaScriptException, A._StackTrace, A.Closure, A.Rti, A._FunctionParameters, A._Type, A._TimerImpl, A.AsyncError, A._Completer, A._FutureListener, A._Future, A._AsyncCallbackEntry, A.Stream, A._Zone, A.DateTime, A.StackOverflowError, A._Exception, A.Null, A._StringStackTrace, A.StringBuffer, A.EventStreamProvider, A._EventStreamSubscription, A._JSRandom, A.Ball, A.Game, A.Player]);
+    _inheritMany(A.Object, [A.JS_CONST, J.Interceptor, J.ArrayIterator, A.Error, A.TypeErrorDecoder, A.NullThrownFromJavaScriptException, A._StackTrace, A.Closure, A.Rti, A._FunctionParameters, A._Type, A._TimerImpl, A.AsyncError, A._Completer, A._FutureListener, A._Future, A._AsyncCallbackEntry, A.Stream, A._Zone, A.DateTime, A.StackOverflowError, A._Exception, A.FormatException, A.Null, A._StringStackTrace, A.StringBuffer, A.CssStyleDeclarationBase, A.EventStreamProvider, A._EventStreamSubscription, A._DOMWindowCrossFrame, A._JSRandom, A.Ball, A.Game, A.Player, A.PlayerConfig]);
     _inheritMany(J.Interceptor, [J.JSBool, J.JSNull, J.JavaScriptObject, J.JavaScriptBigInt, J.JavaScriptSymbol, J.JSNumber, J.JSString]);
-    _inheritMany(J.JavaScriptObject, [J.LegacyJavaScriptObject, J.JSArray, A.EventTarget, A.CanvasRenderingContext2D, A.DomException, A.Event]);
+    _inheritMany(J.JavaScriptObject, [J.LegacyJavaScriptObject, J.JSArray, A.EventTarget, A.CanvasRenderingContext2D, A._CssStyleDeclaration_JavaScriptObject_CssStyleDeclarationBase, A.DomException, A.Event]);
     _inheritMany(J.LegacyJavaScriptObject, [J.PlainJavaScriptObject, J.UnknownJavaScriptObject, J.JavaScriptFunction]);
     _inherit(J.JSUnmodifiableArray, J.JSArray);
     _inheritMany(J.JSNumber, [J.JSInt, J.JSNumNotInt]);
     _inheritMany(A.Error, [A.LateError, A.TypeError, A.JsNoSuchMethodError, A.UnknownJsTypeError, A._CyclicInitializationError, A.RuntimeError, A._Error, A.AssertionError, A.ArgumentError, A.UnsupportedError, A.UnimplementedError, A.StateError, A.ConcurrentModificationError]);
     _inherit(A.NullError, A.TypeError);
-    _inheritMany(A.Closure, [A.Closure0Args, A.Closure2Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A._AsyncRun__initializeScheduleImmediate_internalCallback, A._AsyncRun__initializeScheduleImmediate_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure, A.Stream_length_closure, A._RootZone_bindUnaryCallbackGuarded_closure, A.Window_animationFrame_closure, A._EventStreamSubscription_closure, A.main_closure, A.main_closure0, A.updateGame_closure, A.HumanPlayer_closure, A.HumanPlayer_closure0]);
+    _inheritMany(A.Closure, [A.Closure0Args, A.Closure2Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A._AsyncRun__initializeScheduleImmediate_internalCallback, A._AsyncRun__initializeScheduleImmediate_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure, A.Stream_length_closure, A._RootZone_bindUnaryCallbackGuarded_closure, A.Window_animationFrame_closure, A._EventStreamSubscription_closure, A.main_closure, A.main_closure0, A.updateGame_closure, A.HumanPlayer_closure, A.HumanPlayer_closure0, A.PlayerConfig_closure, A.PlayerConfig_closure0, A.PlayerConfig_closure1]);
     _inheritMany(A.TearOffClosure, [A.StaticClosure, A.BoundClosure]);
     _inherit(A.initHooks_closure0, A.Closure2Args);
     _inherit(A._TypeError, A._Error);
@@ -4769,26 +5049,28 @@
     _inherit(A._RootZone, A._Zone);
     _inheritMany(A.ArgumentError, [A.RangeError, A.IndexError]);
     _inheritMany(A.EventTarget, [A.Node, A.Window]);
-    _inheritMany(A.Node, [A.Element, A.Document]);
+    _inheritMany(A.Node, [A.Element, A.CharacterData, A.Document]);
     _inherit(A.HtmlElement, A.Element);
-    _inheritMany(A.HtmlElement, [A.AnchorElement, A.AreaElement, A.ButtonElement, A.CanvasElement, A.FormElement, A.InputElement, A.SelectElement]);
+    _inheritMany(A.HtmlElement, [A.AnchorElement, A.AreaElement, A.ButtonElement, A.CanvasElement, A.FormElement, A.HeadingElement, A.InputElement, A.SelectElement]);
+    _inherit(A.CssStyleDeclaration, A._CssStyleDeclaration_JavaScriptObject_CssStyleDeclarationBase);
     _inherit(A.HtmlDocument, A.Document);
-    _inherit(A.UIEvent, A.Event);
+    _inheritMany(A.Event, [A.UIEvent, A.VersionChangeEvent]);
     _inheritMany(A.UIEvent, [A.KeyboardEvent, A.MouseEvent]);
     _inherit(A._EventStream, A.Stream);
     _inherit(A._ElementEventStreamImpl, A._EventStream);
     _inheritMany(A.Player, [A.HumanPlayer, A.AIPlayer]);
+    _mixin(A._CssStyleDeclaration_JavaScriptObject_CssStyleDeclarationBase, A.CssStyleDeclarationBase);
   })();
   var init = {
     typeUniverse: {eC: new Map(), tR: {}, eT: {}, tPV: {}, sEA: []},
     mangledGlobalNames: {int: "int", double: "double", num: "num", String: "String", bool: "bool", Null: "Null", List: "List", Object: "Object", Map: "Map"},
     mangledNames: {},
-    types: ["~()", "~(~())", "Null()", "~(Event)", "~(KeyboardEvent)", "@(@)", "@(@,String)", "@(String)", "Null(@)", "Null(~())", "_Future<@>(@)", "~(num)", "~(MouseEvent)", "Null(num)"],
+    types: ["~()", "~(Event)", "~(~())", "Null()", "~(KeyboardEvent)", "@(@)", "@(@,String)", "@(String)", "Null(@)", "Null(~())", "_Future<@>(@)", "~(num)", "~(MouseEvent)", "Null(num)"],
     interceptorsByTag: null,
     leafTags: null,
     arrayRti: Symbol("$ti")
   };
-  A._Universe_addRules(init.typeUniverse, JSON.parse('{"PlainJavaScriptObject":"LegacyJavaScriptObject","UnknownJavaScriptObject":"LegacyJavaScriptObject","JavaScriptFunction":"LegacyJavaScriptObject","AbortPaymentEvent":"Event","ExtendableEvent":"Event","MathMLElement":"Element","AudioElement":"HtmlElement","MediaElement":"HtmlElement","PointerEvent":"MouseEvent","CompositionEvent":"UIEvent","JSBool":{"bool":[],"TrustedGetRuntimeType":[]},"JSNull":{"Null":[],"TrustedGetRuntimeType":[]},"JSArray":{"List":["1"],"Iterable":["1"]},"JSUnmodifiableArray":{"JSArray":["1"],"List":["1"],"Iterable":["1"]},"JSNumber":{"double":[],"num":[]},"JSInt":{"double":[],"int":[],"num":[],"TrustedGetRuntimeType":[]},"JSNumNotInt":{"double":[],"num":[],"TrustedGetRuntimeType":[]},"JSString":{"String":[],"TrustedGetRuntimeType":[]},"LateError":{"Error":[]},"NullError":{"TypeError":[],"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"_StackTrace":{"StackTrace":[]},"Closure":{"Function":[]},"Closure0Args":{"Function":[]},"Closure2Args":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"_CyclicInitializationError":{"Error":[]},"RuntimeError":{"Error":[]},"_Error":{"Error":[]},"_TypeError":{"TypeError":[],"Error":[]},"_Future":{"Future":["1"]},"AsyncError":{"Error":[]},"_SyncCompleter":{"_Completer":["1"]},"_Zone":{"Zone":[]},"_RootZone":{"_Zone":[],"Zone":[]},"int":{"num":[]},"AssertionError":{"Error":[]},"TypeError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"StateError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"StackOverflowError":{"Error":[]},"_StringStackTrace":{"StackTrace":[]},"KeyboardEvent":{"Event":[]},"MouseEvent":{"Event":[]},"HtmlElement":{"Element":[],"EventTarget":[]},"AnchorElement":{"Element":[],"EventTarget":[]},"AreaElement":{"Element":[],"EventTarget":[]},"ButtonElement":{"Element":[],"EventTarget":[]},"CanvasElement":{"Element":[],"EventTarget":[]},"Document":{"EventTarget":[]},"Element":{"EventTarget":[]},"FormElement":{"Element":[],"EventTarget":[]},"HtmlDocument":{"EventTarget":[]},"InputElement":{"Element":[],"EventTarget":[]},"Node":{"EventTarget":[]},"SelectElement":{"Element":[],"EventTarget":[]},"UIEvent":{"Event":[]},"Window":{"EventTarget":[]},"_EventStream":{"Stream":["1"]},"_ElementEventStreamImpl":{"_EventStream":["1"],"Stream":["1"]},"_JSRandom":{"Random":[]},"HumanPlayer":{"Player":[]},"AIPlayer":{"Player":[]}}'));
+  A._Universe_addRules(init.typeUniverse, JSON.parse('{"PlainJavaScriptObject":"LegacyJavaScriptObject","UnknownJavaScriptObject":"LegacyJavaScriptObject","JavaScriptFunction":"LegacyJavaScriptObject","AbortPaymentEvent":"Event","ExtendableEvent":"Event","MathMLElement":"Element","OpenDBRequest":"EventTarget","Request":"EventTarget","AudioElement":"HtmlElement","MediaElement":"HtmlElement","ShadowRoot":"Node","DocumentFragment":"Node","XmlDocument":"Document","PointerEvent":"MouseEvent","CompositionEvent":"UIEvent","CDataSection":"CharacterData","Text":"CharacterData","JSBool":{"bool":[],"TrustedGetRuntimeType":[]},"JSNull":{"Null":[],"TrustedGetRuntimeType":[]},"JSArray":{"List":["1"],"Iterable":["1"]},"JSUnmodifiableArray":{"JSArray":["1"],"List":["1"],"Iterable":["1"]},"JSNumber":{"double":[],"num":[]},"JSInt":{"double":[],"int":[],"num":[],"TrustedGetRuntimeType":[]},"JSNumNotInt":{"double":[],"num":[],"TrustedGetRuntimeType":[]},"JSString":{"String":[],"TrustedGetRuntimeType":[]},"LateError":{"Error":[]},"NullError":{"TypeError":[],"Error":[]},"JsNoSuchMethodError":{"Error":[]},"UnknownJsTypeError":{"Error":[]},"_StackTrace":{"StackTrace":[]},"Closure":{"Function":[]},"Closure0Args":{"Function":[]},"Closure2Args":{"Function":[]},"TearOffClosure":{"Function":[]},"StaticClosure":{"Function":[]},"BoundClosure":{"Function":[]},"_CyclicInitializationError":{"Error":[]},"RuntimeError":{"Error":[]},"_Error":{"Error":[]},"_TypeError":{"TypeError":[],"Error":[]},"_Future":{"Future":["1"]},"AsyncError":{"Error":[]},"_SyncCompleter":{"_Completer":["1"]},"_Zone":{"Zone":[]},"_RootZone":{"_Zone":[],"Zone":[]},"int":{"num":[]},"AssertionError":{"Error":[]},"TypeError":{"Error":[]},"ArgumentError":{"Error":[]},"RangeError":{"Error":[]},"IndexError":{"Error":[]},"UnsupportedError":{"Error":[]},"UnimplementedError":{"Error":[]},"StateError":{"Error":[]},"ConcurrentModificationError":{"Error":[]},"StackOverflowError":{"Error":[]},"_StringStackTrace":{"StackTrace":[]},"KeyboardEvent":{"Event":[]},"MouseEvent":{"Event":[]},"HtmlElement":{"Element":[],"EventTarget":[]},"AnchorElement":{"HtmlElement":[],"Element":[],"EventTarget":[]},"AreaElement":{"HtmlElement":[],"Element":[],"EventTarget":[]},"ButtonElement":{"HtmlElement":[],"Element":[],"EventTarget":[]},"CanvasElement":{"HtmlElement":[],"Element":[],"EventTarget":[]},"CharacterData":{"EventTarget":[]},"Document":{"EventTarget":[]},"Element":{"EventTarget":[]},"FormElement":{"HtmlElement":[],"Element":[],"EventTarget":[]},"HeadingElement":{"HtmlElement":[],"Element":[],"EventTarget":[]},"HtmlDocument":{"EventTarget":[]},"InputElement":{"HtmlElement":[],"Element":[],"EventTarget":[]},"Node":{"EventTarget":[]},"SelectElement":{"HtmlElement":[],"Element":[],"EventTarget":[]},"UIEvent":{"Event":[]},"Window":{"WindowBase":[],"EventTarget":[]},"_EventStream":{"Stream":["1"]},"_ElementEventStreamImpl":{"_EventStream":["1"],"Stream":["1"]},"_DOMWindowCrossFrame":{"WindowBase":[],"EventTarget":[]},"VersionChangeEvent":{"Event":[]},"_JSRandom":{"Random":[]},"HumanPlayer":{"Player":[]},"AIPlayer":{"Player":[]}}'));
   var string$ = {
     Error_: "Error handler must accept one Object or one Object and a StackTrace as arguments, and return a value of the returned future's type"
   };
@@ -4801,6 +5083,7 @@
       Event: findType("Event"),
       Function: findType("Function"),
       Future_dynamic: findType("Future<@>"),
+      HtmlElement: findType("HtmlElement"),
       InputElement: findType("InputElement"),
       JSArray_String: findType("JSArray<String>"),
       JSArray_dynamic: findType("JSArray<@>"),
@@ -4818,6 +5101,8 @@
       TrustedGetRuntimeType: findType("TrustedGetRuntimeType"),
       TypeError: findType("TypeError"),
       UnknownJavaScriptObject: findType("UnknownJavaScriptObject"),
+      WindowBase: findType("WindowBase"),
+      _ElementEventStreamImpl_Event: findType("_ElementEventStreamImpl<Event>"),
       _ElementEventStreamImpl_MouseEvent: findType("_ElementEventStreamImpl<MouseEvent>"),
       _Future_dynamic: findType("_Future<@>"),
       _Future_int: findType("_Future<int>"),
@@ -4833,6 +5118,7 @@
       int: findType("int"),
       legacy_Never: findType("0&*"),
       legacy_Object: findType("Object*"),
+      nullable_EventTarget: findType("EventTarget?"),
       nullable_Future_Null: findType("Future<Null>?"),
       nullable_Object: findType("Object?"),
       nullable__FutureListener_dynamic_dynamic: findType("_FutureListener<@,@>?"),
@@ -4849,6 +5135,8 @@
   (function constants() {
     B.CanvasElement_methods = A.CanvasElement.prototype;
     B.CanvasRenderingContext2D_methods = A.CanvasRenderingContext2D.prototype;
+    B.HeadingElement_methods = A.HeadingElement.prototype;
+    B.InputElement_methods = A.InputElement.prototype;
     B.Interceptor_methods = J.Interceptor.prototype;
     B.JSArray_methods = J.JSArray.prototype;
     B.JSInt_methods = J.JSInt.prototype;
@@ -4856,6 +5144,7 @@
     B.JavaScriptFunction_methods = J.JavaScriptFunction.prototype;
     B.JavaScriptObject_methods = J.JavaScriptObject.prototype;
     B.PlainJavaScriptObject_methods = J.PlainJavaScriptObject.prototype;
+    B.SelectElement_methods = A.SelectElement.prototype;
     B.UnknownJavaScriptObject_methods = J.UnknownJavaScriptObject.prototype;
     B.Window_methods = A.Window.prototype;
     B.C_JS_CONST = function getTagFallback(o) {
@@ -5005,6 +5294,8 @@
     $.Zone__current = B.C__RootZone;
     $.runningGameInstance = null;
     $.isRunning = false;
+    $.playerOneConfig = null;
+    $.playerTwoConfig = null;
   })();
   (function lazyInitializers() {
     var _lazyFinal = hunkHelpers.lazyFinal,
@@ -5081,8 +5372,8 @@
       }
       init.dispatchPropertyName = init.getIsolateTag("dispatch_record");
     }();
-    hunkHelpers.setOrUpdateInterceptorsByTag({DOMError: J.JavaScriptObject, MediaError: J.JavaScriptObject, NavigatorUserMediaError: J.JavaScriptObject, OverconstrainedError: J.JavaScriptObject, PositionError: J.JavaScriptObject, GeolocationPositionError: J.JavaScriptObject, HTMLAudioElement: A.HtmlElement, HTMLBRElement: A.HtmlElement, HTMLBaseElement: A.HtmlElement, HTMLBodyElement: A.HtmlElement, HTMLContentElement: A.HtmlElement, HTMLDListElement: A.HtmlElement, HTMLDataElement: A.HtmlElement, HTMLDataListElement: A.HtmlElement, HTMLDetailsElement: A.HtmlElement, HTMLDialogElement: A.HtmlElement, HTMLDivElement: A.HtmlElement, HTMLEmbedElement: A.HtmlElement, HTMLFieldSetElement: A.HtmlElement, HTMLHRElement: A.HtmlElement, HTMLHeadElement: A.HtmlElement, HTMLHeadingElement: A.HtmlElement, HTMLHtmlElement: A.HtmlElement, HTMLIFrameElement: A.HtmlElement, HTMLImageElement: A.HtmlElement, HTMLLIElement: A.HtmlElement, HTMLLabelElement: A.HtmlElement, HTMLLegendElement: A.HtmlElement, HTMLLinkElement: A.HtmlElement, HTMLMapElement: A.HtmlElement, HTMLMediaElement: A.HtmlElement, HTMLMenuElement: A.HtmlElement, HTMLMetaElement: A.HtmlElement, HTMLMeterElement: A.HtmlElement, HTMLModElement: A.HtmlElement, HTMLOListElement: A.HtmlElement, HTMLObjectElement: A.HtmlElement, HTMLOptGroupElement: A.HtmlElement, HTMLOptionElement: A.HtmlElement, HTMLOutputElement: A.HtmlElement, HTMLParagraphElement: A.HtmlElement, HTMLParamElement: A.HtmlElement, HTMLPictureElement: A.HtmlElement, HTMLPreElement: A.HtmlElement, HTMLProgressElement: A.HtmlElement, HTMLQuoteElement: A.HtmlElement, HTMLScriptElement: A.HtmlElement, HTMLShadowElement: A.HtmlElement, HTMLSlotElement: A.HtmlElement, HTMLSourceElement: A.HtmlElement, HTMLSpanElement: A.HtmlElement, HTMLStyleElement: A.HtmlElement, HTMLTableCaptionElement: A.HtmlElement, HTMLTableCellElement: A.HtmlElement, HTMLTableDataCellElement: A.HtmlElement, HTMLTableHeaderCellElement: A.HtmlElement, HTMLTableColElement: A.HtmlElement, HTMLTableElement: A.HtmlElement, HTMLTableRowElement: A.HtmlElement, HTMLTableSectionElement: A.HtmlElement, HTMLTemplateElement: A.HtmlElement, HTMLTextAreaElement: A.HtmlElement, HTMLTimeElement: A.HtmlElement, HTMLTitleElement: A.HtmlElement, HTMLTrackElement: A.HtmlElement, HTMLUListElement: A.HtmlElement, HTMLUnknownElement: A.HtmlElement, HTMLVideoElement: A.HtmlElement, HTMLDirectoryElement: A.HtmlElement, HTMLFontElement: A.HtmlElement, HTMLFrameElement: A.HtmlElement, HTMLFrameSetElement: A.HtmlElement, HTMLMarqueeElement: A.HtmlElement, HTMLElement: A.HtmlElement, HTMLAnchorElement: A.AnchorElement, HTMLAreaElement: A.AreaElement, HTMLButtonElement: A.ButtonElement, HTMLCanvasElement: A.CanvasElement, CanvasRenderingContext2D: A.CanvasRenderingContext2D, Document: A.Document, DOMException: A.DomException, MathMLElement: A.Element, SVGAElement: A.Element, SVGAnimateElement: A.Element, SVGAnimateMotionElement: A.Element, SVGAnimateTransformElement: A.Element, SVGAnimationElement: A.Element, SVGCircleElement: A.Element, SVGClipPathElement: A.Element, SVGDefsElement: A.Element, SVGDescElement: A.Element, SVGDiscardElement: A.Element, SVGEllipseElement: A.Element, SVGFEBlendElement: A.Element, SVGFEColorMatrixElement: A.Element, SVGFEComponentTransferElement: A.Element, SVGFECompositeElement: A.Element, SVGFEConvolveMatrixElement: A.Element, SVGFEDiffuseLightingElement: A.Element, SVGFEDisplacementMapElement: A.Element, SVGFEDistantLightElement: A.Element, SVGFEFloodElement: A.Element, SVGFEFuncAElement: A.Element, SVGFEFuncBElement: A.Element, SVGFEFuncGElement: A.Element, SVGFEFuncRElement: A.Element, SVGFEGaussianBlurElement: A.Element, SVGFEImageElement: A.Element, SVGFEMergeElement: A.Element, SVGFEMergeNodeElement: A.Element, SVGFEMorphologyElement: A.Element, SVGFEOffsetElement: A.Element, SVGFEPointLightElement: A.Element, SVGFESpecularLightingElement: A.Element, SVGFESpotLightElement: A.Element, SVGFETileElement: A.Element, SVGFETurbulenceElement: A.Element, SVGFilterElement: A.Element, SVGForeignObjectElement: A.Element, SVGGElement: A.Element, SVGGeometryElement: A.Element, SVGGraphicsElement: A.Element, SVGImageElement: A.Element, SVGLineElement: A.Element, SVGLinearGradientElement: A.Element, SVGMarkerElement: A.Element, SVGMaskElement: A.Element, SVGMetadataElement: A.Element, SVGPathElement: A.Element, SVGPatternElement: A.Element, SVGPolygonElement: A.Element, SVGPolylineElement: A.Element, SVGRadialGradientElement: A.Element, SVGRectElement: A.Element, SVGScriptElement: A.Element, SVGSetElement: A.Element, SVGStopElement: A.Element, SVGStyleElement: A.Element, SVGElement: A.Element, SVGSVGElement: A.Element, SVGSwitchElement: A.Element, SVGSymbolElement: A.Element, SVGTSpanElement: A.Element, SVGTextContentElement: A.Element, SVGTextElement: A.Element, SVGTextPathElement: A.Element, SVGTextPositioningElement: A.Element, SVGTitleElement: A.Element, SVGUseElement: A.Element, SVGViewElement: A.Element, SVGGradientElement: A.Element, SVGComponentTransferFunctionElement: A.Element, SVGFEDropShadowElement: A.Element, SVGMPathElement: A.Element, Element: A.Element, AbortPaymentEvent: A.Event, AnimationEvent: A.Event, AnimationPlaybackEvent: A.Event, ApplicationCacheErrorEvent: A.Event, BackgroundFetchClickEvent: A.Event, BackgroundFetchEvent: A.Event, BackgroundFetchFailEvent: A.Event, BackgroundFetchedEvent: A.Event, BeforeInstallPromptEvent: A.Event, BeforeUnloadEvent: A.Event, BlobEvent: A.Event, CanMakePaymentEvent: A.Event, ClipboardEvent: A.Event, CloseEvent: A.Event, CustomEvent: A.Event, DeviceMotionEvent: A.Event, DeviceOrientationEvent: A.Event, ErrorEvent: A.Event, ExtendableEvent: A.Event, ExtendableMessageEvent: A.Event, FetchEvent: A.Event, FontFaceSetLoadEvent: A.Event, ForeignFetchEvent: A.Event, GamepadEvent: A.Event, HashChangeEvent: A.Event, InstallEvent: A.Event, MediaEncryptedEvent: A.Event, MediaKeyMessageEvent: A.Event, MediaQueryListEvent: A.Event, MediaStreamEvent: A.Event, MediaStreamTrackEvent: A.Event, MessageEvent: A.Event, MIDIConnectionEvent: A.Event, MIDIMessageEvent: A.Event, MutationEvent: A.Event, NotificationEvent: A.Event, PageTransitionEvent: A.Event, PaymentRequestEvent: A.Event, PaymentRequestUpdateEvent: A.Event, PopStateEvent: A.Event, PresentationConnectionAvailableEvent: A.Event, PresentationConnectionCloseEvent: A.Event, ProgressEvent: A.Event, PromiseRejectionEvent: A.Event, PushEvent: A.Event, RTCDataChannelEvent: A.Event, RTCDTMFToneChangeEvent: A.Event, RTCPeerConnectionIceEvent: A.Event, RTCTrackEvent: A.Event, SecurityPolicyViolationEvent: A.Event, SensorErrorEvent: A.Event, SpeechRecognitionError: A.Event, SpeechRecognitionEvent: A.Event, SpeechSynthesisEvent: A.Event, StorageEvent: A.Event, SyncEvent: A.Event, TrackEvent: A.Event, TransitionEvent: A.Event, WebKitTransitionEvent: A.Event, VRDeviceEvent: A.Event, VRDisplayEvent: A.Event, VRSessionEvent: A.Event, MojoInterfaceRequestEvent: A.Event, ResourceProgressEvent: A.Event, USBConnectionEvent: A.Event, IDBVersionChangeEvent: A.Event, AudioProcessingEvent: A.Event, OfflineAudioCompletionEvent: A.Event, WebGLContextEvent: A.Event, Event: A.Event, InputEvent: A.Event, SubmitEvent: A.Event, EventTarget: A.EventTarget, HTMLFormElement: A.FormElement, HTMLDocument: A.HtmlDocument, HTMLInputElement: A.InputElement, KeyboardEvent: A.KeyboardEvent, MouseEvent: A.MouseEvent, DragEvent: A.MouseEvent, PointerEvent: A.MouseEvent, WheelEvent: A.MouseEvent, Node: A.Node, HTMLSelectElement: A.SelectElement, CompositionEvent: A.UIEvent, FocusEvent: A.UIEvent, TextEvent: A.UIEvent, TouchEvent: A.UIEvent, UIEvent: A.UIEvent, Window: A.Window, DOMWindow: A.Window});
-    hunkHelpers.setOrUpdateLeafTags({DOMError: true, MediaError: true, NavigatorUserMediaError: true, OverconstrainedError: true, PositionError: true, GeolocationPositionError: true, HTMLAudioElement: true, HTMLBRElement: true, HTMLBaseElement: true, HTMLBodyElement: true, HTMLContentElement: true, HTMLDListElement: true, HTMLDataElement: true, HTMLDataListElement: true, HTMLDetailsElement: true, HTMLDialogElement: true, HTMLDivElement: true, HTMLEmbedElement: true, HTMLFieldSetElement: true, HTMLHRElement: true, HTMLHeadElement: true, HTMLHeadingElement: true, HTMLHtmlElement: true, HTMLIFrameElement: true, HTMLImageElement: true, HTMLLIElement: true, HTMLLabelElement: true, HTMLLegendElement: true, HTMLLinkElement: true, HTMLMapElement: true, HTMLMediaElement: true, HTMLMenuElement: true, HTMLMetaElement: true, HTMLMeterElement: true, HTMLModElement: true, HTMLOListElement: true, HTMLObjectElement: true, HTMLOptGroupElement: true, HTMLOptionElement: true, HTMLOutputElement: true, HTMLParagraphElement: true, HTMLParamElement: true, HTMLPictureElement: true, HTMLPreElement: true, HTMLProgressElement: true, HTMLQuoteElement: true, HTMLScriptElement: true, HTMLShadowElement: true, HTMLSlotElement: true, HTMLSourceElement: true, HTMLSpanElement: true, HTMLStyleElement: true, HTMLTableCaptionElement: true, HTMLTableCellElement: true, HTMLTableDataCellElement: true, HTMLTableHeaderCellElement: true, HTMLTableColElement: true, HTMLTableElement: true, HTMLTableRowElement: true, HTMLTableSectionElement: true, HTMLTemplateElement: true, HTMLTextAreaElement: true, HTMLTimeElement: true, HTMLTitleElement: true, HTMLTrackElement: true, HTMLUListElement: true, HTMLUnknownElement: true, HTMLVideoElement: true, HTMLDirectoryElement: true, HTMLFontElement: true, HTMLFrameElement: true, HTMLFrameSetElement: true, HTMLMarqueeElement: true, HTMLElement: false, HTMLAnchorElement: true, HTMLAreaElement: true, HTMLButtonElement: true, HTMLCanvasElement: true, CanvasRenderingContext2D: true, Document: false, DOMException: true, MathMLElement: true, SVGAElement: true, SVGAnimateElement: true, SVGAnimateMotionElement: true, SVGAnimateTransformElement: true, SVGAnimationElement: true, SVGCircleElement: true, SVGClipPathElement: true, SVGDefsElement: true, SVGDescElement: true, SVGDiscardElement: true, SVGEllipseElement: true, SVGFEBlendElement: true, SVGFEColorMatrixElement: true, SVGFEComponentTransferElement: true, SVGFECompositeElement: true, SVGFEConvolveMatrixElement: true, SVGFEDiffuseLightingElement: true, SVGFEDisplacementMapElement: true, SVGFEDistantLightElement: true, SVGFEFloodElement: true, SVGFEFuncAElement: true, SVGFEFuncBElement: true, SVGFEFuncGElement: true, SVGFEFuncRElement: true, SVGFEGaussianBlurElement: true, SVGFEImageElement: true, SVGFEMergeElement: true, SVGFEMergeNodeElement: true, SVGFEMorphologyElement: true, SVGFEOffsetElement: true, SVGFEPointLightElement: true, SVGFESpecularLightingElement: true, SVGFESpotLightElement: true, SVGFETileElement: true, SVGFETurbulenceElement: true, SVGFilterElement: true, SVGForeignObjectElement: true, SVGGElement: true, SVGGeometryElement: true, SVGGraphicsElement: true, SVGImageElement: true, SVGLineElement: true, SVGLinearGradientElement: true, SVGMarkerElement: true, SVGMaskElement: true, SVGMetadataElement: true, SVGPathElement: true, SVGPatternElement: true, SVGPolygonElement: true, SVGPolylineElement: true, SVGRadialGradientElement: true, SVGRectElement: true, SVGScriptElement: true, SVGSetElement: true, SVGStopElement: true, SVGStyleElement: true, SVGElement: true, SVGSVGElement: true, SVGSwitchElement: true, SVGSymbolElement: true, SVGTSpanElement: true, SVGTextContentElement: true, SVGTextElement: true, SVGTextPathElement: true, SVGTextPositioningElement: true, SVGTitleElement: true, SVGUseElement: true, SVGViewElement: true, SVGGradientElement: true, SVGComponentTransferFunctionElement: true, SVGFEDropShadowElement: true, SVGMPathElement: true, Element: false, AbortPaymentEvent: true, AnimationEvent: true, AnimationPlaybackEvent: true, ApplicationCacheErrorEvent: true, BackgroundFetchClickEvent: true, BackgroundFetchEvent: true, BackgroundFetchFailEvent: true, BackgroundFetchedEvent: true, BeforeInstallPromptEvent: true, BeforeUnloadEvent: true, BlobEvent: true, CanMakePaymentEvent: true, ClipboardEvent: true, CloseEvent: true, CustomEvent: true, DeviceMotionEvent: true, DeviceOrientationEvent: true, ErrorEvent: true, ExtendableEvent: true, ExtendableMessageEvent: true, FetchEvent: true, FontFaceSetLoadEvent: true, ForeignFetchEvent: true, GamepadEvent: true, HashChangeEvent: true, InstallEvent: true, MediaEncryptedEvent: true, MediaKeyMessageEvent: true, MediaQueryListEvent: true, MediaStreamEvent: true, MediaStreamTrackEvent: true, MessageEvent: true, MIDIConnectionEvent: true, MIDIMessageEvent: true, MutationEvent: true, NotificationEvent: true, PageTransitionEvent: true, PaymentRequestEvent: true, PaymentRequestUpdateEvent: true, PopStateEvent: true, PresentationConnectionAvailableEvent: true, PresentationConnectionCloseEvent: true, ProgressEvent: true, PromiseRejectionEvent: true, PushEvent: true, RTCDataChannelEvent: true, RTCDTMFToneChangeEvent: true, RTCPeerConnectionIceEvent: true, RTCTrackEvent: true, SecurityPolicyViolationEvent: true, SensorErrorEvent: true, SpeechRecognitionError: true, SpeechRecognitionEvent: true, SpeechSynthesisEvent: true, StorageEvent: true, SyncEvent: true, TrackEvent: true, TransitionEvent: true, WebKitTransitionEvent: true, VRDeviceEvent: true, VRDisplayEvent: true, VRSessionEvent: true, MojoInterfaceRequestEvent: true, ResourceProgressEvent: true, USBConnectionEvent: true, IDBVersionChangeEvent: true, AudioProcessingEvent: true, OfflineAudioCompletionEvent: true, WebGLContextEvent: true, Event: false, InputEvent: false, SubmitEvent: false, EventTarget: false, HTMLFormElement: true, HTMLDocument: true, HTMLInputElement: true, KeyboardEvent: true, MouseEvent: true, DragEvent: true, PointerEvent: true, WheelEvent: true, Node: false, HTMLSelectElement: true, CompositionEvent: true, FocusEvent: true, TextEvent: true, TouchEvent: true, UIEvent: false, Window: true, DOMWindow: true});
+    hunkHelpers.setOrUpdateInterceptorsByTag({DOMError: J.JavaScriptObject, MediaError: J.JavaScriptObject, Navigator: J.JavaScriptObject, NavigatorConcurrentHardware: J.JavaScriptObject, NavigatorUserMediaError: J.JavaScriptObject, OverconstrainedError: J.JavaScriptObject, PositionError: J.JavaScriptObject, GeolocationPositionError: J.JavaScriptObject, HTMLAudioElement: A.HtmlElement, HTMLBRElement: A.HtmlElement, HTMLBaseElement: A.HtmlElement, HTMLBodyElement: A.HtmlElement, HTMLContentElement: A.HtmlElement, HTMLDListElement: A.HtmlElement, HTMLDataElement: A.HtmlElement, HTMLDataListElement: A.HtmlElement, HTMLDetailsElement: A.HtmlElement, HTMLDialogElement: A.HtmlElement, HTMLDivElement: A.HtmlElement, HTMLEmbedElement: A.HtmlElement, HTMLFieldSetElement: A.HtmlElement, HTMLHRElement: A.HtmlElement, HTMLHeadElement: A.HtmlElement, HTMLHtmlElement: A.HtmlElement, HTMLIFrameElement: A.HtmlElement, HTMLImageElement: A.HtmlElement, HTMLLIElement: A.HtmlElement, HTMLLabelElement: A.HtmlElement, HTMLLegendElement: A.HtmlElement, HTMLLinkElement: A.HtmlElement, HTMLMapElement: A.HtmlElement, HTMLMediaElement: A.HtmlElement, HTMLMenuElement: A.HtmlElement, HTMLMetaElement: A.HtmlElement, HTMLMeterElement: A.HtmlElement, HTMLModElement: A.HtmlElement, HTMLOListElement: A.HtmlElement, HTMLObjectElement: A.HtmlElement, HTMLOptGroupElement: A.HtmlElement, HTMLOptionElement: A.HtmlElement, HTMLOutputElement: A.HtmlElement, HTMLParagraphElement: A.HtmlElement, HTMLParamElement: A.HtmlElement, HTMLPictureElement: A.HtmlElement, HTMLPreElement: A.HtmlElement, HTMLProgressElement: A.HtmlElement, HTMLQuoteElement: A.HtmlElement, HTMLScriptElement: A.HtmlElement, HTMLShadowElement: A.HtmlElement, HTMLSlotElement: A.HtmlElement, HTMLSourceElement: A.HtmlElement, HTMLSpanElement: A.HtmlElement, HTMLStyleElement: A.HtmlElement, HTMLTableCaptionElement: A.HtmlElement, HTMLTableCellElement: A.HtmlElement, HTMLTableDataCellElement: A.HtmlElement, HTMLTableHeaderCellElement: A.HtmlElement, HTMLTableColElement: A.HtmlElement, HTMLTableElement: A.HtmlElement, HTMLTableRowElement: A.HtmlElement, HTMLTableSectionElement: A.HtmlElement, HTMLTemplateElement: A.HtmlElement, HTMLTextAreaElement: A.HtmlElement, HTMLTimeElement: A.HtmlElement, HTMLTitleElement: A.HtmlElement, HTMLTrackElement: A.HtmlElement, HTMLUListElement: A.HtmlElement, HTMLUnknownElement: A.HtmlElement, HTMLVideoElement: A.HtmlElement, HTMLDirectoryElement: A.HtmlElement, HTMLFontElement: A.HtmlElement, HTMLFrameElement: A.HtmlElement, HTMLFrameSetElement: A.HtmlElement, HTMLMarqueeElement: A.HtmlElement, HTMLElement: A.HtmlElement, HTMLAnchorElement: A.AnchorElement, HTMLAreaElement: A.AreaElement, HTMLButtonElement: A.ButtonElement, HTMLCanvasElement: A.CanvasElement, CanvasRenderingContext2D: A.CanvasRenderingContext2D, CDATASection: A.CharacterData, CharacterData: A.CharacterData, Comment: A.CharacterData, ProcessingInstruction: A.CharacterData, Text: A.CharacterData, CSSStyleDeclaration: A.CssStyleDeclaration, MSStyleCSSProperties: A.CssStyleDeclaration, CSS2Properties: A.CssStyleDeclaration, XMLDocument: A.Document, Document: A.Document, DOMException: A.DomException, MathMLElement: A.Element, SVGAElement: A.Element, SVGAnimateElement: A.Element, SVGAnimateMotionElement: A.Element, SVGAnimateTransformElement: A.Element, SVGAnimationElement: A.Element, SVGCircleElement: A.Element, SVGClipPathElement: A.Element, SVGDefsElement: A.Element, SVGDescElement: A.Element, SVGDiscardElement: A.Element, SVGEllipseElement: A.Element, SVGFEBlendElement: A.Element, SVGFEColorMatrixElement: A.Element, SVGFEComponentTransferElement: A.Element, SVGFECompositeElement: A.Element, SVGFEConvolveMatrixElement: A.Element, SVGFEDiffuseLightingElement: A.Element, SVGFEDisplacementMapElement: A.Element, SVGFEDistantLightElement: A.Element, SVGFEFloodElement: A.Element, SVGFEFuncAElement: A.Element, SVGFEFuncBElement: A.Element, SVGFEFuncGElement: A.Element, SVGFEFuncRElement: A.Element, SVGFEGaussianBlurElement: A.Element, SVGFEImageElement: A.Element, SVGFEMergeElement: A.Element, SVGFEMergeNodeElement: A.Element, SVGFEMorphologyElement: A.Element, SVGFEOffsetElement: A.Element, SVGFEPointLightElement: A.Element, SVGFESpecularLightingElement: A.Element, SVGFESpotLightElement: A.Element, SVGFETileElement: A.Element, SVGFETurbulenceElement: A.Element, SVGFilterElement: A.Element, SVGForeignObjectElement: A.Element, SVGGElement: A.Element, SVGGeometryElement: A.Element, SVGGraphicsElement: A.Element, SVGImageElement: A.Element, SVGLineElement: A.Element, SVGLinearGradientElement: A.Element, SVGMarkerElement: A.Element, SVGMaskElement: A.Element, SVGMetadataElement: A.Element, SVGPathElement: A.Element, SVGPatternElement: A.Element, SVGPolygonElement: A.Element, SVGPolylineElement: A.Element, SVGRadialGradientElement: A.Element, SVGRectElement: A.Element, SVGScriptElement: A.Element, SVGSetElement: A.Element, SVGStopElement: A.Element, SVGStyleElement: A.Element, SVGElement: A.Element, SVGSVGElement: A.Element, SVGSwitchElement: A.Element, SVGSymbolElement: A.Element, SVGTSpanElement: A.Element, SVGTextContentElement: A.Element, SVGTextElement: A.Element, SVGTextPathElement: A.Element, SVGTextPositioningElement: A.Element, SVGTitleElement: A.Element, SVGUseElement: A.Element, SVGViewElement: A.Element, SVGGradientElement: A.Element, SVGComponentTransferFunctionElement: A.Element, SVGFEDropShadowElement: A.Element, SVGMPathElement: A.Element, Element: A.Element, AbortPaymentEvent: A.Event, AnimationEvent: A.Event, AnimationPlaybackEvent: A.Event, ApplicationCacheErrorEvent: A.Event, BackgroundFetchClickEvent: A.Event, BackgroundFetchEvent: A.Event, BackgroundFetchFailEvent: A.Event, BackgroundFetchedEvent: A.Event, BeforeInstallPromptEvent: A.Event, BeforeUnloadEvent: A.Event, BlobEvent: A.Event, CanMakePaymentEvent: A.Event, ClipboardEvent: A.Event, CloseEvent: A.Event, CustomEvent: A.Event, DeviceMotionEvent: A.Event, DeviceOrientationEvent: A.Event, ErrorEvent: A.Event, ExtendableEvent: A.Event, ExtendableMessageEvent: A.Event, FetchEvent: A.Event, FontFaceSetLoadEvent: A.Event, ForeignFetchEvent: A.Event, GamepadEvent: A.Event, HashChangeEvent: A.Event, InstallEvent: A.Event, MediaEncryptedEvent: A.Event, MediaKeyMessageEvent: A.Event, MediaQueryListEvent: A.Event, MediaStreamEvent: A.Event, MediaStreamTrackEvent: A.Event, MessageEvent: A.Event, MIDIConnectionEvent: A.Event, MIDIMessageEvent: A.Event, MutationEvent: A.Event, NotificationEvent: A.Event, PageTransitionEvent: A.Event, PaymentRequestEvent: A.Event, PaymentRequestUpdateEvent: A.Event, PopStateEvent: A.Event, PresentationConnectionAvailableEvent: A.Event, PresentationConnectionCloseEvent: A.Event, ProgressEvent: A.Event, PromiseRejectionEvent: A.Event, PushEvent: A.Event, RTCDataChannelEvent: A.Event, RTCDTMFToneChangeEvent: A.Event, RTCPeerConnectionIceEvent: A.Event, RTCTrackEvent: A.Event, SecurityPolicyViolationEvent: A.Event, SensorErrorEvent: A.Event, SpeechRecognitionError: A.Event, SpeechRecognitionEvent: A.Event, SpeechSynthesisEvent: A.Event, StorageEvent: A.Event, SyncEvent: A.Event, TrackEvent: A.Event, TransitionEvent: A.Event, WebKitTransitionEvent: A.Event, VRDeviceEvent: A.Event, VRDisplayEvent: A.Event, VRSessionEvent: A.Event, MojoInterfaceRequestEvent: A.Event, ResourceProgressEvent: A.Event, USBConnectionEvent: A.Event, AudioProcessingEvent: A.Event, OfflineAudioCompletionEvent: A.Event, WebGLContextEvent: A.Event, Event: A.Event, InputEvent: A.Event, SubmitEvent: A.Event, IDBOpenDBRequest: A.EventTarget, IDBVersionChangeRequest: A.EventTarget, IDBRequest: A.EventTarget, EventTarget: A.EventTarget, HTMLFormElement: A.FormElement, HTMLHeadingElement: A.HeadingElement, HTMLDocument: A.HtmlDocument, HTMLInputElement: A.InputElement, KeyboardEvent: A.KeyboardEvent, MouseEvent: A.MouseEvent, DragEvent: A.MouseEvent, PointerEvent: A.MouseEvent, WheelEvent: A.MouseEvent, DocumentFragment: A.Node, ShadowRoot: A.Node, Attr: A.Node, DocumentType: A.Node, Node: A.Node, HTMLSelectElement: A.SelectElement, CompositionEvent: A.UIEvent, FocusEvent: A.UIEvent, TextEvent: A.UIEvent, TouchEvent: A.UIEvent, UIEvent: A.UIEvent, Window: A.Window, DOMWindow: A.Window, IDBVersionChangeEvent: A.VersionChangeEvent});
+    hunkHelpers.setOrUpdateLeafTags({DOMError: true, MediaError: true, Navigator: true, NavigatorConcurrentHardware: true, NavigatorUserMediaError: true, OverconstrainedError: true, PositionError: true, GeolocationPositionError: true, HTMLAudioElement: true, HTMLBRElement: true, HTMLBaseElement: true, HTMLBodyElement: true, HTMLContentElement: true, HTMLDListElement: true, HTMLDataElement: true, HTMLDataListElement: true, HTMLDetailsElement: true, HTMLDialogElement: true, HTMLDivElement: true, HTMLEmbedElement: true, HTMLFieldSetElement: true, HTMLHRElement: true, HTMLHeadElement: true, HTMLHtmlElement: true, HTMLIFrameElement: true, HTMLImageElement: true, HTMLLIElement: true, HTMLLabelElement: true, HTMLLegendElement: true, HTMLLinkElement: true, HTMLMapElement: true, HTMLMediaElement: true, HTMLMenuElement: true, HTMLMetaElement: true, HTMLMeterElement: true, HTMLModElement: true, HTMLOListElement: true, HTMLObjectElement: true, HTMLOptGroupElement: true, HTMLOptionElement: true, HTMLOutputElement: true, HTMLParagraphElement: true, HTMLParamElement: true, HTMLPictureElement: true, HTMLPreElement: true, HTMLProgressElement: true, HTMLQuoteElement: true, HTMLScriptElement: true, HTMLShadowElement: true, HTMLSlotElement: true, HTMLSourceElement: true, HTMLSpanElement: true, HTMLStyleElement: true, HTMLTableCaptionElement: true, HTMLTableCellElement: true, HTMLTableDataCellElement: true, HTMLTableHeaderCellElement: true, HTMLTableColElement: true, HTMLTableElement: true, HTMLTableRowElement: true, HTMLTableSectionElement: true, HTMLTemplateElement: true, HTMLTextAreaElement: true, HTMLTimeElement: true, HTMLTitleElement: true, HTMLTrackElement: true, HTMLUListElement: true, HTMLUnknownElement: true, HTMLVideoElement: true, HTMLDirectoryElement: true, HTMLFontElement: true, HTMLFrameElement: true, HTMLFrameSetElement: true, HTMLMarqueeElement: true, HTMLElement: false, HTMLAnchorElement: true, HTMLAreaElement: true, HTMLButtonElement: true, HTMLCanvasElement: true, CanvasRenderingContext2D: true, CDATASection: true, CharacterData: true, Comment: true, ProcessingInstruction: true, Text: true, CSSStyleDeclaration: true, MSStyleCSSProperties: true, CSS2Properties: true, XMLDocument: true, Document: false, DOMException: true, MathMLElement: true, SVGAElement: true, SVGAnimateElement: true, SVGAnimateMotionElement: true, SVGAnimateTransformElement: true, SVGAnimationElement: true, SVGCircleElement: true, SVGClipPathElement: true, SVGDefsElement: true, SVGDescElement: true, SVGDiscardElement: true, SVGEllipseElement: true, SVGFEBlendElement: true, SVGFEColorMatrixElement: true, SVGFEComponentTransferElement: true, SVGFECompositeElement: true, SVGFEConvolveMatrixElement: true, SVGFEDiffuseLightingElement: true, SVGFEDisplacementMapElement: true, SVGFEDistantLightElement: true, SVGFEFloodElement: true, SVGFEFuncAElement: true, SVGFEFuncBElement: true, SVGFEFuncGElement: true, SVGFEFuncRElement: true, SVGFEGaussianBlurElement: true, SVGFEImageElement: true, SVGFEMergeElement: true, SVGFEMergeNodeElement: true, SVGFEMorphologyElement: true, SVGFEOffsetElement: true, SVGFEPointLightElement: true, SVGFESpecularLightingElement: true, SVGFESpotLightElement: true, SVGFETileElement: true, SVGFETurbulenceElement: true, SVGFilterElement: true, SVGForeignObjectElement: true, SVGGElement: true, SVGGeometryElement: true, SVGGraphicsElement: true, SVGImageElement: true, SVGLineElement: true, SVGLinearGradientElement: true, SVGMarkerElement: true, SVGMaskElement: true, SVGMetadataElement: true, SVGPathElement: true, SVGPatternElement: true, SVGPolygonElement: true, SVGPolylineElement: true, SVGRadialGradientElement: true, SVGRectElement: true, SVGScriptElement: true, SVGSetElement: true, SVGStopElement: true, SVGStyleElement: true, SVGElement: true, SVGSVGElement: true, SVGSwitchElement: true, SVGSymbolElement: true, SVGTSpanElement: true, SVGTextContentElement: true, SVGTextElement: true, SVGTextPathElement: true, SVGTextPositioningElement: true, SVGTitleElement: true, SVGUseElement: true, SVGViewElement: true, SVGGradientElement: true, SVGComponentTransferFunctionElement: true, SVGFEDropShadowElement: true, SVGMPathElement: true, Element: false, AbortPaymentEvent: true, AnimationEvent: true, AnimationPlaybackEvent: true, ApplicationCacheErrorEvent: true, BackgroundFetchClickEvent: true, BackgroundFetchEvent: true, BackgroundFetchFailEvent: true, BackgroundFetchedEvent: true, BeforeInstallPromptEvent: true, BeforeUnloadEvent: true, BlobEvent: true, CanMakePaymentEvent: true, ClipboardEvent: true, CloseEvent: true, CustomEvent: true, DeviceMotionEvent: true, DeviceOrientationEvent: true, ErrorEvent: true, ExtendableEvent: true, ExtendableMessageEvent: true, FetchEvent: true, FontFaceSetLoadEvent: true, ForeignFetchEvent: true, GamepadEvent: true, HashChangeEvent: true, InstallEvent: true, MediaEncryptedEvent: true, MediaKeyMessageEvent: true, MediaQueryListEvent: true, MediaStreamEvent: true, MediaStreamTrackEvent: true, MessageEvent: true, MIDIConnectionEvent: true, MIDIMessageEvent: true, MutationEvent: true, NotificationEvent: true, PageTransitionEvent: true, PaymentRequestEvent: true, PaymentRequestUpdateEvent: true, PopStateEvent: true, PresentationConnectionAvailableEvent: true, PresentationConnectionCloseEvent: true, ProgressEvent: true, PromiseRejectionEvent: true, PushEvent: true, RTCDataChannelEvent: true, RTCDTMFToneChangeEvent: true, RTCPeerConnectionIceEvent: true, RTCTrackEvent: true, SecurityPolicyViolationEvent: true, SensorErrorEvent: true, SpeechRecognitionError: true, SpeechRecognitionEvent: true, SpeechSynthesisEvent: true, StorageEvent: true, SyncEvent: true, TrackEvent: true, TransitionEvent: true, WebKitTransitionEvent: true, VRDeviceEvent: true, VRDisplayEvent: true, VRSessionEvent: true, MojoInterfaceRequestEvent: true, ResourceProgressEvent: true, USBConnectionEvent: true, AudioProcessingEvent: true, OfflineAudioCompletionEvent: true, WebGLContextEvent: true, Event: false, InputEvent: false, SubmitEvent: false, IDBOpenDBRequest: true, IDBVersionChangeRequest: true, IDBRequest: true, EventTarget: false, HTMLFormElement: true, HTMLHeadingElement: true, HTMLDocument: true, HTMLInputElement: true, KeyboardEvent: true, MouseEvent: true, DragEvent: true, PointerEvent: true, WheelEvent: true, DocumentFragment: true, ShadowRoot: true, Attr: true, DocumentType: true, Node: false, HTMLSelectElement: true, CompositionEvent: true, FocusEvent: true, TextEvent: true, TouchEvent: true, UIEvent: false, Window: true, DOMWindow: true, IDBVersionChangeEvent: true});
   })();
   Function.prototype.call$0 = function() {
     return this();

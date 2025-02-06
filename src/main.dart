@@ -2,11 +2,15 @@ import 'dart:html';
 import 'ball.dart';
 import 'game.dart';
 import 'player.dart';
+import 'player_config.dart';
 
 Game? runningGameInstance;
 DateTime previousTime = DateTime.now();
 bool isRunning = false;
 CanvasElement canvas = querySelector("#gameCanvas") as CanvasElement;
+
+PlayerConfig? playerOneConfig;
+PlayerConfig? playerTwoConfig;
 
 void main() {
   var startButton = querySelector("#startButton") as ButtonElement;
@@ -18,45 +22,29 @@ void main() {
   window.onResize.listen((_) {
     runningGameInstance?.resizeGame(window.innerWidth!, window.innerHeight!);
   });
+  playerOneConfig = PlayerConfig(
+    name: "Player One",
+    parentElement: querySelector("#playerConfig") as HtmlElement, 
+    humanMoveUp: "w", 
+    humanMoveDown: "s"
+  );
+  playerTwoConfig = PlayerConfig(
+    name: "Player Two",
+    parentElement: querySelector("#playerConfig") as HtmlElement, 
+    humanMoveUp: "ArrowUp", 
+    humanMoveDown: "ArrowDown"
+  );
 }
 
 void startGame() {
   runningGameInstance = null;
   int ballSpeed = (querySelector("#ballSpeed") as InputElement).valueAsNumber!.toInt();
-  int playerOneHeight = (querySelector("#playerOnePaddleHeight") as InputElement).valueAsNumber!.toInt();
-  int playerOneWidth = (querySelector("#playerOnePaddleWidth") as InputElement).valueAsNumber!.toInt();
-  int playerTwoHeight = (querySelector("#playerTwoPaddleHeight") as InputElement).valueAsNumber!.toInt();
-  int playerTwoWidth = (querySelector("#playerTwoPaddleWidth") as InputElement).valueAsNumber!.toInt();
   Ball ball = Ball(initialSpeedX: ballSpeed as double, initialSpeedY: ballSpeed as double, radius: 10);
 
-  Player playerOne = (querySelector("#playerOneSelect") as SelectElement)
-    .selectedIndex == 0 
-    ? HumanPlayer(
-      keyUpName: 'w', 
-      keyDownName: 's', 
-      paddleWidth: playerOneWidth as double,
-      paddleHeight: playerOneHeight as double, 
-      document: document
-    )
-    : AIPlayer(
-      ballRef: ball,
-      paddleWidth: playerOneWidth as double,
-      paddleHeight: playerOneHeight as double,
-    );
-  Player playerTwo = (querySelector("#playerTwoSelect") as SelectElement)
-    .selectedIndex == 0 
-    ? HumanPlayer(
-      keyUpName: 'ArrowUp', 
-      keyDownName: 'ArrowDown',
-      paddleWidth: playerTwoWidth as double,
-      paddleHeight: playerTwoHeight as double,
-      document: document
-    ) 
-    : AIPlayer(
-      ballRef: ball,
-      paddleWidth: playerTwoWidth as double,
-      paddleHeight: playerTwoHeight as double
-    );
+  print(playerOneConfig!.playerType);
+  Player playerOne = playerOneConfig!.getPlayer(ball);
+  Player playerTwo = playerTwoConfig!.getPlayer(ball);
+
   runningGameInstance = Game(
     ball: ball,
     playerOne: playerOne,
