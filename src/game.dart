@@ -57,7 +57,7 @@ class Game{
 
     ctx.beginPath();
     ctx.arc(ball.x, ball.y, ball.radius, 0, 3.14 * 2);
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = ball.colorHex;
     ctx.fill();
     ctx.closePath();
 

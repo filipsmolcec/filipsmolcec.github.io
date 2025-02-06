@@ -39,11 +39,13 @@ void main() {
 void startGame() {
   runningGameInstance = null;
   int ballSpeed = (querySelector("#ballSpeed") as InputElement).valueAsNumber!.toInt();
+  String ballColorHex = (querySelector("#ballColor") as InputElement).value!;
   Ball ball = Ball(
     initialSpeedX: ballSpeed as double, 
     initialSpeedY: ballSpeed as double, 
     radius: 10,
-    increaseSpeedFactor: 0.25
+    increaseSpeedFactor: 0.25,
+    colorHex: ballColorHex
   );
 
   print(playerOneConfig!.playerType);

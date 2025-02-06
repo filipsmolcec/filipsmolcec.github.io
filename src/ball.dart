@@ -3,7 +3,8 @@ class Ball {
     required this.initialSpeedX,
     required this.initialSpeedY,
     required this.radius,
-    required this.increaseSpeedFactor
+    required this.increaseSpeedFactor,
+    required this.colorHex
   }) {
     speedX = initialSpeedX;
     speedY = initialSpeedY;
@@ -13,6 +14,7 @@ class Ball {
   final double initialSpeedX;
   final double initialSpeedY;
   final double increaseSpeedFactor;
+  final String colorHex;
 
   double speedX = 0;
   double speedY = 0;

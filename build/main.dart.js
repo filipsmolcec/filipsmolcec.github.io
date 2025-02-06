@@ -3443,12 +3443,13 @@
     },
     _JSRandom: function _JSRandom() {
     },
-    Ball: function Ball(t0, t1, t2, t3) {
+    Ball: function Ball(t0, t1, t2, t3, t4) {
       var _ = this;
       _.radius = t0;
       _.initialSpeedX = t1;
       _.initialSpeedY = t2;
       _.increaseSpeedFactor = t3;
+      _.colorHex = t4;
       _.y = _.x = _.speedY = _.speedX = 0;
     },
     Game: function Game(t0, t1, t2, t3, t4, t5) {
@@ -3474,7 +3475,7 @@
       $.playerTwoConfig = A.PlayerConfig$("ArrowDown", "ArrowUp", "Player Two", t2._as(t1.querySelector(_s13_)));
     },
     updateGame() {
-      var t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, _s5_ = "white",
+      var t3, t4, t5, t6, t7, t8, t9, t10, t11, t12,
         t1 = Date.now(),
         t2 = $.$get$previousTime(),
         deltaTime = B.JSInt_methods._tdivFast$1(0 - t2._microsecond + 1000 * (t1 - t2._value), 1000) / 1000;
@@ -3503,12 +3504,12 @@
         t7.arc(t6.x, t6.y, t5, 0, 6.28, false);
         t7 = t4.getContext("2d");
         t7.toString;
-        B.CanvasRenderingContext2D_methods.set$fillStyle(t7, _s5_);
+        B.CanvasRenderingContext2D_methods.set$fillStyle(t7, t6.colorHex);
         t4.getContext("2d").fill();
         t4.getContext("2d").closePath();
         t7 = t4.getContext("2d");
         t7.toString;
-        B.CanvasRenderingContext2D_methods.set$fillStyle(t7, _s5_);
+        B.CanvasRenderingContext2D_methods.set$fillStyle(t7, "white");
         t7 = t4.getContext("2d");
         t7.toString;
         t8 = type$.JSArray_num;
@@ -3518,7 +3519,7 @@
         t4.getContext("2d").lineTo(t1.__Game_canvasWidth_A / 2, t1.__Game_canvasHeight_A);
         t7 = t4.getContext("2d");
         t7.toString;
-        B.CanvasRenderingContext2D_methods.set$strokeStyle(t7, _s5_);
+        B.CanvasRenderingContext2D_methods.set$strokeStyle(t7, "white");
         t4.getContext("2d").stroke();
         t7 = t4.getContext("2d");
         t7.toString;
@@ -4859,16 +4860,19 @@
   };
   A.main_closure.prototype = {
     call$1($event) {
-      var t2, ballSpeed, ball, playerOne, playerTwo, t3,
+      var t2, t3, ballSpeed, ball, playerOne, playerTwo,
         t1 = type$.MouseEvent._as($event).button;
       t1.toString;
       if (t1 === 0) {
         $.runningGameInstance = null;
         t1 = document;
-        t2 = type$.InputElement._as(t1.querySelector("#ballSpeed")).valueAsNumber;
+        t2 = type$.InputElement;
+        t3 = t2._as(t1.querySelector("#ballSpeed")).valueAsNumber;
+        t3.toString;
+        ballSpeed = B.JSNumber_methods.toInt$0(t3);
+        t2 = t2._as(t1.querySelector("#ballColor")).value;
         t2.toString;
-        ballSpeed = B.JSNumber_methods.toInt$0(t2);
-        ball = new A.Ball(10, ballSpeed, ballSpeed, 0.25);
+        ball = new A.Ball(10, ballSpeed, ballSpeed, 0.25, t2);
         ball.speedY = ball.speedX = ballSpeed;
         A.print($.playerOneConfig.playerType);
         playerOne = $.playerOneConfig.getPlayer$1(ball);
