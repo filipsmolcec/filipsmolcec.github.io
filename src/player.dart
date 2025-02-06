@@ -7,14 +7,15 @@ abstract class Player {
 
   final double paddleWidth;
   final double paddleHeight;
-  
+  final String paddleColorHex;
+
   double paddleX = 0;
   late double paddleY;
 
   bool goingUp = false;
   bool goingDown = false;
 
-  Player({required this.paddleWidth, required this.paddleHeight});
+  Player({required this.paddleWidth, required this.paddleHeight, required this.paddleColorHex});
 
   void update(double deltaTime);
 }
@@ -24,7 +25,7 @@ class HumanPlayer extends Player {
   final String keyDownName;
   final HtmlDocument document;
 
-  HumanPlayer({required this.document, required this.keyUpName, required this.keyDownName, required super.paddleWidth, required super.paddleHeight}) {
+  HumanPlayer({required this.document, required this.keyUpName, required this.keyDownName, required super.paddleWidth, required super.paddleHeight, required super.paddleColorHex}) {
     document.onKeyUp.listen((KeyboardEvent event) {
       if (event.key == keyUpName) {
         goingUp = false;
@@ -54,7 +55,7 @@ class AIPlayer extends Player {
   double seconds = 0;
   int randInt = 0;
 
-  AIPlayer({required this.ballRef, required super.paddleWidth, required super.paddleHeight});
+  AIPlayer({required this.ballRef, required super.paddleWidth, required super.paddleHeight, required super.paddleColorHex});
 
   double unboundedLerp(double a, double b, double t) {
     return a + (b - a) * t;

@@ -11,11 +11,12 @@ class PlayerConfig {
   int playerType = 0;
   int paddleHeight = 100;
   int paddleWidth = 10;
+  String paddleColorHex = "#ffffff";
 
   PlayerConfig({
-    required this.name, 
-    required this.parentElement, 
-    required this.humanMoveUp, 
+    required this.name,
+    required this.parentElement,
+    required this.humanMoveUp,
     required this.humanMoveDown
   }) {
     DivElement parent = DivElement();
@@ -80,6 +81,23 @@ class PlayerConfig {
       )
     );
 
+    parent.append(
+      DivElement()
+        ..className = "mb-2"
+        ..append(
+          createLabelForm("Paddle Color: ")
+        )
+        ..append(InputElement()
+          ..className = "form-control"
+          ..type = "color"
+          ..value = paddleColorHex
+          ..onChange.listen((Event event) {
+            InputElement input = event.target as InputElement;
+            paddleColorHex = input.value!;
+          })
+        )
+    );
+
     parentElement.append(parent);
     parentElement.append(HRElement()..style.color = "white");
   }
@@ -99,13 +117,15 @@ class PlayerConfig {
         keyDownName: humanMoveDown,
         paddleWidth: paddleWidth.toDouble(),
         paddleHeight: paddleHeight.toDouble(),
+        paddleColorHex: paddleColorHex,
         document: document
       );
     } else {
       return AIPlayer(
         ballRef: ball,
         paddleWidth: paddleWidth.toDouble(),
-        paddleHeight: paddleHeight.toDouble()
+        paddleHeight: paddleHeight.toDouble(),
+        paddleColorHex: paddleColorHex
       );
     }
   }

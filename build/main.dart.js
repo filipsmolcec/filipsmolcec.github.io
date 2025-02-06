@@ -3474,7 +3474,7 @@
       $.playerTwoConfig = A.PlayerConfig$("ArrowDown", "ArrowUp", "Player Two", t2._as(t1.querySelector(_s13_)));
     },
     updateGame() {
-      var t3, t4, t5, t6, t7, t8, t9, t10, t11, t12,
+      var t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, _s5_ = "white",
         t1 = Date.now(),
         t2 = $.$get$previousTime(),
         deltaTime = B.JSInt_methods._tdivFast$1(0 - t2._microsecond + 1000 * (t1 - t2._value), 1000) / 1000;
@@ -3503,39 +3503,59 @@
         t7.arc(t6.x, t6.y, t5, 0, 6.28, false);
         t7 = t4.getContext("2d");
         t7.toString;
-        B.CanvasRenderingContext2D_methods.set$fillStyle(t7, "white");
+        B.CanvasRenderingContext2D_methods.set$fillStyle(t7, _s5_);
         t4.getContext("2d").fill();
         t4.getContext("2d").closePath();
         t7 = t4.getContext("2d");
         t7.toString;
-        B.CanvasRenderingContext2D_methods.set$fillStyle(t7, "white");
+        B.CanvasRenderingContext2D_methods.set$fillStyle(t7, _s5_);
         t7 = t4.getContext("2d");
         t7.toString;
-        t8 = t2.paddleX;
+        t8 = type$.JSArray_num;
+        B.CanvasRenderingContext2D_methods.setLineDash$1(t7, A._setArrayType([5, 15], t8));
+        t4.getContext("2d").beginPath();
+        t4.getContext("2d").moveTo(t1.__Game_canvasWidth_A / 2, 0);
+        t4.getContext("2d").lineTo(t1.__Game_canvasWidth_A / 2, t1.__Game_canvasHeight_A);
+        t7 = t4.getContext("2d");
+        t7.toString;
+        B.CanvasRenderingContext2D_methods.set$strokeStyle(t7, _s5_);
+        t4.getContext("2d").stroke();
+        t7 = t4.getContext("2d");
+        t7.toString;
+        B.CanvasRenderingContext2D_methods.setLineDash$1(t7, A._setArrayType([], t8));
+        t8 = t4.getContext("2d");
+        t8.toString;
+        B.CanvasRenderingContext2D_methods.set$fillStyle(t8, t2.paddleColorHex);
+        t8 = t4.getContext("2d");
+        t8.toString;
+        t7 = t2.paddleX;
         t9 = t2.__Player_paddleY_A;
         t9 === $ && A.throwLateFieldNI("paddleY");
         t10 = t2.paddleWidth;
         t11 = t2.paddleHeight;
-        t7.fillRect(t8, t9, t10, t11);
+        t8.fillRect(t7, t9, t10, t11);
+        t9 = t4.getContext("2d");
+        t9.toString;
+        B.CanvasRenderingContext2D_methods.set$fillStyle(t9, t3.paddleColorHex);
         t4 = t4.getContext("2d");
         t4.toString;
         t9 = t3.paddleX;
-        t8 = t3.__Player_paddleY_A;
-        t8 === $ && A.throwLateFieldNI("paddleY");
-        t7 = t3.paddleHeight;
-        t4.fillRect(t9, t8, t3.paddleWidth, t7);
-        t8 = t6.x;
+        t7 = t3.__Player_paddleY_A;
+        t7 === $ && A.throwLateFieldNI("paddleY");
+        t8 = t3.paddleHeight;
+        t4.fillRect(t9, t7, t3.paddleWidth, t8);
+        t7 = t6.x;
         t9 = t6.speedX;
-        t8 += t9;
-        t6.x = t8;
+        t7 += t9;
+        t6.x = t7;
         t4 = t6.y;
         t12 = t6.speedY;
         t4 = t6.y = t4 + t12;
         if (t4 + t5 > t1.__Game_canvasHeight_A || t4 - t5 < 0)
           t6.speedY = -t12;
-        if (t8 - t5 < t2.paddleX + t10) {
-          t8 = t2.__Player_paddleY_A;
-          t4 = t4 > t8 && t4 < t8 + t11;
+        if (t7 - t5 < t2.paddleX + t10) {
+          t7 = t2.__Player_paddleY_A;
+          t4 = t4 > t7 && t4 < t7 + t11;
         } else
           t4 = false;
         if (t4) {
@@ -3544,8 +3564,8 @@
         }
         if (t6.x + t5 > t3.paddleX) {
           t4 = t6.y;
-          t8 = t3.__Player_paddleY_A;
-          t4 = t4 > t8 && t4 < t8 + t7;
+          t7 = t3.__Player_paddleY_A;
+          t4 = t4 > t7 && t4 < t7 + t8;
         } else
           t4 = false;
         if (t4) {
@@ -3568,7 +3588,7 @@
           t2.__Player_paddleY_A = t2.__Player_paddleY_A + 5;
         if (t3.goingUp && t3.__Player_paddleY_A > 0)
           t3.__Player_paddleY_A = t3.__Player_paddleY_A - 5;
-        if (t3.goingDown && t3.__Player_paddleY_A + t7 < t1.__Game_canvasHeight_A)
+        if (t3.goingDown && t3.__Player_paddleY_A + t8 < t1.__Game_canvasHeight_A)
           t3.__Player_paddleY_A = t3.__Player_paddleY_A + 5;
         A.print(t6.speedX);
       }
@@ -3579,14 +3599,14 @@
     },
     updateGame_closure: function updateGame_closure() {
     },
-    HumanPlayer$($document, keyDownName, keyUpName, paddleHeight, paddleWidth) {
-      var t1 = new A.HumanPlayer(keyUpName, keyDownName, $document, paddleWidth, paddleHeight);
-      t1.HumanPlayer$5$document$keyDownName$keyUpName$paddleHeight$paddleWidth($document, keyDownName, keyUpName, paddleHeight, paddleWidth);
+    HumanPlayer$($document, keyDownName, keyUpName, paddleColorHex, paddleHeight, paddleWidth) {
+      var t1 = new A.HumanPlayer(keyUpName, keyDownName, $document, paddleWidth, paddleHeight, paddleColorHex);
+      t1.HumanPlayer$6$document$keyDownName$keyUpName$paddleColorHex$paddleHeight$paddleWidth($document, keyDownName, keyUpName, paddleColorHex, paddleHeight, paddleWidth);
       return t1;
     },
     Player: function Player() {
     },
-    HumanPlayer: function HumanPlayer(t0, t1, t2, t3, t4) {
+    HumanPlayer: function HumanPlayer(t0, t1, t2, t3, t4, t5) {
       var _ = this;
       _.keyUpName = t0;
       _.keyDownName = t1;
@@ -3594,6 +3614,7 @@
       _.score = 0;
       _.paddleWidth = t3;
       _.paddleHeight = t4;
+      _.paddleColorHex = t5;
       _.paddleX = 0;
       _.__Player_paddleY_A = $;
       _.goingDown = _.goingUp = false;
@@ -3604,13 +3625,14 @@
     HumanPlayer_closure0: function HumanPlayer_closure0(t0) {
       this.$this = t0;
     },
-    AIPlayer: function AIPlayer(t0, t1, t2, t3) {
+    AIPlayer: function AIPlayer(t0, t1, t2, t3, t4) {
       var _ = this;
       _.ballRef = t0;
       _.random = t1;
       _.score = _.randInt = _.seconds = 0;
       _.paddleWidth = t2;
       _.paddleHeight = t3;
+      _.paddleColorHex = t4;
       _.paddleX = 0;
       _.__Player_paddleY_A = $;
       _.goingDown = _.goingUp = false;
@@ -3629,6 +3651,7 @@
       _.playerType = 0;
       _.paddleHeight = 100;
       _.paddleWidth = 10;
+      _.paddleColorHex = "#ffffff";
     },
     PlayerConfig_closure: function PlayerConfig_closure(t0) {
       this.$this = t0;
@@ -3637,6 +3660,9 @@
       this.$this = t0;
     },
     PlayerConfig_closure1: function PlayerConfig_closure1(t0) {
+      this.$this = t0;
+    },
+    PlayerConfig_closure2: function PlayerConfig_closure2(t0) {
       this.$this = t0;
     },
     printString(string) {
@@ -4602,6 +4628,23 @@
   A.CanvasRenderingContext2D.prototype = {
     set$fillStyle(receiver, value) {
       receiver.fillStyle = value;
+    },
+    set$strokeStyle(receiver, value) {
+      receiver.strokeStyle = value;
+    },
+    setLineDash$1(receiver, dash) {
+      var t1;
+      type$.List_num._as(dash);
+      t1 = !!receiver.setLineDash;
+      t1.toString;
+      if (t1)
+        receiver.setLineDash(dash);
+      else {
+        t1 = !!receiver.webkitLineDash;
+        t1.toString;
+        if (t1)
+          receiver.webkitLineDash = dash;
+      }
     }
   };
   A.CharacterData.prototype = {
@@ -4878,7 +4921,7 @@
   };
   A.Player.prototype = {};
   A.HumanPlayer.prototype = {
-    HumanPlayer$5$document$keyDownName$keyUpName$paddleHeight$paddleWidth($document, keyDownName, keyUpName, paddleHeight, paddleWidth) {
+    HumanPlayer$6$document$keyDownName$keyUpName$paddleColorHex$paddleHeight$paddleWidth($document, keyDownName, keyUpName, paddleColorHex, paddleHeight, paddleWidth) {
       var t1 = this.document,
         t2 = type$.nullable_void_Function_KeyboardEvent,
         t3 = type$.KeyboardEvent;
@@ -4976,6 +5019,16 @@
       A._EventStreamSubscription$(t3, _s6_, t5._as(new A.PlayerConfig_closure1(_this)), false, t4);
       t2.appendChild(t3).toString;
       $parent.appendChild(t2).toString;
+      t2 = t1.createElement("div");
+      t2.className = _s4_;
+      t2.appendChild(_this.createLabelForm$1("Paddle Color: ")).toString;
+      t3 = A.InputElement_InputElement();
+      t3.className = _s12_;
+      B.InputElement_methods.set$type(t3, "color");
+      B.InputElement_methods.set$value(t3, _this.paddleColorHex);
+      A._EventStreamSubscription$(t3, _s6_, t5._as(new A.PlayerConfig_closure2(_this)), false, t4);
+      t2.appendChild(t3).toString;
+      $parent.appendChild(t2).toString;
       t2 = _this.parentElement;
       t2.appendChild($parent).toString;
       t1 = t1.createElement("hr");
@@ -4999,13 +5052,14 @@
       var _this = this,
         t1 = _this.playerType,
         t2 = _this.paddleWidth,
-        t3 = _this.paddleHeight;
+        t3 = _this.paddleHeight,
+        t4 = _this.paddleColorHex;
       if (t1 === 0) {
         t1 = document;
         t1.toString;
-        return A.HumanPlayer$(t1, _this.humanMoveDown, _this.humanMoveUp, t3, t2);
+        return A.HumanPlayer$(t1, _this.humanMoveDown, _this.humanMoveUp, t4, t3, t2);
       } else
-        return new A.AIPlayer(ball, B.C__JSRandom, t2, t3);
+        return new A.AIPlayer(ball, B.C__JSRandom, t2, t3, t4);
     }
   };
   A.PlayerConfig_closure.prototype = {
@@ -5029,6 +5083,14 @@
       var t1 = type$.InputElement._as(J.get$target$x($event)).value;
       t1.toString;
       this.$this.paddleWidth = A.int_parse(t1);
+    },
+    $signature: 1
+  };
+  A.PlayerConfig_closure2.prototype = {
+    call$1($event) {
+      var t1 = type$.InputElement._as(J.get$target$x($event)).value;
+      t1.toString;
+      this.$this.paddleColorHex = t1;
     },
     $signature: 1
   };
@@ -5059,7 +5121,7 @@
     _inheritMany(J.JSNumber, [J.JSInt, J.JSNumNotInt]);
     _inheritMany(A.Error, [A.LateError, A.TypeError, A.JsNoSuchMethodError, A.UnknownJsTypeError, A._CyclicInitializationError, A.RuntimeError, A._Error, A.AssertionError, A.ArgumentError, A.UnsupportedError, A.UnimplementedError, A.StateError, A.ConcurrentModificationError]);
     _inherit(A.NullError, A.TypeError);
-    _inheritMany(A.Closure, [A.Closure0Args, A.Closure2Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A._AsyncRun__initializeScheduleImmediate_internalCallback, A._AsyncRun__initializeScheduleImmediate_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure, A.Stream_length_closure, A._RootZone_bindUnaryCallbackGuarded_closure, A.Window_animationFrame_closure, A._EventStreamSubscription_closure, A.main_closure, A.main_closure0, A.updateGame_closure, A.HumanPlayer_closure, A.HumanPlayer_closure0, A.PlayerConfig_closure, A.PlayerConfig_closure0, A.PlayerConfig_closure1]);
+    _inheritMany(A.Closure, [A.Closure0Args, A.Closure2Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A._AsyncRun__initializeScheduleImmediate_internalCallback, A._AsyncRun__initializeScheduleImmediate_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure, A.Stream_length_closure, A._RootZone_bindUnaryCallbackGuarded_closure, A.Window_animationFrame_closure, A._EventStreamSubscription_closure, A.main_closure, A.main_closure0, A.updateGame_closure, A.HumanPlayer_closure, A.HumanPlayer_closure0, A.PlayerConfig_closure, A.PlayerConfig_closure0, A.PlayerConfig_closure1, A.PlayerConfig_closure2]);
     _inheritMany(A.TearOffClosure, [A.StaticClosure, A.BoundClosure]);
     _inherit(A.initHooks_closure0, A.Closure2Args);
     _inherit(A._TypeError, A._Error);
@@ -5106,10 +5168,12 @@
       InputElement: findType("InputElement"),
       JSArray_String: findType("JSArray<String>"),
       JSArray_dynamic: findType("JSArray<@>"),
+      JSArray_num: findType("JSArray<num>"),
       JSNull: findType("JSNull"),
       JavaScriptFunction: findType("JavaScriptFunction"),
       KeyboardEvent: findType("KeyboardEvent"),
       List_dynamic: findType("List<@>"),
+      List_num: findType("List<num>"),
       MouseEvent: findType("MouseEvent"),
       Null: findType("Null"),
       Object: findType("Object"),

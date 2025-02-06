@@ -62,7 +62,17 @@ class Game{
     ctx.closePath();
 
     ctx.fillStyle = 'white';
+    ctx.setLineDash([5, 15]);
+    ctx.beginPath();
+    ctx.moveTo(canvasWidth / 2, 0);
+    ctx.lineTo(canvasWidth / 2, canvasHeight);
+    ctx.strokeStyle = 'white';
+    ctx.stroke();
+    ctx.setLineDash([]); // Reset to solid line for other drawings
+
+    ctx.fillStyle = playerOne.paddleColorHex;
     ctx.fillRect(playerOne.paddleX, playerOne.paddleY, playerOne.paddleWidth, playerOne.paddleHeight); // Player 1
+    ctx.fillStyle = playerTwo.paddleColorHex;
     ctx.fillRect(playerTwo.paddleX, playerTwo.paddleY, playerTwo.paddleWidth, playerTwo.paddleHeight); // Player 2
 
     ball.x += ball.speedX;
