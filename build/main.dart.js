@@ -3463,22 +3463,31 @@
       _.__Game_canvasHeight_A = _.__Game_canvasWidth_A = $;
     },
     main() {
-      var _s13_ = "#playerConfig",
+      var t3,
+        _s13_ = "#playerConfig",
         t1 = document,
-        t2 = type$._ElementEventStreamImpl_MouseEvent;
-      A._EventStreamSubscription$(type$.ButtonElement._as(t1.querySelector("#startButton")), "click", t2._eval$1("~(1)?")._as(new A.main_closure()), false, t2._precomputed1);
+        t2 = type$.ButtonElement,
+        startButton = t2._as(t1.querySelector("#startButton")),
+        pauseButton = t2._as(t1.querySelector("#pauseButton"));
+      t2 = type$._ElementEventStreamImpl_MouseEvent;
+      t3 = t2._eval$1("~(1)?");
+      t2 = t2._precomputed1;
+      A._EventStreamSubscription$(startButton, "click", t3._as(new A.main_closure()), false, t2);
+      A._EventStreamSubscription$(pauseButton, "click", t3._as(new A.main_closure0()), false, t2);
       t2 = window;
       t2.toString;
-      A._EventStreamSubscription$(t2, "resize", type$.nullable_void_Function_Event._as(new A.main_closure0()), false, type$.Event);
+      A._EventStreamSubscription$(t2, "resize", type$.nullable_void_Function_Event._as(new A.main_closure1()), false, type$.Event);
       t2 = type$.HtmlElement;
       $.playerOneConfig = A.PlayerConfig$("s", "w", "Player One", t2._as(t1.querySelector(_s13_)));
       $.playerTwoConfig = A.PlayerConfig$("ArrowDown", "ArrowUp", "Player Two", t2._as(t1.querySelector(_s13_)));
     },
     updateGame() {
-      var t3, t4, t5, t6, t7, t8, t9, t10, t11, t12,
-        t1 = Date.now(),
-        t2 = $.$get$previousTime(),
-        deltaTime = B.JSInt_methods._tdivFast$1(0 - t2._microsecond + 1000 * (t1 - t2._value), 1000) / 1000;
+      var t1, t2, deltaTime, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12;
+      if (!$.isRunning)
+        return;
+      t1 = Date.now();
+      t2 = $.$get$previousTime();
+      deltaTime = B.JSInt_methods._tdivFast$1(0 - t2._microsecond + 1000 * (t1 - t2._value), 1000) / 1000;
       $.previousTime = new A.DateTime(t1, 0, false);
       t1 = window;
       t1.toString;
@@ -3597,6 +3606,8 @@
     main_closure: function main_closure() {
     },
     main_closure0: function main_closure0() {
+    },
+    main_closure1: function main_closure1() {
     },
     updateGame_closure: function updateGame_closure() {
     },
@@ -3973,19 +3984,19 @@
     call$1(o) {
       return this.getTag(o);
     },
-    $signature: 5
+    $signature: 6
   };
   A.initHooks_closure0.prototype = {
     call$2(o, tag) {
       return this.getUnknownTag(o, tag);
     },
-    $signature: 6
+    $signature: 7
   };
   A.initHooks_closure1.prototype = {
     call$1(tag) {
       return this.prototypeForTag(A._asString(tag));
     },
-    $signature: 7
+    $signature: 8
   };
   A.Rti.prototype = {
     _eval$1(recipe) {
@@ -4014,7 +4025,7 @@
       t1.storedCallback = null;
       f.call$0();
     },
-    $signature: 8
+    $signature: 9
   };
   A._AsyncRun__initializeScheduleImmediate_closure.prototype = {
     call$1(callback) {
@@ -4024,7 +4035,7 @@
       t2 = this.span;
       t1.firstChild ? t1.removeChild(t2) : t1.appendChild(t2);
     },
-    $signature: 9
+    $signature: 10
   };
   A._AsyncRun__scheduleImmediateJsOverride_internalCallback.prototype = {
     call$0() {
@@ -4269,7 +4280,7 @@
     call$1(_) {
       return this.originalSource;
     },
-    $signature: 10
+    $signature: 11
   };
   A._Future__propagateToListeners_handleValueCallback.prototype = {
     call$0() {
@@ -4782,7 +4793,7 @@
         A.throwExpression(new A.StateError("Future already completed"));
       t1._complete$1(t2._eval$1("1/")._as(time));
     },
-    $signature: 11
+    $signature: 12
   };
   A.EventStreamProvider.prototype = {};
   A._EventStream.prototype = {};
@@ -4864,7 +4875,6 @@
         t1 = type$.MouseEvent._as($event).button;
       t1.toString;
       if (t1 === 0) {
-        $.runningGameInstance = null;
         t1 = document;
         t2 = type$.InputElement;
         t3 = t2._as(t1.querySelector("#ballSpeed")).valueAsNumber;
@@ -4900,9 +4910,23 @@
         }
       }
     },
-    $signature: 12
+    $signature: 4
   };
   A.main_closure0.prototype = {
+    call$1($event) {
+      var t1 = type$.MouseEvent._as($event).button;
+      t1.toString;
+      if (t1 === 0)
+        if ($.isRunning)
+          $.isRunning = false;
+        else {
+          $.isRunning = true;
+          A.updateGame();
+        }
+    },
+    $signature: 4
+  };
+  A.main_closure1.prototype = {
     call$1(_) {
       var t2, t3,
         t1 = $.runningGameInstance;
@@ -4944,7 +4968,7 @@
       else if (t1 === t2.keyDownName)
         t2.goingDown = false;
     },
-    $signature: 4
+    $signature: 5
   };
   A.HumanPlayer_closure0.prototype = {
     call$1($event) {
@@ -4955,7 +4979,7 @@
       else if (t1 === t2.keyDownName)
         t2.goingDown = true;
     },
-    $signature: 4
+    $signature: 5
   };
   A.AIPlayer.prototype = {
     update$1(deltaTime) {
@@ -5125,7 +5149,7 @@
     _inheritMany(J.JSNumber, [J.JSInt, J.JSNumNotInt]);
     _inheritMany(A.Error, [A.LateError, A.TypeError, A.JsNoSuchMethodError, A.UnknownJsTypeError, A._CyclicInitializationError, A.RuntimeError, A._Error, A.AssertionError, A.ArgumentError, A.UnsupportedError, A.UnimplementedError, A.StateError, A.ConcurrentModificationError]);
     _inherit(A.NullError, A.TypeError);
-    _inheritMany(A.Closure, [A.Closure0Args, A.Closure2Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A._AsyncRun__initializeScheduleImmediate_internalCallback, A._AsyncRun__initializeScheduleImmediate_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure, A.Stream_length_closure, A._RootZone_bindUnaryCallbackGuarded_closure, A.Window_animationFrame_closure, A._EventStreamSubscription_closure, A.main_closure, A.main_closure0, A.updateGame_closure, A.HumanPlayer_closure, A.HumanPlayer_closure0, A.PlayerConfig_closure, A.PlayerConfig_closure0, A.PlayerConfig_closure1, A.PlayerConfig_closure2]);
+    _inheritMany(A.Closure, [A.Closure0Args, A.Closure2Args, A.TearOffClosure, A.initHooks_closure, A.initHooks_closure1, A._AsyncRun__initializeScheduleImmediate_internalCallback, A._AsyncRun__initializeScheduleImmediate_closure, A._Future__propagateToListeners_handleWhenCompleteCallback_closure, A.Stream_length_closure, A._RootZone_bindUnaryCallbackGuarded_closure, A.Window_animationFrame_closure, A._EventStreamSubscription_closure, A.main_closure, A.main_closure0, A.main_closure1, A.updateGame_closure, A.HumanPlayer_closure, A.HumanPlayer_closure0, A.PlayerConfig_closure, A.PlayerConfig_closure0, A.PlayerConfig_closure1, A.PlayerConfig_closure2]);
     _inheritMany(A.TearOffClosure, [A.StaticClosure, A.BoundClosure]);
     _inherit(A.initHooks_closure0, A.Closure2Args);
     _inherit(A._TypeError, A._Error);
@@ -5150,7 +5174,7 @@
     typeUniverse: {eC: new Map(), tR: {}, eT: {}, tPV: {}, sEA: []},
     mangledGlobalNames: {int: "int", double: "double", num: "num", String: "String", bool: "bool", Null: "Null", List: "List", Object: "Object", Map: "Map"},
     mangledNames: {},
-    types: ["~()", "~(Event)", "~(~())", "Null()", "~(KeyboardEvent)", "@(@)", "@(@,String)", "@(String)", "Null(@)", "Null(~())", "_Future<@>(@)", "~(num)", "~(MouseEvent)", "Null(num)"],
+    types: ["~()", "~(Event)", "~(~())", "Null()", "~(MouseEvent)", "~(KeyboardEvent)", "@(@)", "@(@,String)", "@(String)", "Null(@)", "Null(~())", "_Future<@>(@)", "~(num)", "Null(num)"],
     interceptorsByTag: null,
     leafTags: null,
     arrayRti: Symbol("$ti")

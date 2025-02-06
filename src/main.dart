@@ -14,9 +14,19 @@ PlayerConfig? playerTwoConfig;
 
 void main() {
   var startButton = querySelector("#startButton") as ButtonElement;
+  var pauseButton = querySelector("#pauseButton") as ButtonElement;
   startButton.onClick.listen((MouseEvent event) {
     if (event.button == 0) {
-      startGame();
+      startNewGame();
+    }
+  });
+  pauseButton.onClick.listen((MouseEvent event) {
+    if (event.button == 0) {
+      if (isRunning) {
+        pauseGame();
+      } else {
+        unpauseGame();
+      }
     }
   });
   window.onResize.listen((_) {
@@ -36,8 +46,7 @@ void main() {
   );
 }
 
-void startGame() {
-  runningGameInstance = null;
+void startNewGame() {
   int ballSpeed = (querySelector("#ballSpeed") as InputElement).valueAsNumber!.toInt();
   String ballColorHex = (querySelector("#ballColor") as InputElement).value!;
   Ball ball = Ball(
@@ -66,7 +75,19 @@ void startGame() {
   }
 }
 
+void unpauseGame() {
+  isRunning = true;
+  updateGame();
+}
+
+void pauseGame() {
+  isRunning = false;
+}
+
 void updateGame() {
+  if (!isRunning) {
+    return;
+  }
   DateTime currentTime = DateTime.now();
   double deltaTime = currentTime.difference(previousTime).inMilliseconds / 1000.0;
   previousTime = currentTime;
