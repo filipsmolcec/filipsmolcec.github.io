@@ -39,7 +39,12 @@ void main() {
 void startGame() {
   runningGameInstance = null;
   int ballSpeed = (querySelector("#ballSpeed") as InputElement).valueAsNumber!.toInt();
-  Ball ball = Ball(initialSpeedX: ballSpeed as double, initialSpeedY: ballSpeed as double, radius: 10);
+  Ball ball = Ball(
+    initialSpeedX: ballSpeed as double, 
+    initialSpeedY: ballSpeed as double, 
+    radius: 10,
+    increaseSpeedFactor: 0.25
+  );
 
   print(playerOneConfig!.playerType);
   Player playerOne = playerOneConfig!.getPlayer(ball);

@@ -11,7 +11,7 @@ class Game{
   final int padding = 20;
   final Element playerOneScoreElement = querySelector('#playerOneScore')!;
   final Element playerTwoScoreElement = querySelector('#playerTwoScore')!;
-  
+
   late int canvasWidth;
   late int canvasHeight;
 
@@ -76,11 +76,13 @@ class Game{
         ball.y > playerOne.paddleY &&
         ball.y < playerOne.paddleY + playerOne.paddleHeight) {
       ball.speedX = -ball.speedX;
+      ball.increaseSpeed();
     }
     if (ball.x + ball.radius > playerTwo.paddleX &&
         ball.y > playerTwo.paddleY &&
         ball.y < playerTwo.paddleY + playerTwo.paddleHeight) {
       ball.speedX = -ball.speedX;
+      ball.increaseSpeed();
     }
 
     if (ball.x - ball.radius < 0) {
@@ -109,5 +111,7 @@ class Game{
     if (playerTwo.goingDown && playerTwo.paddleY + playerTwo.paddleHeight < canvasHeight) {
       playerTwo.paddleY += 5;
     }
+
+    print(ball.speedX);
   }
 }

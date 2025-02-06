@@ -3238,6 +3238,9 @@
       t1 = buffer._contents;
       return t1.charCodeAt(0) == 0 ? t1 : t1;
     },
+    print(object) {
+      A.printString(A.S(object));
+    },
     DateTime: function DateTime(t0, t1, t2) {
       this._value = t0;
       this._microsecond = t1;
@@ -3440,11 +3443,12 @@
     },
     _JSRandom: function _JSRandom() {
     },
-    Ball: function Ball(t0, t1, t2) {
+    Ball: function Ball(t0, t1, t2, t3) {
       var _ = this;
       _.radius = t0;
       _.initialSpeedX = t1;
       _.initialSpeedY = t2;
+      _.increaseSpeedFactor = t3;
       _.y = _.x = _.speedY = _.speedX = 0;
     },
     Game: function Game(t0, t1, t2, t3, t4, t5) {
@@ -3522,28 +3526,33 @@
         t4.fillRect(t9, t8, t3.paddleWidth, t7);
         t8 = t6.x;
         t9 = t6.speedX;
-        t8 = t6.x = t8 + t9;
+        t8 += t9;
+        t6.x = t8;
         t4 = t6.y;
         t12 = t6.speedY;
         t4 = t6.y = t4 + t12;
         if (t4 + t5 > t1.__Game_canvasHeight_A || t4 - t5 < 0)
           t6.speedY = -t12;
-        t12 = t8 - t5;
-        if (t12 < t2.paddleX + t10) {
-          t10 = t2.__Player_paddleY_A;
-          t10 = t4 > t10 && t4 < t10 + t11;
+        if (t8 - t5 < t2.paddleX + t10) {
+          t8 = t2.__Player_paddleY_A;
+          t4 = t4 > t8 && t4 < t8 + t11;
         } else
-          t10 = false;
-        if (t10)
-          t9 = t6.speedX = -t9;
-        if (t8 + t5 > t3.paddleX) {
+          t4 = false;
+        if (t4) {
+          t6.speedX = -t9;
+          t6.increaseSpeed$0();
+        }
+        if (t6.x + t5 > t3.paddleX) {
+          t4 = t6.y;
           t8 = t3.__Player_paddleY_A;
           t4 = t4 > t8 && t4 < t8 + t7;
         } else
           t4 = false;
-        if (t4)
-          t6.speedX = -t9;
-        if (t12 < 0) {
+        if (t4) {
+          t6.speedX = -t6.speedX;
+          t6.increaseSpeed$0();
+        }
+        if (t6.x - t5 < 0) {
           ++t3.score;
           t1.updateScores$0();
           t1.resetBall$0();
@@ -3561,6 +3570,7 @@
           t3.__Player_paddleY_A = t3.__Player_paddleY_A - 5;
         if (t3.goingDown && t3.__Player_paddleY_A + t7 < t1.__Game_canvasHeight_A)
           t3.__Player_paddleY_A = t3.__Player_paddleY_A + 5;
+        A.print(t6.speedX);
       }
     },
     main_closure: function main_closure() {
@@ -4757,7 +4767,16 @@
     },
     $isRandom: 1
   };
-  A.Ball.prototype = {};
+  A.Ball.prototype = {
+    increaseSpeed$0() {
+      var _this = this,
+        t1 = _this.speedX,
+        t2 = _this.increaseSpeedFactor;
+      _this.speedX = t1 < 0 ? t1 - t2 : t1 + t2;
+      t1 = _this.speedY;
+      _this.speedY = t1 < 0 ? t1 - t2 : t1 + t2;
+    }
+  };
   A.Game.prototype = {
     resetBall$0() {
       var t1 = this.ball,
@@ -4806,9 +4825,9 @@
         t2 = type$.InputElement._as(t1.querySelector("#ballSpeed")).valueAsNumber;
         t2.toString;
         ballSpeed = B.JSNumber_methods.toInt$0(t2);
-        ball = new A.Ball(10, ballSpeed, ballSpeed);
+        ball = new A.Ball(10, ballSpeed, ballSpeed, 0.25);
         ball.speedY = ball.speedX = ballSpeed;
-        A.printString("" + $.playerOneConfig.playerType);
+        A.print($.playerOneConfig.playerType);
         playerOne = $.playerOneConfig.getPlayer$1(ball);
         playerTwo = $.playerTwoConfig.getPlayer$1(ball);
         t2 = $.$get$canvas();
