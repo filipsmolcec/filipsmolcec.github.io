@@ -23,6 +23,11 @@
         How to Play
       </button>
     </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="statisticsTab" data-bs-toggle="tab" data-bs-target="#statistics" type="button" role="tab" aria-controls="statistics" aria-selected="false">
+        Statistics
+      </button>
+    </li>
   </ul>
   <div class="tab-content" id="configTabsContent">
     <div class="tab-pane show active" id="gameConfig" role="tabpanel" aria-labelledby="gameConfigTab">
@@ -43,11 +48,18 @@
         </script>
       </div>
     </div>
+
     <div class="tab-pane" id="howToPlay" role="tabpanel" aria-labelledby="howToPlayTab">
       <h3 style="color: white">How to Play</h3>
       <p style="color: white">Player 1: W and S keys.</p>
       <p style="color: white">Player 2: Arrow Up and Arrow Down keys.</p>
       <p style="color: white">Press the play button at the top right to start the game.</p>
+    </div>
+
+    <div class="tab-pane" id="statistics" role="tabpanel" aria-labelledby="howToPlayTab">
+      <h3 style="color: white">Statistics</h3>
+      <p style="color: white">Player 1: <span id="playerOneStats">0</span> wins.</p>
+      <p style="color: white">Player 2: <span id="playerTwoStats">0</span> wins.</p>
     </div>
   </div>
 </div>

@@ -44,6 +44,7 @@ void main() {
     humanMoveUp: "ArrowUp", 
     humanMoveDown: "ArrowDown"
   );
+  loadCookies();
 }
 
 void startNewGame() {
@@ -57,7 +58,6 @@ void startNewGame() {
     colorHex: ballColorHex
   );
 
-  print(playerOneConfig!.playerType);
   Player playerOne = playerOneConfig!.getPlayer(ball);
   Player playerTwo = playerTwoConfig!.getPlayer(ball);
 
@@ -65,8 +65,16 @@ void startNewGame() {
     ball: ball,
     playerOne: playerOne,
     playerTwo: playerTwo,
-    canvas: canvas
+    canvas: canvas,
+    onPlayerScore: (playerWhoScored) {
+      addScoreCookie(
+        playerOneScoreAdd: playerWhoScored == playerOne ? 1 : 0,
+        playerTwoScoreAdd: playerWhoScored == playerTwo ? 1 : 0
+      );
+      loadCookies();
+    }
   );
+  
   previousTime = DateTime.now();
   runningGameInstance?.resizeGame(window.innerWidth!, window.innerHeight!);
   if (!isRunning) {
@@ -95,4 +103,36 @@ void updateGame() {
     updateGame();
   });
   runningGameInstance?.update(deltaTime);
+}
+
+int getScoreFromCookie(String key) {
+  List<String> cookies = document.cookie!.split(";");
+  for (String cookie in cookies) {
+    List<String> cookieParts = cookie.split("=");
+    if (cookieParts[0].trim() == key) {
+      return int.parse(cookieParts[1]);
+    }
+  }
+  return 0;
+}
+
+void addScoreCookie({required int playerOneScoreAdd, required int playerTwoScoreAdd}) {
+  if (runningGameInstance != null) {
+    int playerOneScore = getScoreFromCookie("playerOneScore") + playerOneScoreAdd;
+    int playerTwoScore = getScoreFromCookie("playerTwoScore") + playerTwoScoreAdd;
+    document.cookie = "playerOneScore=$playerOneScore; path=/";
+    document.cookie = "playerTwoScore=$playerTwoScore; path=/";
+  }
+}
+
+void loadCookies() {
+  List<String> cookies = document.cookie!.split(";");
+  for (String cookie in cookies) {
+    List<String> cookieParts = cookie.split("=");
+    if (cookieParts[0].trim() == "playerOneScore") {
+      (querySelector("#playerOneStats") as SpanElement).text = cookieParts[1];
+    } else if (cookieParts[0].trim() == "playerTwoScore") {
+      (querySelector("#playerTwoStats") as SpanElement).text = cookieParts[1];
+    }
+  }
 }

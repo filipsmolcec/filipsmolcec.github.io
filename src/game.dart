@@ -7,6 +7,7 @@ class Game{
   final Player playerTwo;
   final Ball ball;
   final CanvasElement canvas;
+  final Function(Player) onPlayerScore;
 
   final int padding = 20;
   final Element playerOneScoreElement = querySelector('#playerOneScore')!;
@@ -17,15 +18,22 @@ class Game{
 
   CanvasRenderingContext2D get ctx => canvas.context2D;
   
-  Game({required this.playerOne, required this.playerTwo, required this.ball, required this.canvas}) {
+  Game({
+    required this.playerOne,
+    required this.playerTwo,
+    required this.ball,
+    required this.canvas,
+    required this.onPlayerScore
+  }) {
     updateScores();
   }
 
-  void resetBall() {
+  void resetGame(Player playerWhoScored) {
     ball.x = canvasWidth / 2;
     ball.y = canvasHeight / 2;
     ball.speedX = ball.initialSpeedX;
     ball.speedY = ball.initialSpeedY;
+    onPlayerScore(playerWhoScored);
   }
 
   void updateScores() {
@@ -98,12 +106,12 @@ class Game{
     if (ball.x - ball.radius < 0) {
       playerTwo.score++;
       updateScores();
-      resetBall();
+      resetGame(playerTwo);
     }
     if (ball.x + ball.radius > canvasWidth) {
       playerOne.score++;
       updateScores();
-      resetBall();
+      resetGame(playerOne);
     }
 
     // Player 1
@@ -121,7 +129,5 @@ class Game{
     if (playerTwo.goingDown && playerTwo.paddleY + playerTwo.paddleHeight < canvasHeight) {
       playerTwo.paddleY += 5;
     }
-
-    print(ball.speedX);
   }
 }
