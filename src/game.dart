@@ -24,18 +24,19 @@ class Game{
   void resetBall() {
     ball.x = canvasWidth / 2;
     ball.y = canvasHeight / 2;
-    ball.speedX = 2;
-    ball.speedY = 2;
+    ball.speedX = ball.initialSpeedX;
+    ball.speedY = ball.initialSpeedY;
   }
 
   void updateScores() {
-    playerOneScoreElement.text = 'Player 1: ${playerOne.score}';
-    playerTwoScoreElement.text = 'Player 2: ${playerTwo.score}';
+    playerOneScoreElement.text = '${playerOne.score}';
+    playerTwoScoreElement.text = '${playerTwo.score}';
   }
 
   void resizeGame(int width, int height) {
-    canvasWidth = width - 2 * padding;
-    canvasHeight = height - 100 - 2 * padding;
+    canvasWidth = width;
+    canvasHeight = height;
+    
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
 

@@ -6,6 +6,7 @@ import 'player.dart';
 Game? runningGameInstance;
 DateTime previousTime = DateTime.now();
 bool isRunning = false;
+CanvasElement canvas = querySelector("#gameCanvas") as CanvasElement;
 
 void main() {
   var startButton = querySelector("#startButton") as ButtonElement;
@@ -21,40 +22,46 @@ void main() {
 
 void startGame() {
   runningGameInstance = null;
-  Ball ball = Ball(speedX: 2, speedY: 2, radius: 10);
+  int ballSpeed = (querySelector("#ballSpeed") as InputElement).valueAsNumber!.toInt();
+  int playerOneHeight = (querySelector("#playerOnePaddleHeight") as InputElement).valueAsNumber!.toInt();
+  int playerOneWidth = (querySelector("#playerOnePaddleWidth") as InputElement).valueAsNumber!.toInt();
+  int playerTwoHeight = (querySelector("#playerTwoPaddleHeight") as InputElement).valueAsNumber!.toInt();
+  int playerTwoWidth = (querySelector("#playerTwoPaddleWidth") as InputElement).valueAsNumber!.toInt();
+  Ball ball = Ball(initialSpeedX: ballSpeed as double, initialSpeedY: ballSpeed as double, radius: 10);
+
   Player playerOne = (querySelector("#playerOneSelect") as SelectElement)
     .selectedIndex == 0 
     ? HumanPlayer(
       keyUpName: 'w', 
-      keyDownName: 's',
-      paddleWidth: 10,
-      paddleHeight: 100, 
+      keyDownName: 's', 
+      paddleWidth: playerOneWidth as double,
+      paddleHeight: playerOneHeight as double, 
       document: document
     )
     : AIPlayer(
       ballRef: ball,
-      paddleWidth: 10,
-      paddleHeight: 100
+      paddleWidth: playerOneWidth as double,
+      paddleHeight: playerOneHeight as double,
     );
   Player playerTwo = (querySelector("#playerTwoSelect") as SelectElement)
     .selectedIndex == 0 
     ? HumanPlayer(
       keyUpName: 'ArrowUp', 
       keyDownName: 'ArrowDown',
-      paddleWidth: 10,
-      paddleHeight: 100,
+      paddleWidth: playerTwoWidth as double,
+      paddleHeight: playerTwoHeight as double,
       document: document
     ) 
     : AIPlayer(
       ballRef: ball,
-      paddleWidth: 10,
-      paddleHeight: 100
+      paddleWidth: playerTwoWidth as double,
+      paddleHeight: playerTwoHeight as double
     );
   runningGameInstance = Game(
     ball: ball,
     playerOne: playerOne,
     playerTwo: playerTwo,
-    canvas: querySelector("#gameCanvas") as CanvasElement
+    canvas: canvas
   );
   previousTime = DateTime.now();
   runningGameInstance?.resizeGame(window.innerWidth!, window.innerHeight!);
