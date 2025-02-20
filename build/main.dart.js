@@ -3965,7 +3965,7 @@
     },
     getMaps(canvas) {
       var t1 = type$.JSArray_Obstacle;
-      return A.LinkedHashMap_LinkedHashMap$_literal(["classic", new A.GameMap("Classic", A._setArrayType([], t1)), "double_slit", new A.GameMap("Double Slit", A._setArrayType([new A.Obstacle(new A.getMaps_closure(canvas), new A.getMaps_closure0(canvas), new A.getMaps_closure1(), new A.getMaps_closure2()), new A.Obstacle(new A.getMaps_closure3(canvas), new A.getMaps_closure4(canvas), new A.getMaps_closure5(), new A.getMaps_closure6())], t1)), "zig_zag", new A.GameMap("Zig Zag", A._setArrayType([new A.Obstacle(new A.getMaps_closure7(canvas), new A.getMaps_closure8(canvas), new A.getMaps_closure9(), new A.getMaps_closure10()), new A.Obstacle(new A.getMaps_closure11(canvas), new A.getMaps_closure12(canvas), new A.getMaps_closure13(), new A.getMaps_closure14()), new A.Obstacle(new A.getMaps_closure15(canvas), new A.getMaps_closure16(canvas), new A.getMaps_closure17(), new A.getMaps_closure18())], t1))], type$.String, type$.GameMap);
+      return A.LinkedHashMap_LinkedHashMap$_literal(["classic", new A.GameMap("Classic", A._setArrayType([], t1)), "pipes", new A.GameMap("Pipes", A._setArrayType([new A.Obstacle(new A.getMaps_closure(canvas), new A.getMaps_closure0(canvas), new A.getMaps_closure1(), new A.getMaps_closure2(canvas)), new A.Obstacle(new A.getMaps_closure3(canvas), new A.getMaps_closure4(canvas), new A.getMaps_closure5(), new A.getMaps_closure6(canvas))], t1)), "zig_zag", new A.GameMap("Zig Zag", A._setArrayType([new A.Obstacle(new A.getMaps_closure7(canvas), new A.getMaps_closure8(canvas), new A.getMaps_closure9(), new A.getMaps_closure10()), new A.Obstacle(new A.getMaps_closure11(canvas), new A.getMaps_closure12(canvas), new A.getMaps_closure13(), new A.getMaps_closure14()), new A.Obstacle(new A.getMaps_closure15(canvas), new A.getMaps_closure16(canvas), new A.getMaps_closure17(), new A.getMaps_closure18())], t1)), "stairs", new A.GameMap("Stairs", A._setArrayType([new A.Obstacle(new A.getMaps_closure19(canvas), new A.getMaps_closure20(canvas), new A.getMaps_closure21(), new A.getMaps_closure22()), new A.Obstacle(new A.getMaps_closure23(canvas), new A.getMaps_closure24(canvas), new A.getMaps_closure25(), new A.getMaps_closure26()), new A.Obstacle(new A.getMaps_closure27(canvas), new A.getMaps_closure28(canvas), new A.getMaps_closure29(), new A.getMaps_closure30()), new A.Obstacle(new A.getMaps_closure31(canvas), new A.getMaps_closure32(canvas), new A.getMaps_closure33(), new A.getMaps_closure34())], t1))], type$.String, type$.GameMap);
     },
     getMaps_closure: function getMaps_closure(t0) {
       this.canvas = t0;
@@ -3975,7 +3975,8 @@
     },
     getMaps_closure1: function getMaps_closure1() {
     },
-    getMaps_closure2: function getMaps_closure2() {
+    getMaps_closure2: function getMaps_closure2(t0) {
+      this.canvas = t0;
     },
     getMaps_closure3: function getMaps_closure3(t0) {
       this.canvas = t0;
@@ -3985,7 +3986,8 @@
     },
     getMaps_closure5: function getMaps_closure5() {
     },
-    getMaps_closure6: function getMaps_closure6() {
+    getMaps_closure6: function getMaps_closure6(t0) {
+      this.canvas = t0;
     },
     getMaps_closure7: function getMaps_closure7(t0) {
       this.canvas = t0;
@@ -4016,6 +4018,46 @@
     getMaps_closure17: function getMaps_closure17() {
     },
     getMaps_closure18: function getMaps_closure18() {
+    },
+    getMaps_closure19: function getMaps_closure19(t0) {
+      this.canvas = t0;
+    },
+    getMaps_closure20: function getMaps_closure20(t0) {
+      this.canvas = t0;
+    },
+    getMaps_closure21: function getMaps_closure21() {
+    },
+    getMaps_closure22: function getMaps_closure22() {
+    },
+    getMaps_closure23: function getMaps_closure23(t0) {
+      this.canvas = t0;
+    },
+    getMaps_closure24: function getMaps_closure24(t0) {
+      this.canvas = t0;
+    },
+    getMaps_closure25: function getMaps_closure25() {
+    },
+    getMaps_closure26: function getMaps_closure26() {
+    },
+    getMaps_closure27: function getMaps_closure27(t0) {
+      this.canvas = t0;
+    },
+    getMaps_closure28: function getMaps_closure28(t0) {
+      this.canvas = t0;
+    },
+    getMaps_closure29: function getMaps_closure29() {
+    },
+    getMaps_closure30: function getMaps_closure30() {
+    },
+    getMaps_closure31: function getMaps_closure31(t0) {
+      this.canvas = t0;
+    },
+    getMaps_closure32: function getMaps_closure32(t0) {
+      this.canvas = t0;
+    },
+    getMaps_closure33: function getMaps_closure33() {
+    },
+    getMaps_closure34: function getMaps_closure34() {
     },
     main() {
       var t3,
@@ -4888,7 +4930,7 @@
     call$0() {
       this.callback.call$0();
     },
-    $signature: 0
+    $signature: 2
   };
   A.AsyncError.prototype = {
     toString$0(_) {
@@ -5048,19 +5090,19 @@
     call$0() {
       A._Future__propagateToListeners(this.$this, this.listener);
     },
-    $signature: 0
+    $signature: 2
   };
   A._Future__prependListeners_closure.prototype = {
     call$0() {
       A._Future__propagateToListeners(this.$this, this._box_0.listeners);
     },
-    $signature: 0
+    $signature: 2
   };
   A._Future__asyncCompleteError_closure.prototype = {
     call$0() {
       this.$this._completeError$2(this.error, this.stackTrace);
     },
-    $signature: 0
+    $signature: 2
   };
   A._Future__propagateToListeners_handleWhenCompleteCallback.prototype = {
     call$0() {
@@ -5101,7 +5143,7 @@
         t1.listenerHasError = false;
       }
     },
-    $signature: 0
+    $signature: 2
   };
   A._Future__propagateToListeners_handleWhenCompleteCallback_closure.prototype = {
     call$1(_) {
@@ -5131,7 +5173,7 @@
         t3.listenerHasError = true;
       }
     },
-    $signature: 0
+    $signature: 2
   };
   A._Future__propagateToListeners_handleError.prototype = {
     call$0() {
@@ -5163,7 +5205,7 @@
         t1.listenerHasError = true;
       }
     },
-    $signature: 0
+    $signature: 2
   };
   A._AsyncCallbackEntry.prototype = {};
   A.Stream.prototype = {
@@ -5191,14 +5233,14 @@
     call$0() {
       this.future._complete$1(this._box_0.count);
     },
-    $signature: 0
+    $signature: 2
   };
   A._Zone.prototype = {$isZone: 1};
   A._rootHandleError_closure.prototype = {
     call$0() {
       A.Error_throwWithStackTrace(this.error, this.stackTrace);
     },
-    $signature: 0
+    $signature: 2
   };
   A._RootZone.prototype = {
     runGuarded$1(f) {
@@ -5264,7 +5306,7 @@
     call$0() {
       return this.$this.runGuarded$1(this.f);
     },
-    $signature: 0
+    $signature: 2
   };
   A._RootZone_bindUnaryCallbackGuarded_closure.prototype = {
     call$1(arg) {
@@ -5914,8 +5956,10 @@
       t2 = _this.__Game_canvasHeight_A;
       t2 === $ && A.throwLateFieldNI("canvasHeight");
       t1.y = t2 / 2;
-      t1.speedX = t1.initialSpeedX;
-      t1.speedY = t1.initialSpeedY;
+      t2 = t1.initialSpeedX;
+      t1.speedX = B.C__JSRandom.nextInt$1(2) === 0 ? t2 : t2 * -1;
+      t2 = t1.initialSpeedY;
+      t1.speedY = B.C__JSRandom.nextInt$1(2) === 0 ? t2 : t2 * -1;
       _this.onPlayerScore.call$1(playerWhoScored);
     },
     updateScores$0() {
@@ -6087,57 +6131,61 @@
     call$0() {
       var t1 = this.canvas.width;
       t1.toString;
-      return t1 / 4;
+      return t1 / 2 - 10;
     },
-    $signature: 1
+    $signature: 0
   };
   A.getMaps_closure0.prototype = {
     call$0() {
       var t1 = this.canvas.height;
       t1.toString;
-      return t1 / 4;
+      return t1 / 3 - 75;
     },
-    $signature: 1
+    $signature: 0
   };
   A.getMaps_closure1.prototype = {
     call$0() {
       return 20;
     },
-    $signature: 2
+    $signature: 1
   };
   A.getMaps_closure2.prototype = {
     call$0() {
-      return 100;
+      var t1 = this.canvas.height;
+      t1.toString;
+      return B.JSNumber_methods.toInt$0(t1 / 8);
     },
-    $signature: 2
+    $signature: 1
   };
   A.getMaps_closure3.prototype = {
     call$0() {
       var t1 = this.canvas.width;
       t1.toString;
-      return 3 * t1 / 4 - 20;
+      return t1 / 2 - 10;
     },
-    $signature: 1
+    $signature: 0
   };
   A.getMaps_closure4.prototype = {
     call$0() {
       var t1 = this.canvas.height;
       t1.toString;
-      return 3 * t1 / 4 - 100;
+      return 2 * t1 / 3 + 75;
     },
-    $signature: 1
+    $signature: 0
   };
   A.getMaps_closure5.prototype = {
     call$0() {
       return 20;
     },
-    $signature: 2
+    $signature: 1
   };
   A.getMaps_closure6.prototype = {
     call$0() {
-      return 100;
+      var t1 = this.canvas.height;
+      t1.toString;
+      return B.JSNumber_methods.toInt$0(t1 / 8);
     },
-    $signature: 2
+    $signature: 1
   };
   A.getMaps_closure7.prototype = {
     call$0() {
@@ -6145,7 +6193,7 @@
       t1.toString;
       return t1 / 4;
     },
-    $signature: 1
+    $signature: 0
   };
   A.getMaps_closure8.prototype = {
     call$0() {
@@ -6153,19 +6201,19 @@
       t1.toString;
       return t1 / 4;
     },
-    $signature: 1
+    $signature: 0
   };
   A.getMaps_closure9.prototype = {
     call$0() {
       return 20;
     },
-    $signature: 2
+    $signature: 1
   };
   A.getMaps_closure10.prototype = {
     call$0() {
       return 100;
     },
-    $signature: 2
+    $signature: 1
   };
   A.getMaps_closure11.prototype = {
     call$0() {
@@ -6173,7 +6221,7 @@
       t1.toString;
       return 3 * t1 / 4 - 20;
     },
-    $signature: 1
+    $signature: 0
   };
   A.getMaps_closure12.prototype = {
     call$0() {
@@ -6181,19 +6229,19 @@
       t1.toString;
       return t1 / 4;
     },
-    $signature: 1
+    $signature: 0
   };
   A.getMaps_closure13.prototype = {
     call$0() {
       return 20;
     },
-    $signature: 2
+    $signature: 1
   };
   A.getMaps_closure14.prototype = {
     call$0() {
       return 100;
     },
-    $signature: 2
+    $signature: 1
   };
   A.getMaps_closure15.prototype = {
     call$0() {
@@ -6201,7 +6249,7 @@
       t1.toString;
       return t1 / 2 - 10;
     },
-    $signature: 1
+    $signature: 0
   };
   A.getMaps_closure16.prototype = {
     call$0() {
@@ -6209,19 +6257,131 @@
       t1.toString;
       return 3 * t1 / 4 - 50;
     },
-    $signature: 1
+    $signature: 0
   };
   A.getMaps_closure17.prototype = {
     call$0() {
       return 20;
     },
-    $signature: 2
+    $signature: 1
   };
   A.getMaps_closure18.prototype = {
     call$0() {
       return 100;
     },
-    $signature: 2
+    $signature: 1
+  };
+  A.getMaps_closure19.prototype = {
+    call$0() {
+      var t1 = this.canvas.width;
+      t1.toString;
+      return t1 / 5;
+    },
+    $signature: 0
+  };
+  A.getMaps_closure20.prototype = {
+    call$0() {
+      var t1 = this.canvas.height;
+      t1.toString;
+      return t1 / 5;
+    },
+    $signature: 0
+  };
+  A.getMaps_closure21.prototype = {
+    call$0() {
+      return 20;
+    },
+    $signature: 1
+  };
+  A.getMaps_closure22.prototype = {
+    call$0() {
+      return 150;
+    },
+    $signature: 1
+  };
+  A.getMaps_closure23.prototype = {
+    call$0() {
+      var t1 = this.canvas.width;
+      t1.toString;
+      return 2 * t1 / 5;
+    },
+    $signature: 0
+  };
+  A.getMaps_closure24.prototype = {
+    call$0() {
+      var t1 = this.canvas.height;
+      t1.toString;
+      return 2 * t1 / 5;
+    },
+    $signature: 0
+  };
+  A.getMaps_closure25.prototype = {
+    call$0() {
+      return 20;
+    },
+    $signature: 1
+  };
+  A.getMaps_closure26.prototype = {
+    call$0() {
+      return 150;
+    },
+    $signature: 1
+  };
+  A.getMaps_closure27.prototype = {
+    call$0() {
+      var t1 = this.canvas.width;
+      t1.toString;
+      return 3 * t1 / 5;
+    },
+    $signature: 0
+  };
+  A.getMaps_closure28.prototype = {
+    call$0() {
+      var t1 = this.canvas.height;
+      t1.toString;
+      return 3 * t1 / 5;
+    },
+    $signature: 0
+  };
+  A.getMaps_closure29.prototype = {
+    call$0() {
+      return 20;
+    },
+    $signature: 1
+  };
+  A.getMaps_closure30.prototype = {
+    call$0() {
+      return 150;
+    },
+    $signature: 1
+  };
+  A.getMaps_closure31.prototype = {
+    call$0() {
+      var t1 = this.canvas.width;
+      t1.toString;
+      return 4 * t1 / 5;
+    },
+    $signature: 0
+  };
+  A.getMaps_closure32.prototype = {
+    call$0() {
+      var t1 = this.canvas.height;
+      t1.toString;
+      return 4 * t1 / 5;
+    },
+    $signature: 0
+  };
+  A.getMaps_closure33.prototype = {
+    call$0() {
+      return 20;
+    },
+    $signature: 1
+  };
+  A.getMaps_closure34.prototype = {
+    call$0() {
+      return 150;
+    },
+    $signature: 1
   };
   A.main_closure.prototype = {
     call$1($event) {
@@ -6471,7 +6631,7 @@
     _static_1(A, "async__AsyncRun__scheduleImmediateJsOverride$closure", "_AsyncRun__scheduleImmediateJsOverride", 4);
     _static_1(A, "async__AsyncRun__scheduleImmediateWithSetImmediate$closure", "_AsyncRun__scheduleImmediateWithSetImmediate", 4);
     _static_1(A, "async__AsyncRun__scheduleImmediateWithTimer$closure", "_AsyncRun__scheduleImmediateWithTimer", 4);
-    _static_0(A, "async___startMicrotaskLoop$closure", "_startMicrotaskLoop", 0);
+    _static_0(A, "async___startMicrotaskLoop$closure", "_startMicrotaskLoop", 2);
   })();
   (function inheritance() {
     var _mixin = hunkHelpers.mixin,
@@ -6496,7 +6656,7 @@
     _inherit(A.LinkedHashMapKeyIterable, A.EfficientLengthIterable);
     _inheritMany(A.Closure2Args, [A.initHooks_closure0, A.MapBase_mapToString_closure]);
     _inherit(A._TypeError, A._Error);
-    _inheritMany(A.Closure0Args, [A._AsyncRun__scheduleImmediateJsOverride_internalCallback, A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback, A._TimerImpl_internalCallback, A._Future__addListener_closure, A._Future__prependListeners_closure, A._Future__asyncCompleteError_closure, A._Future__propagateToListeners_handleWhenCompleteCallback, A._Future__propagateToListeners_handleValueCallback, A._Future__propagateToListeners_handleError, A.Stream_length_closure0, A._rootHandleError_closure, A._RootZone_bindCallbackGuarded_closure, A.getMaps_closure, A.getMaps_closure0, A.getMaps_closure1, A.getMaps_closure2, A.getMaps_closure3, A.getMaps_closure4, A.getMaps_closure5, A.getMaps_closure6, A.getMaps_closure7, A.getMaps_closure8, A.getMaps_closure9, A.getMaps_closure10, A.getMaps_closure11, A.getMaps_closure12, A.getMaps_closure13, A.getMaps_closure14, A.getMaps_closure15, A.getMaps_closure16, A.getMaps_closure17, A.getMaps_closure18]);
+    _inheritMany(A.Closure0Args, [A._AsyncRun__scheduleImmediateJsOverride_internalCallback, A._AsyncRun__scheduleImmediateWithSetImmediate_internalCallback, A._TimerImpl_internalCallback, A._Future__addListener_closure, A._Future__prependListeners_closure, A._Future__asyncCompleteError_closure, A._Future__propagateToListeners_handleWhenCompleteCallback, A._Future__propagateToListeners_handleValueCallback, A._Future__propagateToListeners_handleError, A.Stream_length_closure0, A._rootHandleError_closure, A._RootZone_bindCallbackGuarded_closure, A.getMaps_closure, A.getMaps_closure0, A.getMaps_closure1, A.getMaps_closure2, A.getMaps_closure3, A.getMaps_closure4, A.getMaps_closure5, A.getMaps_closure6, A.getMaps_closure7, A.getMaps_closure8, A.getMaps_closure9, A.getMaps_closure10, A.getMaps_closure11, A.getMaps_closure12, A.getMaps_closure13, A.getMaps_closure14, A.getMaps_closure15, A.getMaps_closure16, A.getMaps_closure17, A.getMaps_closure18, A.getMaps_closure19, A.getMaps_closure20, A.getMaps_closure21, A.getMaps_closure22, A.getMaps_closure23, A.getMaps_closure24, A.getMaps_closure25, A.getMaps_closure26, A.getMaps_closure27, A.getMaps_closure28, A.getMaps_closure29, A.getMaps_closure30, A.getMaps_closure31, A.getMaps_closure32, A.getMaps_closure33, A.getMaps_closure34]);
     _inherit(A._SyncCompleter, A._Completer);
     _inherit(A._RootZone, A._Zone);
     _inherit(A.UnmodifiableListView, A.UnmodifiableListBase);
@@ -6523,7 +6683,7 @@
     typeUniverse: {eC: new Map(), tR: {}, eT: {}, tPV: {}, sEA: []},
     mangledGlobalNames: {int: "int", double: "double", num: "num", String: "String", bool: "bool", Null: "Null", List: "List", Object: "Object", Map: "Map"},
     mangledNames: {},
-    types: ["~()", "double()", "int()", "~(Event)", "~(~())", "Null()", "~(MouseEvent)", "~(KeyboardEvent)", "@(@)", "@(@,String)", "@(String)", "Null(@)", "Null(~())", "_Future<@>(@)", "~(Object?,Object?)", "bool(OptionElement)", "~(num)", "Null(Player)", "Null(num)"],
+    types: ["double()", "int()", "~()", "~(Event)", "~(~())", "Null()", "~(MouseEvent)", "~(KeyboardEvent)", "@(@)", "@(@,String)", "@(String)", "Null(@)", "Null(~())", "_Future<@>(@)", "~(Object?,Object?)", "bool(OptionElement)", "~(num)", "Null(Player)", "Null(num)"],
     interceptorsByTag: null,
     leafTags: null,
     arrayRti: Symbol("$ti")

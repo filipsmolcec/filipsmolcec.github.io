@@ -1,4 +1,5 @@
 import 'dart:html';
+import 'dart:math';
 import 'ball.dart';
 import 'game_map.dart';
 import 'player.dart';
@@ -32,10 +33,11 @@ class Game{
   }
 
   void resetGame(Player playerWhoScored) {
+    Random rand = Random();
     ball.x = canvasWidth / 2;
     ball.y = canvasHeight / 2;
-    ball.speedX = ball.initialSpeedX;
-    ball.speedY = ball.initialSpeedY;
+    ball.speedX = rand.nextInt(2) == 0 ? ball.initialSpeedX : ball.initialSpeedX * -1;
+    ball.speedY = rand.nextInt(2) == 0 ? ball.initialSpeedY : ball.initialSpeedY * -1;
     onPlayerScore(playerWhoScored);
   }
 
