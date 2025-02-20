@@ -4057,7 +4057,7 @@
       ballSpeed = B.JSNumber_methods.toInt$0(t3);
       t2 = t2._as(t1.querySelector("#ballColor")).value;
       t2.toString;
-      ball = new A.Ball(10, ballSpeed, ballSpeed, 0.1, t2);
+      ball = new A.Ball(10, ballSpeed, ballSpeed, 0.05, t2);
       ball.speedY = ball.speedX = ballSpeed;
       playerOne = $.playerOneConfig.getPlayer$1(ball);
       playerTwo = $.playerTwoConfig.getPlayer$1(ball);
@@ -6047,20 +6047,11 @@
         obstacle = t3[_i];
         _this.handleBallCollision$4(obstacle.getX.call$0(), obstacle.getY.call$0(), obstacle.getWidth.call$0(), obstacle.getHeight.call$0());
       }
+      _this.handleBallCollision$4(t1.paddleX, t1.__Player_paddleY_A, t9, t10);
+      _this.handleBallCollision$4(t2.paddleX, t2.__Player_paddleY_A, t11, t12);
       t3 = t6.y;
       if (t3 + t5 > _this.__Game_canvasHeight_A || t3 - t5 < 0)
         t6.speedY = -t6.speedY;
-      if (t6.x - t5 < t1.paddleX + t9) {
-        t4 = t1.__Player_paddleY_A;
-        t3 = t3 > t4 && t3 < t4 + t10;
-      } else
-        t3 = false;
-      if (t3) {
-        t6.speedX = -t6.speedX;
-        t6.increaseSpeed$0();
-      }
-      _this.handleBallCollision$4(t1.paddleX, t1.__Player_paddleY_A, t9, t10);
-      _this.handleBallCollision$4(t2.paddleX, t2.__Player_paddleY_A, t11, t12);
       if (t6.x - t5 < 0) {
         ++t2.score;
         _this.updateScores$0();

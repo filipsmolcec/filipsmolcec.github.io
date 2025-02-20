@@ -39,16 +39,17 @@
       <div id="playerConfig"></div>
       <div class="mb-3">
         <h3 style="color: white">Ball</h3>
-        <label id="ballSpeedLabel" for="ballSpeed" class="form-label" style="color: white">Speed (3)</label>
+        <label id="ballSpeedLabel" for="ballSpeed" class="form-label" style="color: white">Speed (3):</label>
         <input type="range" class="form-range" id="ballSpeed" min="1" max="20" value="3">
-        <label for="ballColor" class="form-label" style="color: white">Color</label>
+        <label for="ballColor" class="form-label" style="color: white">Color:</label>
         <input type="color" class="form-control" id="ballColor" value="#ffffff">
         <script>
           const ballSpeedInput = document.getElementById('ballSpeed');
           const ballSpeedLabel = document.getElementById('ballSpeedLabel');
   
+          ballSpeedLabel.textContent = `Speed (${ballSpeedInput.value}):`;
           ballSpeedInput.addEventListener('input', function () {
-            ballSpeedLabel.textContent = `Speed (${ballSpeedInput.value})`;
+            ballSpeedLabel.textContent = `Speed (${ballSpeedInput.value}):`;
           });
         </script>
       </div>

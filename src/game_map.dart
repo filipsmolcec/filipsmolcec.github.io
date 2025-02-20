@@ -1,9 +1,8 @@
 import 'dart:html';
 
 class GameMap {
-  GameMap({required this.orderIndex, required this.name, required  this.obstacles});
+  GameMap({required this.name, required  this.obstacles});
 
-  final int orderIndex;
   final String name;
   final List<Obstacle> obstacles;
 

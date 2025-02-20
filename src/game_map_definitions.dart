@@ -4,12 +4,10 @@ import 'game_map.dart';
 Map<String, GameMap> getMaps(CanvasElement canvas) {
   return {
     "classic": GameMap(
-      orderIndex: 0,
       name: "Classic",
       obstacles: []
     ),
     "double_slit": GameMap(
-      orderIndex: 2,
       name: "Double Slit",
       obstacles: [
         Obstacle(() => canvas.width! / 4, () => canvas.height! / 4, () => 20, () => 100),
@@ -17,7 +15,6 @@ Map<String, GameMap> getMaps(CanvasElement canvas) {
       ]
     ),
     "zig_zag": GameMap(
-      orderIndex: 3,
       name: "Zig Zag",
       obstacles: [
         Obstacle(() => canvas.width! / 4, () => canvas.height! / 4, () => 20, () => 100),

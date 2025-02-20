@@ -71,7 +71,7 @@ void startNewGame() {
     initialSpeedX: ballSpeed as double, 
     initialSpeedY: ballSpeed as double, 
     radius: 10,
-    increaseSpeedFactor: 0.1,
+    increaseSpeedFactor: 0.05,
     colorHex: ballColorHex
   );
 

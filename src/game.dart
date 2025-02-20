@@ -115,19 +115,12 @@ class Game{
       handleBallCollision(obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight());
     }
 
+    handleBallCollision(playerOne.paddleX, playerOne.paddleY, playerOne.paddleWidth, playerOne.paddleHeight);
+    handleBallCollision(playerTwo.paddleX, playerTwo.paddleY, playerTwo.paddleWidth, playerTwo.paddleHeight);
+
     if (ball.y + ball.radius > canvasHeight || ball.y - ball.radius < 0) {
       ball.speedY = -ball.speedY;
     }
-
-    if (ball.x - ball.radius < playerOne.paddleX + playerOne.paddleWidth &&
-        ball.y > playerOne.paddleY &&
-        ball.y < playerOne.paddleY + playerOne.paddleHeight) {
-      ball.speedX = -ball.speedX;
-      ball.increaseSpeed();
-    }
-
-    handleBallCollision(playerOne.paddleX, playerOne.paddleY, playerOne.paddleWidth, playerOne.paddleHeight);
-    handleBallCollision(playerTwo.paddleX, playerTwo.paddleY, playerTwo.paddleWidth, playerTwo.paddleHeight);
 
     if (ball.x - ball.radius < 0) {
       playerTwo.score++; 
