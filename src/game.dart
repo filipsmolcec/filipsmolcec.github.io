@@ -1,5 +1,6 @@
 import 'dart:html';
 import 'ball.dart';
+import 'game_map.dart';
 import 'player.dart';
 
 class Game{
@@ -8,6 +9,7 @@ class Game{
   final Ball ball;
   final CanvasElement canvas;
   final Function(Player) onPlayerScore;
+  final GameMap map;
 
   final int padding = 20;
   final Element playerOneScoreElement = querySelector('#playerOneScore')!;
@@ -23,6 +25,7 @@ class Game{
     required this.playerTwo,
     required this.ball,
     required this.canvas,
+    required this.map,
     required this.onPlayerScore
   }) {
     updateScores();
@@ -57,6 +60,27 @@ class Game{
     ball.y = canvasHeight / 2;
   }
 
+  void handleBallCollision(double x, double y, int width, int height) {
+    double closestX = (ball.x < x) ? x : (ball.x > x + width) ? x + width : ball.x;
+    double closestY = (ball.y < y) ? y : (ball.y > y + height) ? y + height : ball.y;
+
+    double distanceX = ball.x - closestX;
+    double distanceY = ball.y - closestY;
+
+    bool collision = (distanceX * distanceX + distanceY * distanceY) < (ball.radius * ball.radius);
+
+    if (collision) {
+      if (ball.x < x || ball.x > x + width) {
+        ball.speedX = -ball.speedX;
+        ball.increaseSpeed();
+      }
+      if (ball.y < y || ball.y > y + height) {
+        ball.speedY = -ball.speedY;
+        ball.increaseSpeed();
+      }
+    }
+  }
+
   void update(double deltaTime) {
     playerOne.update(deltaTime);
     playerTwo.update(deltaTime);
@@ -76,7 +100,7 @@ class Game{
     ctx.lineTo(canvasWidth / 2, canvasHeight);
     ctx.strokeStyle = 'white';
     ctx.stroke();
-    ctx.setLineDash([]); // Reset to solid line for other drawings
+    ctx.setLineDash([]);
 
     ctx.fillStyle = playerOne.paddleColorHex;
     ctx.fillRect(playerOne.paddleX, playerOne.paddleY, playerOne.paddleWidth, playerOne.paddleHeight); // Player 1
@@ -85,6 +109,11 @@ class Game{
 
     ball.x += ball.speedX;
     ball.y += ball.speedY;
+
+    map.draw(ctx);
+    for (var obstacle in map.obstacles) {
+      handleBallCollision(obstacle.getX(), obstacle.getY(), obstacle.getWidth(), obstacle.getHeight());
+    }
 
     if (ball.y + ball.radius > canvasHeight || ball.y - ball.radius < 0) {
       ball.speedY = -ball.speedY;
@@ -96,15 +125,12 @@ class Game{
       ball.speedX = -ball.speedX;
       ball.increaseSpeed();
     }
-    if (ball.x + ball.radius > playerTwo.paddleX &&
-        ball.y > playerTwo.paddleY &&
-        ball.y < playerTwo.paddleY + playerTwo.paddleHeight) {
-      ball.speedX = -ball.speedX;
-      ball.increaseSpeed();
-    }
+
+    handleBallCollision(playerOne.paddleX, playerOne.paddleY, playerOne.paddleWidth, playerOne.paddleHeight);
+    handleBallCollision(playerTwo.paddleX, playerTwo.paddleY, playerTwo.paddleWidth, playerTwo.paddleHeight);
 
     if (ball.x - ball.radius < 0) {
-      playerTwo.score++;
+      playerTwo.score++; 
       updateScores();
       resetGame(playerTwo);
     }

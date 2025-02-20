@@ -5,8 +5,8 @@ import 'ball.dart';
 abstract class Player {
   int score = 0;
 
-  final double paddleWidth;
-  final double paddleHeight;
+  final int paddleWidth;
+  final int paddleHeight;
   final String paddleColorHex;
 
   double paddleX = 0;

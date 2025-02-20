@@ -115,16 +115,16 @@ class PlayerConfig {
       return HumanPlayer(
         keyUpName: humanMoveUp,
         keyDownName: humanMoveDown,
-        paddleWidth: paddleWidth.toDouble(),
-        paddleHeight: paddleHeight.toDouble(),
+        paddleWidth: paddleWidth,
+        paddleHeight: paddleHeight,
         paddleColorHex: paddleColorHex,
         document: document
       );
     } else {
       return AIPlayer(
         ballRef: ball,
-        paddleWidth: paddleWidth.toDouble(),
-        paddleHeight: paddleHeight.toDouble(),
+        paddleWidth: paddleWidth,
+        paddleHeight: paddleHeight,
         paddleColorHex: paddleColorHex
       );
     }

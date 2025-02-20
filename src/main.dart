@@ -3,6 +3,7 @@ import 'ball.dart';
 import 'game.dart';
 import 'player.dart';
 import 'player_config.dart';
+import 'game_map_definitions.dart';
 
 Game? runningGameInstance;
 DateTime previousTime = DateTime.now();
@@ -12,9 +13,12 @@ CanvasElement canvas = querySelector("#gameCanvas") as CanvasElement;
 PlayerConfig? playerOneConfig;
 PlayerConfig? playerTwoConfig;
 
+var maps = getMaps(canvas);
+
 void main() {
   var startButton = querySelector("#startButton") as ButtonElement;
   var pauseButton = querySelector("#pauseButton") as ButtonElement;
+  createMapOptions();
   startButton.onClick.listen((MouseEvent event) {
     if (event.button == 0) {
       startNewGame();
@@ -47,6 +51,19 @@ void main() {
   loadCookies();
 }
 
+void createMapOptions() {
+  var mapSelect = querySelector("#mapSelect") as SelectElement;
+  for (var entry in maps.entries) {
+    var option = OptionElement(data: entry.value.name, value: entry.key);
+    mapSelect.append(option);
+  }
+}
+
+String getSelectedMapKey() {
+  var mapSelect = querySelector("#mapSelect") as SelectElement;
+  return mapSelect.selectedOptions[0].value;
+}
+
 void startNewGame() {
   int ballSpeed = (querySelector("#ballSpeed") as InputElement).valueAsNumber!.toInt();
   String ballColorHex = (querySelector("#ballColor") as InputElement).value!;
@@ -54,7 +71,7 @@ void startNewGame() {
     initialSpeedX: ballSpeed as double, 
     initialSpeedY: ballSpeed as double, 
     radius: 10,
-    increaseSpeedFactor: 0.25,
+    increaseSpeedFactor: 0.1,
     colorHex: ballColorHex
   );
 
@@ -65,6 +82,7 @@ void startNewGame() {
     ball: ball,
     playerOne: playerOne,
     playerTwo: playerTwo,
+    map: maps[getSelectedMapKey()]!,
     canvas: canvas,
     onPlayerScore: (playerWhoScored) {
       addScoreCookie(
